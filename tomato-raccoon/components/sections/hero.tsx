@@ -80,9 +80,8 @@ export function Hero() {
 								Clutching a ripe heirloom tomato with both soft paws. Huggable, squeezable, and crafted from baby-soft velvet to remind everyone what truly matters: local soil and clean water.
 							</p>
 							<div className="pt-2 flex items-baseline gap-3">
-								<span className="text-2xl font-bold text-[#1E3F20]">$38.00</span>
-								<span className="text-sm text-[#8C5A2B] line-through">$45.00</span>
-								<span className="text-xs font-semibold text-[#D93829]">Save $7 · In Stock</span>
+								<span className="text-2xl font-bold text-[#1E3F20]">$38.99</span>
+								<span className="text-xs font-semibold text-[#1E3F20] bg-[#E8F0E7] px-2.5 py-0.5 rounded-full">In Stock · Ready to Ship</span>
 							</div>
 							<Link
 								href="/product/the-farm-defender-raccoon-plush"

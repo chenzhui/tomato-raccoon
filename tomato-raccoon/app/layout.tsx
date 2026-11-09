@@ -124,7 +124,7 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 				<div className="flex min-h-screen flex-col bg-[#FAF7F0] text-[#1E1D1B]">
 					{/* 顶部公告栏 (Top Announcement Bar) */}
 					<div className="bg-[#1E3F20] text-[#FAF7F0] text-center py-2 px-4 text-[11px] sm:text-xs font-bold tracking-wider">
-						🌱 DEFEND VIRGINIA FARMLAND &amp; WATER • 100% RECYCLED PACKAGING • FREE US SHIPPING OVER $45 🍅
+						🍅 FREE US SHIPPING ON ORDERS OVER $35 • 100% PLASTIC-FREE PACKAGING 🌱
 					</div>
 
 					{/* 暖调复古美式田园顶栏 */}

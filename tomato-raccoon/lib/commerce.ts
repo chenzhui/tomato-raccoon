@@ -119,7 +119,7 @@ All brand references and codenames ("Whale-Chan", "Sonnet-Tan", "Omni-Chan", "Re
 
 Last updated: November 2026
 
-All items are crafted on demand. Processing time: 2-4 business days. Standard express delivery to the United States and European Union takes 7-12 business days via USPS / YunExpress.
+We offer 100% Free US Shipping on all orders over $35. Orders under $35 ship at a flat rate of $4.99 via USPS Ground. All goods are packed in plastic-free, 100% recyclable paper packaging. Standard delivery takes 3-7 business days across the continental United States.
 		`,
 	},
 	{
@@ -128,14 +128,14 @@ All items are crafted on demand. Processing time: 2-4 business days. Standard ex
 		path: "/refund-policy",
 		href: "/refund-policy",
 		label: "Refund Policy",
-		title: "Refund Policy (30-Day Guarantee)",
+		title: "Refund Policy (30-Day Soil Guarantee)",
 		updatedAt: new Date().toISOString(),
 		body: `
-# Refund & Return Policy (30-Day Guarantee)
+# Refund & Return Policy (30-Day Defend the Soil Guarantee)
 
 Last updated: November 2026
 
-If your item arrives broken, cracked, or damaged, send a photo to support@aichan-merch.com within 7 days. We issue an instant replacement or 100% full refund.
+If your item arrives damaged or you are not completely satisfied with the quality of your grassroots goods, contact support@tomatoraccoon.com within 30 days. We will issue a replacement or 100% refund.
 		`,
 	},
 ];

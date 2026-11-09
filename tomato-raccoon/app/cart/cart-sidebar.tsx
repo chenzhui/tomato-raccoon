@@ -29,10 +29,15 @@ export function CartSidebar() {
 	// 结账页面及后续环节（订单、邮件）都能使用该语言，即使该购物车是在记录语言之前创建的。
 	const checkoutUrl = language ? `/checkout?lang=${encodeURIComponent(language)}` : "/checkout";
 
+	// 满 $35 美金免邮心理战计算 (Free Shipping at $35.00)
+	const FREE_SHIPPING_THRESHOLD = 3500n;
+	const remainingForFreeShipping = FREE_SHIPPING_THRESHOLD > subtotal ? FREE_SHIPPING_THRESHOLD - subtotal : 0n;
+	const progressPercent = Math.min(100, Math.round((Number(subtotal) / Number(FREE_SHIPPING_THRESHOLD)) * 100));
+
 	return (
 		<Sheet open={isOpen} onOpenChange={(open) => !open && closeCart()}>
-			<SheetContent className="flex flex-col data-[side=right]:w-full data-[side=right]:sm:max-w-lg">
-				<SheetHeader className="border-b border-border pb-4">
+			<SheetContent className="flex flex-col data-[side=right]:w-full data-[side=right]:sm:max-w-lg p-0">
+				<SheetHeader className="border-b border-border p-4 pb-3">
 					<SheetTitle className="flex items-center gap-2">
 						Your Cart
 						{itemCount > 0 && (
@@ -43,6 +48,35 @@ export function CartSidebar() {
 						Review items in your cart and proceed to checkout.
 					</SheetDescription>
 				</SheetHeader>
+
+				{/* 满 $35 美金免运费心理战进度条 */}
+				{itemCount > 0 && (
+					<div className="bg-[#FAF7F0] px-4 py-3 border-b border-[#E5DDD0]">
+						<div className="flex items-center justify-between text-xs font-medium mb-1.5">
+							{remainingForFreeShipping > 0n ? (
+								<span className="text-[#1E1D1B]">
+									Add <strong className="text-[#D93829] font-bold">{formatMoney({ amount: remainingForFreeShipping, currency, locale })}</strong> more for <strong className="text-[#1E3F20]">FREE US Shipping!</strong>
+								</span>
+							) : (
+								<span className="text-[#1E3F20] font-bold flex items-center gap-1.5">
+									<span>🎉</span> You've unlocked FREE US Shipping!
+								</span>
+							)}
+							<span className="text-[11px] font-bold text-[#7C5335]">{progressPercent}%</span>
+						</div>
+						<div className="w-full h-2 rounded-full bg-[#E5DDD0] overflow-hidden">
+							<div
+								className="h-full bg-[#1E3F20] transition-all duration-500 rounded-full"
+								style={{ width: `${progressPercent}%` }}
+							/>
+						</div>
+						{remainingForFreeShipping > 0n && (
+							<p className="mt-1.5 text-[11px] text-[#7C5335]">
+								💡 Tip: Add the <strong>3-Pack Stickers ($12.99)</strong> to waive the $4.99 shipping fee!
+							</p>
+						)}
+					</div>
+				)}
 
 				{items.length === 0 ? (
 					<div className="flex-1 flex flex-col items-center justify-center gap-4 py-12">
