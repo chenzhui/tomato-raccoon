@@ -56,100 +56,105 @@ export async function Footer() {
 						</div>
 					</div>
 
-					{/* 关注我们与邮件订阅 (Follow Us & Newsletter) */}
+					{/* 客户服务与条款 (Support & Legal) */}
 					<div className="space-y-6">
-						{/* 社交媒体关注 */}
 						<div>
-							<h3 className="text-xs font-semibold text-neutral-900 uppercase tracking-wider">Follow Us</h3>
+							<h3 className="text-xs font-semibold text-neutral-900 uppercase tracking-wider">Support</h3>
 							<ul className="mt-3.5 space-y-2.5 text-xs sm:text-sm">
 								<li>
-									<a
-										href="https://youtube.com"
-										target="_blank"
-										rel="noopener noreferrer"
-										className="inline-flex items-center gap-2.5 text-neutral-600 hover:text-red-600 transition-colors group"
-									>
-										<YouTubeIcon className="w-4 h-4 text-neutral-700 group-hover:text-red-600 transition-colors" />
-										<span className="font-medium">YouTube</span>
-									</a>
+									<Link href="/track-order" className="text-neutral-900 hover:text-blue-600 font-medium transition-colors">
+										Track Package (USPS Direct)
+									</Link>
 								</li>
 								<li>
-									<a
-										href="https://tiktok.com"
-										target="_blank"
-										rel="noopener noreferrer"
-										className="inline-flex items-center gap-2.5 text-neutral-600 hover:text-neutral-900 transition-colors group"
-									>
-										<TikTokIcon className="w-4 h-4 text-neutral-700 group-hover:text-neutral-900 transition-colors" />
-										<span className="font-medium">TikTok</span>
-									</a>
+									<Link href="/returns" className="text-neutral-900 hover:text-blue-600 font-medium transition-colors">
+										30-Day Free Replacement
+									</Link>
+								</li>
+								<li>
+									<Link href="/faq" className="hover:text-black transition-colors">
+										Unboxing & Care FAQ
+									</Link>
 								</li>
 							</ul>
 						</div>
 
-						{/* 邮件订阅 */}
 						<div>
-							<h3 className="text-xs font-semibold text-neutral-900 uppercase tracking-wider">Newsletter</h3>
-							<p className="mt-1.5 text-xs text-neutral-500">
-								Subscribe for new character drops & secret discounts.
-							</p>
-							<FooterNewsletter />
+							<h3 className="text-xs font-semibold text-neutral-900 uppercase tracking-wider">Legal</h3>
+							<ul className="mt-3.5 space-y-2.5 text-xs sm:text-sm">
+								<li>
+									<Link href="/privacy-policy" className="hover:text-black transition-colors">
+										Privacy Policy
+									</Link>
+								</li>
+								<li>
+									<Link href="/terms-of-service" className="hover:text-black transition-colors">
+										Terms of Service
+									</Link>
+								</li>
+								<li>
+									<Link href="/shipping-policy" className="hover:text-black transition-colors">
+										Shipping Policy
+									</Link>
+								</li>
+								<li>
+									<Link href="/refund-policy" className="hover:text-black transition-colors">
+										Refund & Return Policy
+									</Link>
+								</li>
+							</ul>
 						</div>
 					</div>
 
-					{/* 客户服务与支持 */}
+					{/* 关注我们 (Follow Us) */}
 					<div>
-						<h3 className="text-xs font-semibold text-neutral-900 uppercase tracking-wider">Support</h3>
-						<ul className="mt-4 space-y-2.5 text-xs sm:text-sm">
+						<h3 className="text-xs font-semibold text-neutral-900 uppercase tracking-wider">Follow Us</h3>
+						<p className="mt-1.5 text-xs text-neutral-500">
+							Watch setups, unboxings & sneak peeks.
+						</p>
+						<ul className="mt-4 space-y-3 text-xs sm:text-sm">
 							<li>
-								<Link href="/track-order" className="text-neutral-900 hover:text-blue-600 font-medium transition-colors">
-									Track Package (USPS Direct)
-								</Link>
+								<a
+									href="https://youtube.com"
+									target="_blank"
+									rel="noopener noreferrer"
+									className="flex items-center gap-3 text-neutral-700 hover:text-red-600 transition-colors group p-2 -mx-2 rounded-xl hover:bg-neutral-200/50"
+								>
+									<div className="w-8 h-8 rounded-full bg-white border border-neutral-200 flex items-center justify-center shrink-0 shadow-xs group-hover:border-red-200 transition-colors">
+										<YouTubeIcon className="w-4 h-4 text-neutral-800 group-hover:text-red-600 transition-colors" />
+									</div>
+									<div>
+										<div className="font-medium text-neutral-900 group-hover:text-red-600 transition-colors">YouTube</div>
+										<div className="text-[11px] text-neutral-400">@aichan_studio</div>
+									</div>
+								</a>
 							</li>
 							<li>
-								<Link href="/returns" className="text-neutral-900 hover:text-blue-600 font-medium transition-colors">
-									30-Day Free Replacement
-								</Link>
-							</li>
-							<li>
-								<Link href="/faq" className="hover:text-black transition-colors">
-									Unboxing & Care FAQ
-								</Link>
-							</li>
-							<li>
-								<span className="text-neutral-400">Transit: 7-12 Days to US/EU</span>
-							</li>
-							<li>
-								<span className="text-neutral-400">Contact: support@aichan-merch.com</span>
+								<a
+									href="https://tiktok.com"
+									target="_blank"
+									rel="noopener noreferrer"
+									className="flex items-center gap-3 text-neutral-700 hover:text-black transition-colors group p-2 -mx-2 rounded-xl hover:bg-neutral-200/50"
+								>
+									<div className="w-8 h-8 rounded-full bg-white border border-neutral-200 flex items-center justify-center shrink-0 shadow-xs group-hover:border-neutral-400 transition-colors">
+										<TikTokIcon className="w-4 h-4 text-neutral-800 group-hover:text-black transition-colors" />
+									</div>
+									<div>
+										<div className="font-medium text-neutral-900 group-hover:text-black transition-colors">TikTok</div>
+										<div className="text-[11px] text-neutral-400">@aichan_merch</div>
+									</div>
+								</a>
 							</li>
 						</ul>
 					</div>
 
-					{/* 法律合规与政策 */}
+					{/* 邮件订阅 (Newsletter - 独占最右侧) */}
 					<div>
-						<h3 className="text-xs font-semibold text-neutral-900 uppercase tracking-wider">Legal</h3>
-						<ul className="mt-4 space-y-2.5 text-xs sm:text-sm">
-							<li>
-								<Link href="/privacy-policy" className="hover:text-black transition-colors">
-									Privacy Policy
-								</Link>
-							</li>
-							<li>
-								<Link href="/terms-of-service" className="hover:text-black transition-colors">
-									Terms of Service
-								</Link>
-							</li>
-							<li>
-								<Link href="/shipping-policy" className="hover:text-black transition-colors">
-									Shipping Policy
-								</Link>
-							</li>
-							<li>
-								<Link href="/refund-policy" className="hover:text-black transition-colors">
-									Refund & Return Policy
-								</Link>
-							</li>
-						</ul>
+						<h3 className="text-xs font-semibold text-neutral-900 uppercase tracking-wider">Newsletter</h3>
+						<p className="mt-1.5 text-xs text-neutral-500 leading-relaxed">
+							Subscribe to get early notifications on limited batch drops & secret discounts.
+						</p>
+						<FooterNewsletter />
 					</div>
 				</div>
 
