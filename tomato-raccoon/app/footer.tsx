@@ -54,12 +54,12 @@ export async function Footer() {
 							</span>
 							<span className="text-base font-black">Tomato Raccoon Co.</span>
 						</Link>
-						<p className="text-xs sm:text-sm text-[#524B42] leading-relaxed ">
-							Grow Tomatoes, Not Data Centers. Handcrafted goods defending Virginia farmland, clean aquifers, and independent community growers.
+						<p className="text-xs sm:text-sm text-[#524B42] leading-relaxed">
+							Grow Tomatoes, Not Data Centers. Handcrafted apparel and goods inspired by the fight for clean aquifers, farmland, and countryside humor.
 						</p>
 						<div className="flex items-center gap-2 text-xs text-[#1E3F20] font-medium">
 							<ShieldCheck className="w-4 h-4 text-[#D93829]" />
-							<span>100% Grassroots Advocacy</span>
+							<span>Independent Merch Studio</span>
 						</div>
 					</div>
 

@@ -14,9 +14,9 @@ export function Hero() {
 					{/* 顶栏徽章 */}
 					<div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#D9CDB8] bg-[#F3ECE0] text-[#1E3F20] text-xs tracking-wider mb-6 shadow-xs">
 						<span className="text-sm">🦝</span>
-						<span className="font-bold">BORN IN HANOVER COUNTY, VIRGINIA</span>
+						<span className="font-bold">INSPIRED BY HANOVER COUNTY, VA</span>
 						<span className="text-[#8C5A2B]">★</span>
-						<span className="text-[#D93829] font-semibold">100% GRASSROOTS ADVOCACY</span>
+						<span className="text-[#D93829] font-semibold">INDEPENDENT APPAREL &amp; GOODS</span>
 					</div>
 
 					<h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-[#1E3F20] mb-6 leading-[1.08]">
