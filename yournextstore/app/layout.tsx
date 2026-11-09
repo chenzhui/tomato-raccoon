@@ -134,20 +134,23 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 	return (
 		<StoreConfigProvider value={storeConfig}>
 			<CartProvider>
-				<div className="flex min-h-screen flex-col">
-					<header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
+				<div className="flex min-h-screen flex-col bg-black text-white">
+					{/* 苹果风格极简悬浮毛玻璃顶栏 */}
+					<header className="sticky top-0 z-50 border-b border-white/[0.08] bg-black/85 backdrop-blur-md">
 						<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-							<div className="relative flex items-center justify-between h-16">
-								<div className="flex items-center gap-2">
-									<Link href="/" className="inline-flex items-center gap-2 text-lg sm:text-xl font-extrabold tracking-tight hover:opacity-90 transition-opacity">
-										<span className="w-8 h-8 rounded-lg bg-linear-to-tr from-cyan-500 to-violet-600 flex items-center justify-center text-xs text-slate-950 font-black shadow-[0_0_12px_rgba(0,242,254,0.4)]">
+							<div className="relative flex items-center justify-between h-12 sm:h-14">
+								<div className="flex items-center gap-3">
+									<Link href="/" className="inline-flex items-center gap-2.5 text-sm font-semibold tracking-tight text-white hover:opacity-80 transition-opacity">
+										<span className="w-6 h-6 rounded-md bg-white text-black flex items-center justify-center text-[10px] font-black tracking-tighter shadow-sm">
 											AI
 										</span>
-										<span>AI-Chan<span className="text-cyan-400 font-mono text-xs ml-1 px-1.5 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-800/80">Geek Merch</span></span>
+										<span className="text-white text-sm font-medium tracking-tight">
+											AI-Chan <span className="text-neutral-400 font-normal text-xs ml-0.5">Studio</span>
+										</span>
 									</Link>
 									<Navbar links={links} />
 								</div>
-								<div className="flex items-center gap-2">
+								<div className="flex items-center gap-1.5 sm:gap-2">
 									<Suspense>
 										<SearchInput />
 									</Suspense>
@@ -161,10 +164,10 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 												? `/account?lang=${encodeURIComponent(storeConfig.language)}`
 												: "/account"
 										}
-										className="p-2 hover:bg-secondary transition-colors"
+										className="p-1.5 rounded-full hover:bg-white/10 text-neutral-400 hover:text-white transition-colors"
 										aria-label="Account"
 									>
-										<UserRound className="w-5 h-5" />
+										<UserRound className="w-4 h-4" />
 									</a>
 									<CartButton />
 								</div>

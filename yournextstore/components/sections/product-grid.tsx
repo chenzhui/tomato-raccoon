@@ -41,18 +41,18 @@ export async function ProductGrid({
 	const displayProducts = products ?? (await commerce.productBrowse({ active: true, limit })).data;
 
 	return (
-		<section id="products" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+		<section id="products" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
 			<div className="flex items-end justify-between mb-12">
 				<div>
-					<h2 className="text-2xl sm:text-3xl font-medium text-foreground">{title}</h2>
-					<p className="mt-2 text-muted-foreground">{description}</p>
+					<h2 className="text-3xl sm:text-5xl font-semibold tracking-tight text-white">{title}</h2>
+					<p className="mt-2 text-neutral-400 text-sm sm:text-base">{description}</p>
 				</div>
 				{showViewAll && (
 					<Link
 						href={viewAllHref}
-						className="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+						className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-neutral-400 hover:text-white transition-colors"
 					>
-						View all
+						View all lineup
 						<ArrowRight className="h-4 w-4" />
 					</Link>
 				)}

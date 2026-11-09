@@ -120,62 +120,61 @@ export function DeskSimulator() {
 	};
 
 	return (
-		<div className="relative w-full overflow-hidden rounded-3xl border border-cyan-500/20 bg-linear-to-b from-[#0a0d14] via-[#0f1422] to-[#080b11] p-4 sm:p-8 shadow-2xl shadow-cyan-950/40">
-			{/* 环境发光渐变 */}
-			<div className="absolute top-0 left-1/4 h-72 w-96 rounded-full bg-cyan-500/10 blur-[120px] pointer-events-none" />
-			<div className="absolute top-1/3 right-1/4 h-72 w-96 rounded-full bg-violet-600/15 blur-[130px] pointer-events-none" />
+		<div className="relative w-full overflow-hidden rounded-3xl border border-white/10 bg-neutral-900/40 backdrop-blur-2xl p-6 sm:p-10 shadow-2xl">
+			{/* 环境发光微渐变 */}
+			<div className="absolute top-0 left-1/3 h-72 w-96 rounded-full bg-white/5 blur-[120px] pointer-events-none" />
 
 			{/* 模拟器顶部标题栏 */}
-			<div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+			<div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
 				<div>
-					<div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-2">
-						<Sparkles className="w-3.5 h-3.5 animate-pulse" />
-						Interactive Experience
+					<div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-neutral-300 text-xs font-mono tracking-wide mb-2">
+						<Sparkles className="w-3.5 h-3.5 text-neutral-400" />
+						Studio Configurator
 					</div>
-					<h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white flex items-center gap-2">
-						Desk Setup Simulator <span className="text-cyan-400 text-sm font-mono font-normal">[v2.6]</span>
+					<h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white flex items-center gap-2">
+						Interactive Desk Staging
 					</h2>
-					<p className="text-sm text-slate-400 mt-1">
-						Click or toggle any AI Waifu to preview acrylic standees on your battlestation.
+					<p className="text-sm text-neutral-400 mt-1">
+						Drag and position optical acrylic standees directly on your simulated battlestation.
 					</p>
 				</div>
 
 				<div className="flex items-center gap-3">
 					<button
 						onClick={() => setSoundEnabled(!soundEnabled)}
-						className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-slate-700 bg-slate-900/80 text-xs font-medium text-slate-300 hover:text-white hover:border-cyan-500/50 transition-colors"
+						className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs font-medium text-neutral-300 hover:text-white hover:bg-white/10 transition-colors"
 						title={soundEnabled ? "Mute Tsundere Audio" : "Enable Tsundere Audio"}
 					>
 						{soundEnabled ? (
 							<>
-								<Volume2 className="w-3.5 h-3.5 text-cyan-400" />
-								<span>Voice: ON</span>
+								<Volume2 className="w-3.5 h-3.5 text-neutral-200" />
+								<span>Audio: ON</span>
 							</>
 						) : (
 							<>
-								<VolumeX className="w-3.5 h-3.5 text-slate-500" />
-								<span>Voice: OFF</span>
+								<VolumeX className="w-3.5 h-3.5 text-neutral-500" />
+								<span>Audio: OFF</span>
 							</>
 						)}
 					</button>
 
-					<div className="flex bg-slate-900 border border-slate-800 rounded-lg p-1 text-xs">
+					<div className="flex bg-black/60 border border-white/10 rounded-full p-1 text-xs">
 						<button
 							onClick={() => setActiveTab("code")}
-							className={`px-3 py-1 rounded-md transition-colors ${
+							className={`px-3.5 py-1 rounded-full transition-all ${
 								activeTab === "code"
-									? "bg-cyan-500/20 text-cyan-300 font-medium"
-									: "text-slate-400 hover:text-white"
+									? "bg-white text-black font-semibold shadow-sm"
+									: "text-neutral-400 hover:text-white"
 							}`}
 						>
-							IDE
+							Code Studio
 						</button>
 						<button
 							onClick={() => setActiveTab("terminal")}
-							className={`px-3 py-1 rounded-md transition-colors ${
+							className={`px-3.5 py-1 rounded-full transition-all ${
 								activeTab === "terminal"
-									? "bg-violet-500/20 text-violet-300 font-medium"
-									: "text-slate-400 hover:text-white"
+									? "bg-white text-black font-semibold shadow-sm"
+									: "text-neutral-400 hover:text-white"
 							}`}
 						>
 							Terminal
