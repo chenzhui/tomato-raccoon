@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <!-- Studio Warm Background -->
+  <rect width="600" height="600" fill="#F4EFE6" rx="28"/>
+
+  <!-- DAD HAT ILLUSTRATION (Washed Dark Spruce Green) -->
+  <g transform="translate(130, 160)">
+    <!-- Shadow -->
+    <ellipse cx="170" cy="300" rx="180" ry="25" fill="#1A1A1A" opacity="0.14"/>
+
+    <!-- Curved Brim / Visor -->
+    <path d="M 20 250 C 40 280 120 310 210 310 C 290 310 340 280 360 250 C 310 260 220 270 170 270 C 100 270 45 260 20 250 Z" 
+          fill="#1C351E" stroke="#142616" stroke-width="3"/>
+    <!-- Visor Stitching Lines -->
+    <path d="M 50 265 C 100 285 180 292 240 288 C 285 285 315 275 330 265" fill="none" stroke="#2D5230" stroke-width="2"/>
+    <path d="M 65 272 C 110 292 180 298 235 294 C 275 290 300 282 315 272" fill="none" stroke="#2D5230" stroke-width="2"/>
+
+    <!-- Unstructured Crown (Low profile 6-panel) -->
+    <path d="M 40 245 C 30 140 100 70 170 70 C 240 70 310 140 320 245 Z" 
+          fill="#233E26" stroke="#162919" stroke-width="4"/>
+
+    <!-- Panel Seam Lines -->
+    <path d="M 170 70 L 170 255" stroke="#162919" stroke-width="2.5"/>
+    <path d="M 170 70 C 130 110 90 180 75 245" stroke="#162919" stroke-width="2"/>
+    <path d="M 170 70 C 210 110 250 180 265 245" stroke="#162919" stroke-width="2"/>
+
+    <!-- Top Button -->
+    <ellipse cx="170" cy="70" rx="12" ry="7" fill="#142616"/>
+
+    <!-- Embroidered Eyelets -->
+    <circle cx="120" cy="140" r="4" fill="#142616" stroke="#2D5230" stroke-width="1.5"/>
+    <circle cx="220" cy="140" r="4" fill="#142616" stroke="#2D5230" stroke-width="1.5"/>
+
+    <!-- Embroidered Patch / Direct Embroidery (Tomato Raccoon) -->
+    <g transform="translate(170, 185) scale(0.32)">
+      <circle cx="0" cy="0" r="110" fill="#FAF6ED" stroke="#D93829" stroke-width="6"/>
+      <!-- Tomato -->
+      <circle cx="0" cy="30" r="45" fill="#D93829"/>
+      <path d="M 0 -15 L -5 -25 L 5 -25 Z" fill="#2D5A27"/>
+      <!-- Raccoon -->
+      <ellipse cx="0" cy="-25" rx="36" ry="28" fill="#55514C"/>
+      <path d="M -25 -28 Q 0 -35 25 -28 Q 15 -12 0 -20 Q -15 -12 -25 -28 Z" fill="#1A1A1A"/>
+      <circle cx="-11" cy="-25" r="3" fill="#FFF"/>
+      <circle cx="11" cy="-25" r="3" fill="#FFF"/>
+      <ellipse cx="-28" cy="22" rx="10" ry="8" fill="#3D3A37"/>
+      <ellipse cx="28" cy="22" rx="10" ry="8" fill="#3D3A37"/>
+      <!-- Arched Embroidery Text -->
+      <text x="0" y="-70" font-family="'Georgia', serif" font-size="16" font-weight="900" fill="#1E3F20" text-anchor="middle" letter-spacing="1">GROW TOMATOES</text>
+      <text x="0" y="90" font-family="'Georgia', serif" font-size="12" font-weight="800" fill="#7C5335" text-anchor="middle" letter-spacing="1">HANOVER, VA</text>
+    </g>
+  </g>
+
+  <!-- Tag Pill -->
+  <rect x="30" y="30" width="180" height="34" rx="8" fill="#1E3F20"/>
+  <text x="120" y="52" font-family="'Georgia', serif" font-size="12" font-weight="bold" fill="#FAF7F0" text-anchor="middle" letter-spacing="1">UNSTRUCTURED DAD HAT</text>
+</svg>

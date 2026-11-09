@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <!-- Studio Warm Background -->
+  <rect width="600" height="600" fill="#F4EFE6" rx="28"/>
+
+  <!-- Metal H-Wire Stake Ground Legs -->
+  <g stroke="#9E9B95" stroke-width="6" stroke-linecap="round">
+    <line x1="220" y1="360" x2="220" y2="520"/>
+    <line x1="380" y1="360" x2="380" y2="520"/>
+    <line x1="220" y1="440" x2="380" y2="440"/>
+  </g>
+
+  <!-- Green Grass Tuft at Base -->
+  <g fill="#2D5A27">
+    <path d="M 180 525 Q 190 495 200 525 Q 210 490 225 525 Z"/>
+    <path d="M 370 525 Q 380 495 390 525 Q 400 488 415 525 Z"/>
+  </g>
+
+  <!-- THE CORRUGATED PLASTIC YARD SIGN (24x18 inch ratio) -->
+  <g transform="translate(75, 110)">
+    <!-- Drop Shadow -->
+    <rect x="0" y="0" width="450" height="310" rx="8" fill="#1A1A1A" opacity="0.12" transform="translate(0, 12)"/>
+
+    <!-- Sign Board (Vivid Tomato Red / Farm Forest Green) -->
+    <rect x="0" y="0" width="450" height="310" rx="6" fill="#FFFFFF" stroke="#D3C9B8" stroke-width="4"/>
+    <rect x="12" y="12" width="426" height="286" rx="4" fill="#1E3F20"/>
+
+    <!-- Top Urgent Headline -->
+    <text x="225" y="60" font-family="'Impact', 'Arial Black', sans-serif" font-size="44" font-weight="900" fill="#FDFBF7" text-anchor="middle" letter-spacing="2">
+      GROW TOMATOES
+    </text>
+
+    <!-- Subheadline in Big Bold Gold -->
+    <rect x="35" y="80" width="380" height="52" rx="6" fill="#D93829"/>
+    <text x="225" y="117" font-family="'Impact', 'Arial Black', sans-serif" font-size="34" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">
+      NOT DATA CENTERS!
+    </text>
+
+    <!-- Center Line Drawing of Raccoon Hugging Tomato -->
+    <g transform="translate(225, 205) scale(0.35)">
+      <!-- Big Tomato -->
+      <circle cx="0" cy="40" r="85" fill="#D93829" stroke="#FFF" stroke-width="8"/>
+      <!-- Calyx -->
+      <path d="M 0 -45 L -10 -65 L 0 -50 L 10 -65 L 5 -45 L 20 -50 L 7 -35 L 15 -18 L 0 -30 L -15 -18 L -7 -35 L -20 -50 Z" fill="#78B855"/>
+      <!-- Raccoon Face -->
+      <ellipse cx="0" cy="-60" rx="65" ry="50" fill="#F4EFE6" stroke="#1A1A1A" stroke-width="8"/>
+      <path d="M -50 -65 Q 0 -78 50 -65 Q 30 -40 0 -52 Q -30 -40 -50 -65 Z" fill="#1A1A1A"/>
+      <circle cx="-22" cy="-60" r="7" fill="#FFF"/>
+      <circle cx="22" cy="-60" r="7" fill="#FFF"/>
+      <!-- Paws -->
+      <ellipse cx="-55" cy="30" rx="20" ry="16" fill="#F4EFE6" stroke="#1A1A1A" stroke-width="6"/>
+      <ellipse cx="55" cy="30" rx="20" ry="16" fill="#F4EFE6" stroke="#1A1A1A" stroke-width="6"/>
+    </g>
+
+    <!-- Footer Grassroots Callout -->
+    <text x="225" y="280" font-family="'Georgia', serif" font-size="14" font-weight="bold" fill="#E8B923" text-anchor="middle" letter-spacing="2">
+      PROTECT HANOVER FARMS &amp; OUR AQUIFER
+    </text>
+  </g>
+
+  <!-- Tag Pill -->
+  <rect x="30" y="30" width="190" height="34" rx="8" fill="#1E3F20"/>
+  <text x="125" y="52" font-family="'Georgia', serif" font-size="12" font-weight="bold" fill="#FAF7F0" text-anchor="middle" letter-spacing="1">DOUBLE-SIDED 24"x18"</text>
+</svg>

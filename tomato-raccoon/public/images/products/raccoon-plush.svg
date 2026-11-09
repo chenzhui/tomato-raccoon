@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <!-- Studio Warm Background -->
+  <rect width="600" height="600" fill="#F4EFE6" rx="28"/>
+
+  <!-- Shadow below plush -->
+  <ellipse cx="300" cy="510" rx="140" ry="24" fill="#2B2824" opacity="0.16"/>
+
+  <!-- PLUSH RACCOON WITH EMBROIDERED DETAILS -->
+  <g transform="translate(300, 310)">
+    <!-- Striped Tail -->
+    <path d="M 80 120 C 180 140 220 50 170 0 C 140 -20 120 40 80 80 Z" fill="#6E6963" stroke="#3D3A37" stroke-width="4"/>
+    <path d="M 120 70 Q 150 50 170 20" stroke="#2B2824" stroke-width="18" fill="none"/>
+    <path d="M 100 110 Q 140 90 155 60" stroke="#2B2824" stroke-width="18" fill="none"/>
+
+    <!-- Round Chubby Body -->
+    <ellipse cx="0" cy="80" rx="125" ry="110" fill="#757069" stroke="#3D3A37" stroke-width="4.5"/>
+    <ellipse cx="0" cy="95" rx="85" ry="80" fill="#FAF6EE"/>
+
+    <!-- Soft Paws / Feet -->
+    <ellipse cx="-75" cy="170" rx="36" ry="24" fill="#3D3A37"/>
+    <ellipse cx="75" cy="170" rx="36" ry="24" fill="#3D3A37"/>
+
+    <!-- Fluffy Ears -->
+    <path d="M -90 -120 Q -120 -180 -60 -160 Z" fill="#5A554F" stroke="#3D3A37" stroke-width="4"/>
+    <path d="M -80 -130 Q -100 -165 -65 -155 Z" fill="#FAF6EE"/>
+    <path d="M 90 -120 Q 120 -180 60 -160 Z" fill="#5A554F" stroke="#3D3A37" stroke-width="4"/>
+    <path d="M 80 -130 Q 100 -165 65 -155 Z" fill="#FAF6EE"/>
+
+    <!-- Round Head -->
+    <ellipse cx="0" cy="-75" rx="100" ry="85" fill="#757069" stroke="#3D3A37" stroke-width="4.5"/>
+
+    <!-- White Cheeks -->
+    <path d="M -95 -50 Q -70 -20 -30 -30 Q -60 -10 -95 -30 Z" fill="#FAF6EE"/>
+    <path d="M 95 -50 Q 70 -20 30 -30 Q 60 -10 95 -30 Z" fill="#FAF6EE"/>
+
+    <!-- Plush Bandit Mask -->
+    <path d="M -80 -85 Q -30 -100 0 -90 Q 30 -100 80 -85 Q 70 -50 40 -58 Q 0 -70 -40 -58 Q -70 -50 -80 -85 Z" fill="#2E2C29"/>
+
+    <!-- Big Stitched Safety Eyes -->
+    <circle cx="-42" cy="-72" r="14" fill="#1A1A1A"/>
+    <circle cx="-38" cy="-76" r="4" fill="#FAF6EE"/>
+    <circle cx="42" cy="-72" r="14" fill="#1A1A1A"/>
+    <circle cx="46" cy="-76" r="4" fill="#FAF6EE"/>
+
+    <!-- White Snout and Embroidered Nose -->
+    <ellipse cx="0" cy="-45" rx="26" ry="20" fill="#FAF6EE"/>
+    <path d="M -10 -52 Q 0 -58 10 -52 Q 0 -40 -10 -52 Z" fill="#2E2C29"/>
+    <line x1="0" y1="-46" x2="0" y2="-36" stroke="#2E2C29" stroke-width="3"/>
+    <path d="M -8 -38 Q 0 -32 8 -38" fill="none" stroke="#2E2C29" stroke-width="3"/>
+
+    <!-- Mini Straw Hat perched on head -->
+    <ellipse cx="0" cy="-145" rx="60" ry="16" fill="#DDBB66" stroke="#3D3A37" stroke-width="3"/>
+    <path d="M -30 -145 Q 0 -170 30 -145 Z" fill="#CCAA55" stroke="#3D3A37" stroke-width="3"/>
+    <path d="M -30 -145 Q 0 -142 30 -145" stroke="#D93829" stroke-width="4.5" fill="none"/>
+
+    <!-- SQUEEZABLE BRIGHT RED PLUSH TOMATO IN PAWS -->
+    <g transform="translate(0, 30)">
+      <circle cx="0" cy="30" r="60" fill="#D93829" stroke="#9E2215" stroke-width="4" filter="drop-shadow(0 6px 12px rgba(0,0,0,0.18))"/>
+      <!-- Soft plush shine -->
+      <path d="M -32 10 Q -42 30 -30 50" fill="none" stroke="#F46658" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
+      <!-- Green Fabric Leaves -->
+      <path d="M 0 -25 L -8 -45 L 0 -32 L 8 -45 L 4 -25 L 18 -30 L 5 -18 L 12 -5 L 0 -15 L -12 -5 L -5 -18 L -18 -30 Z" fill="#2D5A27" stroke="#1A3816" stroke-width="2.5"/>
+    </g>
+
+    <!-- Two Paws Hugging the Plush Tomato -->
+    <ellipse cx="-55" cy="50" rx="22" ry="18" fill="#3D3A37" stroke="#242220" stroke-width="3"/>
+    <ellipse cx="55" cy="50" rx="22" ry="18" fill="#3D3A37" stroke="#242220" stroke-width="3"/>
+
+    <!-- Embroidered Hanover Farm Tag on Left Ear -->
+    <g transform="translate(-85, -130) rotate(-20)">
+      <rect x="0" y="0" width="28" height="18" rx="4" fill="#D93829"/>
+      <text x="14" y="13" font-family="sans-serif" font-size="7" font-weight="900" fill="#FFF" text-anchor="middle">HANOVER</text>
+    </g>
+  </g>
+
+  <!-- Tag Pill -->
+  <rect x="30" y="30" width="190" height="34" rx="8" fill="#D93829"/>
+  <text x="125" y="52" font-family="'Georgia', serif" font-size="12" font-weight="bold" fill="#FAF7F0" text-anchor="middle" letter-spacing="1">AUTHENTIC PLUSHIE</text>
+</svg>

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <!-- Background Studio Card -->
+  <rect width="600" height="600" fill="#F4EFE6" rx="28"/>
+
+  <!-- Sticker 1: Large Die-Cut Mascot Badge (Left angled) -->
+  <g transform="translate(180, 240) rotate(-10) scale(0.65)">
+    <!-- White Die-Cut Vinyl Border / Shadow -->
+    <circle cx="250" cy="250" r="248" fill="#FFFFFF" filter="drop-shadow(0 12px 20px rgba(0,0,0,0.18))"/>
+    <circle cx="250" cy="250" r="230" fill="#1E3F20"/>
+    <circle cx="250" cy="250" r="160" fill="#FDFBF7"/>
+    <circle cx="250" cy="320" r="75" fill="#D93829"/>
+    <!-- Calyx -->
+    <path d="M 250 250 L 244 235 L 256 235 Z" fill="#2D5A27"/>
+    <!-- Raccoon face hint -->
+    <ellipse cx="250" cy="210" rx="55" ry="45" fill="#6B6661"/>
+    <path d="M 210 205 Q 250 195 290 205 Q 275 225 250 215 Q 225 225 210 205 Z" fill="#201E1D"/>
+    <circle cx="230" cy="210" r="5" fill="#FFF"/>
+    <circle cx="270" cy="210" r="5" fill="#FFF"/>
+    <!-- Paws -->
+    <ellipse cx="205" cy="280" rx="14" ry="12" fill="#4A4744"/>
+    <ellipse cx="295" cy="280" rx="14" ry="12" fill="#4A4744"/>
+    <text x="250" y="100" font-family="'Georgia', serif" font-size="28" font-weight="900" fill="#FAF7F0" text-anchor="middle" letter-spacing="3">GROW TOMATOES</text>
+    <text x="250" y="445" font-family="'Georgia', serif" font-size="20" font-weight="800" fill="#E8B923" text-anchor="middle" letter-spacing="3">NOT DATA CENTERS</text>
+  </g>
+
+  <!-- Sticker 2: Bumper Oval Sticker (Right horizontal) -->
+  <g transform="translate(260, 310) rotate(8)">
+    <rect x="0" y="0" width="280" height="150" rx="75" fill="#FFFFFF" filter="drop-shadow(0 14px 22px rgba(0,0,0,0.16))"/>
+    <rect x="8" y="8" width="264" height="134" rx="67" fill="#FAF7F0" stroke="#1E3F20" stroke-width="4"/>
+    <text x="140" y="55" font-family="'Impact', 'Arial Black', sans-serif" font-size="26" font-weight="900" fill="#D93829" text-anchor="middle" letter-spacing="1">GROW TOMATOES</text>
+    <text x="140" y="85" font-family="'Georgia', serif" font-size="14" font-weight="900" fill="#1E3F20" text-anchor="middle" letter-spacing="2">NOT DATA CENTERS</text>
+    <line x1="40" y1="98" x2="240" y2="98" stroke="#7C5335" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="140" y="120" font-family="'Georgia', serif" font-size="11" font-weight="700" fill="#7C5335" text-anchor="middle" letter-spacing="1.5">★ HANOVER COUNTY, VA ★</text>
+  </g>
+
+  <!-- Sticker 3: Bottle Badge "Save Our Aquifers" (Bottom Left) -->
+  <g transform="translate(70, 340) rotate(-4)">
+    <rect x="0" y="0" width="180" height="180" rx="20" fill="#FFFFFF" filter="drop-shadow(0 10px 18px rgba(0,0,0,0.15))"/>
+    <rect x="6" y="6" width="168" height="168" rx="16" fill="#1E3F20" stroke="#E8B923" stroke-width="2.5"/>
+    <circle cx="90" cy="90" r="65" fill="#FAF7F0"/>
+    <text x="90" y="62" font-family="'Georgia', serif" font-size="11" font-weight="900" fill="#1E3F20" text-anchor="middle" letter-spacing="1">WATER OVER WATTS</text>
+    <path d="M 90 75 Q 75 105 90 120 Q 105 105 90 75 Z" fill="#2E86AB"/>
+    <text x="90" y="142" font-family="'Georgia', serif" font-size="10" font-weight="800" fill="#D93829" text-anchor="middle" letter-spacing="1">PROTECT VIRGINIA</text>
+  </g>
+
+  <!-- Floating Product Tag -->
+  <rect x="30" y="30" width="160" height="34" rx="8" fill="#1E3F20"/>
+  <text x="110" y="52" font-family="'Georgia', serif" font-size="12" font-weight="bold" fill="#FAF7F0" text-anchor="middle" letter-spacing="1">PACK OF 3 STICKERS</text>
+</svg>

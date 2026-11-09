@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <!-- Studio Warm Background -->
+  <rect width="600" height="600" fill="#F4EFE6" rx="28"/>
+
+  <!-- T-SHIRT (Washed Forest Green Comfort Colors Silhouette) -->
+  <g transform="translate(110, 80)">
+    <!-- Shadow -->
+    <path d="M 90 40 L 30 110 L 80 170 L 105 130 L 105 450 L 275 450 L 275 130 L 300 170 L 350 110 L 290 40 Z" fill="#201E1D" opacity="0.1" transform="translate(0, 15)"/>
+
+    <!-- Shirt Body (Garment-dyed Spruce Forest Green) -->
+    <path d="M 125 35 Q 190 65 255 35 L 345 95 L 305 165 L 265 130 L 265 440 C 265 450 255 455 245 455 L 135 455 C 125 455 115 450 115 440 L 115 130 L 75 165 L 35 95 Z" 
+          fill="#254328" stroke="#1B321D" stroke-width="4"/>
+
+    <!-- Ribbed Collar -->
+    <path d="M 125 35 Q 190 65 255 35 Q 190 50 125 35 Z" fill="#1B321D"/>
+    <!-- Fold and texture lines -->
+    <path d="M 115 130 Q 150 145 190 140" stroke="#1E3821" stroke-width="2.5" fill="none"/>
+    <path d="M 265 130 Q 230 145 190 140" stroke="#1E3821" stroke-width="2.5" fill="none"/>
+
+    <!-- Left Chest Pocket / Center Woodcut Linocut Print -->
+    <g transform="translate(190, 240) scale(0.32)">
+      <circle cx="0" cy="0" r="180" fill="#FAF6ED" stroke="#1B321D" stroke-width="6"/>
+      <!-- Tomato -->
+      <circle cx="0" cy="50" r="60" fill="#D93829"/>
+      <!-- Raccoon -->
+      <ellipse cx="0" cy="-35" rx="50" ry="38" fill="#55514C"/>
+      <path d="M -35 -40 Q 0 -50 35 -40 Q 20 -20 0 -30 Q -20 -20 -35 -40 Z" fill="#1A1A1A"/>
+      <circle cx="-16" cy="-35" r="4" fill="#FFF"/>
+      <circle cx="16" cy="-35" r="4" fill="#FFF"/>
+      <!-- Paws -->
+      <ellipse cx="-45" cy="40" rx="14" ry="10" fill="#3D3A37"/>
+      <ellipse cx="45" cy="40" rx="14" ry="10" fill="#3D3A37"/>
+      <!-- Slogan Text -->
+      <text x="0" y="-105" font-family="'Georgia', serif" font-size="24" font-weight="900" fill="#FAF6ED" text-anchor="middle" letter-spacing="2">GROW TOMATOES</text>
+      <text x="0" y="145" font-family="'Georgia', serif" font-size="16" font-weight="800" fill="#E8B923" text-anchor="middle" letter-spacing="2">NOT DATA CENTERS</text>
+    </g>
+  </g>
+
+  <!-- Tag Pill -->
+  <rect x="30" y="30" width="180" height="34" rx="8" fill="#1E3F20"/>
+  <text x="120" y="52" font-family="'Georgia', serif" font-size="12" font-weight="bold" fill="#FAF7F0" text-anchor="middle" letter-spacing="1">COMFORT COLORS 1717</text>
+</svg>
