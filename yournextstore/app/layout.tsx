@@ -103,20 +103,11 @@ export async function generateMetadata(): Promise<Metadata> {
 async function getNavLinks(): Promise<NavLink[]> {
 	"use cache";
 	cacheLife("hours");
-	const [collections, me] = await Promise.all([
-		commerce.collectionBrowse({ active: true, limit: 5 }),
-		meGetCached().catch(() => null),
-	]);
-	const blogEnabled = me?.store.settings?.enabledTools?.blog ?? false;
+	// 遵循苹果极简美学：顶栏仅保留核心业务入口（Products 与 Support）
+	// 主页由左侧品牌 Logo 直达，其余细项统一归整于 Support 中心与页脚
 	return [
-		{ href: "/", label: "Home" },
 		{ href: "/products", label: "Products" },
-		{ href: "/track-order", label: "Track Order" },
-		{ href: "/faq", label: "FAQ" },
-		...collections.data.map((collection) => ({
-			href: `/collection/${collection.slug}`,
-			label: collection.name,
-		})),
+		{ href: "/support", label: "Support" },
 	];
 }
 

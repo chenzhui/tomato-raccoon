@@ -76,6 +76,11 @@ export async function Footer() {
 										Unboxing & Care FAQ
 									</Link>
 								</li>
+								<li>
+									<Link href="/about" className="hover:text-black transition-colors">
+										About Our Studio
+									</Link>
+								</li>
 							</ul>
 						</div>
 
