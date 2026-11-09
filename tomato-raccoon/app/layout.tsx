@@ -123,7 +123,7 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 			<CartProvider>
 				<div className="flex min-h-screen flex-col bg-[#FAF7F0] text-[#1E1D1B]">
 					{/* 顶部公告栏 (Top Announcement Bar) */}
-					<div className="bg-[#1E3F20] text-[#FAF7F0] text-center py-2 px-4 text-[11px] sm:text-xs font-serif font-bold tracking-wider">
+					<div className="bg-[#1E3F20] text-[#FAF7F0] text-center py-2 px-4 text-[11px] sm:text-xs font-bold tracking-wider">
 						🌱 DEFEND VIRGINIA FARMLAND &amp; WATER • 100% RECYCLED PACKAGING • FREE US SHIPPING OVER $45 🍅
 					</div>
 
@@ -132,7 +132,7 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 						<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 							<div className="relative flex items-center justify-between h-14 sm:h-16">
 								<div className="flex items-center gap-4">
-									<Link href="/" className="inline-flex items-center gap-2.5 text-sm font-serif font-bold tracking-tight text-[#1E3F20] hover:opacity-85 transition-opacity">
+									<Link href="/" className="inline-flex items-center gap-2.5 text-sm font-bold tracking-tight text-[#1E3F20] hover:opacity-85 transition-opacity">
 										<span className="w-9 h-9 rounded-full bg-[#FAF7F0] border border-[#D9CDB8] flex items-center justify-center p-0.5 shadow-xs shrink-0 overflow-hidden">
 											<Image
 												src="/images/raccoon-tomato.svg"
@@ -143,7 +143,7 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 												priority
 											/>
 										</span>
-										<span className="text-[#1E3F20] text-base sm:text-lg font-serif font-black tracking-tight">
+										<span className="text-[#1E3F20] text-base sm:text-lg font-black tracking-tight">
 											Tomato Raccoon <span className="text-[#D93829] font-semibold text-xs ml-0.5">Supply Co.</span>
 										</span>
 									</Link>

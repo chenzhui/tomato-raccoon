@@ -241,7 +241,7 @@ async function ProductPageContent({ params }: { params: Promise<{ slug: string }
 					)}
 
 					{/* 购买信任与安心售后微徽章 (Trust Badges) */}
-					<div className="pt-4 border-t border-[#E5DDD0] space-y-2.5 text-xs text-[#524B42] font-serif">
+					<div className="pt-4 border-t border-[#E5DDD0] space-y-2.5 text-xs text-[#524B42] ">
 						<div className="flex items-center gap-2.5">
 							<span className="w-5 h-5 rounded-full bg-[#E8F0E7] flex items-center justify-center text-[#1E3F20] shrink-0 text-xs">🚚</span>
 							<span><strong className="text-[#1E1D1B] font-bold">Fast USPS Priority:</strong> 3-5 business days across US in 100% recyclable paper mailers.</span>

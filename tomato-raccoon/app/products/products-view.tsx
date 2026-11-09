@@ -44,13 +44,13 @@ export async function ProductsView({
 	return (
 		<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 			<div className="mb-8">
-				<div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1E3F20]/10 text-[#1E3F20] text-xs font-serif font-bold uppercase tracking-wider mb-2">
+				<div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1E3F20]/10 text-[#1E3F20] text-xs font-bold uppercase tracking-wider mb-2">
 					★ Authentic Movement Catalog
 				</div>
-				<h1 className="text-3xl sm:text-5xl font-serif font-bold tracking-tight text-[#1E3F20]">
+				<h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#1E3F20]">
 					All Movement Goods
 				</h1>
-				<p className="mt-2 text-sm sm:text-base text-[#524B42] font-serif font-normal">
+				<p className="mt-2 text-sm sm:text-base text-[#524B42] font-normal">
 					Handcrafted yard signs, organic market totes, weatherproof vinyl stickers &amp; plushies defending Virginia farmland.
 				</p>
 			</div>

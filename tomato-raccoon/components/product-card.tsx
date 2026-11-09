@@ -122,9 +122,9 @@ export async function ProductCard({
 					))}
 			</div>
 			<div className="space-y-1 px-1">
-				<h2 className="text-sm sm:text-base font-serif font-bold text-[#1E1D1B] tracking-tight group-hover:text-[#1E3F20] transition-colors">{product.name}</h2>
+				<h2 className="text-sm sm:text-base font-bold text-[#1E1D1B] tracking-tight group-hover:text-[#1E3F20] transition-colors">{product.name}</h2>
 				<p className="flex flex-wrap items-baseline gap-2">
-					<span className="text-sm sm:text-base font-serif font-bold text-[#1E3F20]">{priceDisplay}</span>
+					<span className="text-sm sm:text-base font-bold text-[#1E3F20]">{priceDisplay}</span>
 					{compareAtDisplay && (
 						<span className="text-xs sm:text-sm text-[#8C5A2B] line-through">{compareAtDisplay}</span>
 					)}

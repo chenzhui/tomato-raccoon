@@ -42,7 +42,7 @@ export async function Footer() {
 				<div className="py-16 sm:py-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-8">
 					{/* 第 1 列：品牌介绍 */}
 					<div className="space-y-4">
-						<Link href="/" className="inline-flex items-center gap-2.5 text-sm font-serif font-bold text-[#1E3F20] tracking-tight">
+						<Link href="/" className="inline-flex items-center gap-2.5 text-sm font-bold text-[#1E3F20] tracking-tight">
 							<span className="w-8 h-8 rounded-full bg-[#FAF7F0] border border-[#D9CDB8] flex items-center justify-center p-0.5 shadow-xs shrink-0 overflow-hidden">
 								<Image
 									src="/images/raccoon-tomato.svg"
@@ -52,12 +52,12 @@ export async function Footer() {
 									className="w-full h-full object-contain"
 								/>
 							</span>
-							<span className="text-base font-serif font-black">Tomato Raccoon Co.</span>
+							<span className="text-base font-black">Tomato Raccoon Co.</span>
 						</Link>
-						<p className="text-xs sm:text-sm text-[#524B42] leading-relaxed font-serif">
+						<p className="text-xs sm:text-sm text-[#524B42] leading-relaxed ">
 							Grow Tomatoes, Not Data Centers. Handcrafted goods defending Virginia farmland, clean aquifers, and independent community growers.
 						</p>
-						<div className="flex items-center gap-2 text-xs text-[#1E3F20] font-serif font-medium">
+						<div className="flex items-center gap-2 text-xs text-[#1E3F20] font-medium">
 							<ShieldCheck className="w-4 h-4 text-[#D93829]" />
 							<span>100% Grassroots Advocacy</span>
 						</div>
@@ -65,8 +65,8 @@ export async function Footer() {
 
 					{/* 第 2 列：客户服务 (Support) */}
 					<div>
-						<h3 className="text-xs font-serif font-bold text-[#1E3F20] uppercase tracking-wider">Support & Care</h3>
-						<ul className="mt-4 space-y-2.5 text-xs sm:text-sm font-serif">
+						<h3 className="text-xs font-bold text-[#1E3F20] uppercase tracking-wider">Support & Care</h3>
+						<ul className="mt-4 space-y-2.5 text-xs sm:text-sm ">
 							<li>
 								<Link href="/track-order" className="text-[#1E1D1B] hover:text-[#D93829] font-medium transition-colors">
 									Track Package (USPS)
@@ -92,8 +92,8 @@ export async function Footer() {
 
 					{/* 第 3 列：法律条款 (Legal) */}
 					<div>
-						<h3 className="text-xs font-serif font-bold text-[#1E3F20] uppercase tracking-wider">Community Trust</h3>
-						<ul className="mt-4 space-y-2.5 text-xs sm:text-sm font-serif">
+						<h3 className="text-xs font-bold text-[#1E3F20] uppercase tracking-wider">Community Trust</h3>
+						<ul className="mt-4 space-y-2.5 text-xs sm:text-sm ">
 							<li>
 								<Link href="/privacy-policy" className="hover:text-[#D93829] transition-colors">
 									Privacy (Zero Data Brokers)
@@ -119,8 +119,8 @@ export async function Footer() {
 
 					{/* 第 4 列：关注我们 (Follow Us) */}
 					<div>
-						<h3 className="text-xs font-serif font-bold text-[#1E3F20] uppercase tracking-wider">The Movement</h3>
-						<p className="mt-1.5 text-xs text-[#7C5335] font-serif">
+						<h3 className="text-xs font-bold text-[#1E3F20] uppercase tracking-wider">The Movement</h3>
+						<p className="mt-1.5 text-xs text-[#7C5335] ">
 							Join neighbors spreading the word:
 						</p>
 						<ul className="mt-3.5 space-y-2 text-xs sm:text-sm">
@@ -135,7 +135,7 @@ export async function Footer() {
 										<TikTokIcon className="w-3.5 h-3.5 text-[#1E3F20] group-hover:text-[#D93829] transition-colors" />
 									</div>
 									<div>
-										<div className="font-serif font-bold text-[#1E1D1B] group-hover:text-[#D93829] transition-colors text-xs">TikTok</div>
+										<div className="font-bold text-[#1E1D1B] group-hover:text-[#D93829] transition-colors text-xs">TikTok</div>
 										<div className="text-[10px] text-[#7C5335]">#growtomatoesnotdatacenters</div>
 									</div>
 								</a>
@@ -151,7 +151,7 @@ export async function Footer() {
 										<YouTubeIcon className="w-3.5 h-3.5 text-[#1E3F20] group-hover:text-[#D93829] transition-colors" />
 									</div>
 									<div>
-										<div className="font-serif font-bold text-[#1E1D1B] group-hover:text-[#D93829] transition-colors text-xs">YouTube</div>
+										<div className="font-bold text-[#1E1D1B] group-hover:text-[#D93829] transition-colors text-xs">YouTube</div>
 										<div className="text-[10px] text-[#7C5335]">Hanover Farm Stories</div>
 									</div>
 								</a>
@@ -161,8 +161,8 @@ export async function Footer() {
 
 					{/* 第 5 列：邮件订阅 (Newsletter - 独占最右侧) */}
 					<div>
-						<h3 className="text-xs font-serif font-bold text-[#1E3F20] uppercase tracking-wider">Farm Dispatch</h3>
-						<p className="mt-1.5 text-xs text-[#524B42] leading-relaxed font-serif">
+						<h3 className="text-xs font-bold text-[#1E3F20] uppercase tracking-wider">Farm Dispatch</h3>
+						<p className="mt-1.5 text-xs text-[#524B42] leading-relaxed ">
 							Join 15,000+ neighbors protecting local soil. Get grassroots updates &amp; restock alerts.
 						</p>
 						<FooterNewsletter />
@@ -170,7 +170,7 @@ export async function Footer() {
 				</div>
 
 				{/* 底部版权与支付信息栏 */}
-				<div className="py-8 border-t border-[#D9CDB8] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#7C5335] font-serif">
+				<div className="py-8 border-t border-[#D9CDB8] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#7C5335] ">
 					<p>&copy; {year} Tomato Raccoon Supply Co. Born in Hanover County, VA. Defending local soil and clean water.</p>
 					<PaymentMethods />
 				</div>

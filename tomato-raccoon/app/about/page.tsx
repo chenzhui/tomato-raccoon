@@ -14,7 +14,7 @@ export default function AboutPage() {
 	return (
 		<div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
 			{/* 面包屑导航 */}
-			<div className="mb-8 flex items-center gap-2 text-xs font-serif text-[#7C5335]">
+			<div className="mb-8 flex items-center gap-2 text-xs text-[#7C5335]">
 				<Link href="/" className="hover:text-[#1E3F20] transition-colors">
 					Home
 				</Link>
@@ -24,14 +24,14 @@ export default function AboutPage() {
 
 			{/* 标题宣言 */}
 			<div className="space-y-4 mb-16">
-				<div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#1E3F20]/10 text-[#1E3F20] text-xs font-serif font-bold uppercase tracking-wider">
+				<div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#1E3F20]/10 text-[#1E3F20] text-xs font-bold uppercase tracking-wider">
 					🦝 Born in Hanover County, Virginia
 				</div>
-				<h1 className="text-4xl sm:text-6xl font-serif font-black tracking-tight text-[#1E3F20] leading-tight">
+				<h1 className="text-4xl sm:text-6xl font-black tracking-tight text-[#1E3F20] leading-tight">
 					Grow Tomatoes. <br />
 					<span className="text-[#D93829]">Not Data Centers.</span>
 				</h1>
-				<p className="text-lg sm:text-xl font-serif text-[#524B42] leading-relaxed">
+				<p className="text-lg sm:text-xl text-[#524B42] leading-relaxed">
 					How a hand-painted yard sign of a raccoon holding a summer tomato ignited a grassroots fight for Virginia's soil, water, and open farmland.
 				</p>
 			</div>
@@ -49,7 +49,7 @@ export default function AboutPage() {
 			</div>
 
 			{/* 深度故事段落 */}
-			<div className="space-y-14 font-serif text-[#1E1D1B] leading-relaxed text-base sm:text-lg">
+			<div className="space-y-14 text-[#1E1D1B] leading-relaxed text-base sm:text-lg">
 				{/* 篇章 1 */}
 				<section className="space-y-4 border-t border-[#D9CDB8] pt-10">
 					<span className="text-xs font-bold uppercase tracking-widest text-[#D93829]">Chapter 01</span>

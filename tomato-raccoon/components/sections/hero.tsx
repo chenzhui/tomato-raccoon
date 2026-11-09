@@ -12,19 +12,19 @@ export function Hero() {
 				{/* 1. 草根运动主宣告区 */}
 				<div className="text-center max-w-4xl mx-auto pt-4 sm:pt-8">
 					{/* 顶栏徽章 */}
-					<div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#D9CDB8] bg-[#F3ECE0] text-[#1E3F20] text-xs font-serif tracking-wider mb-6 shadow-xs">
+					<div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#D9CDB8] bg-[#F3ECE0] text-[#1E3F20] text-xs tracking-wider mb-6 shadow-xs">
 						<span className="text-sm">🦝</span>
 						<span className="font-bold">BORN IN HANOVER COUNTY, VIRGINIA</span>
 						<span className="text-[#8C5A2B]">★</span>
 						<span className="text-[#D93829] font-semibold">100% GRASSROOTS ADVOCACY</span>
 					</div>
 
-					<h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif font-black tracking-tight text-[#1E3F20] mb-6 leading-[1.08]">
+					<h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-[#1E3F20] mb-6 leading-[1.08]">
 						Grow Tomatoes. <br />
 						<span className="text-[#D93829]">Not Data Centers.</span>
 					</h1>
 
-					<p className="text-lg sm:text-xl lg:text-2xl font-serif text-[#524B42] max-w-2xl mx-auto mb-4 leading-relaxed">
+					<p className="text-lg sm:text-xl lg:text-2xl text-[#524B42] max-w-2xl mx-auto mb-4 leading-relaxed">
 						Big Tech wants millions of gallons of groundwater for another server farm. We’d rather keep our sweet heirloom tomatoes, open skies, and clean aquifers.
 					</p>
 
@@ -36,14 +36,14 @@ export function Hero() {
 					<div className="flex flex-wrap items-center justify-center gap-4 text-sm font-medium">
 						<Link
 							href="/products"
-							className="px-8 py-3.5 rounded-full bg-[#1E3F20] text-[#FAF7F0] font-serif font-bold hover:bg-[#2D5A27] transition-all shadow-md active:scale-95 flex items-center gap-2 cursor-pointer"
+							className="px-8 py-3.5 rounded-full bg-[#1E3F20] text-[#FAF7F0] font-bold hover:bg-[#2D5A27] transition-all shadow-md active:scale-95 flex items-center gap-2 cursor-pointer"
 						>
 							<span>Shop Movement Goods</span>
 							<ArrowRight className="w-4 h-4" />
 						</Link>
 						<Link
 							href="/about"
-							className="px-7 py-3.5 rounded-full bg-[#F3ECE0] border border-[#D9CDB8] text-[#1E3F20] font-serif font-semibold hover:bg-[#EAE2D2] transition-colors"
+							className="px-7 py-3.5 rounded-full bg-[#F3ECE0] border border-[#D9CDB8] text-[#1E3F20] font-semibold hover:bg-[#EAE2D2] transition-colors"
 						>
 							Read The Story
 						</Link>
@@ -73,20 +73,20 @@ export function Hero() {
 							<div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#D93829]/10 text-[#D93829] text-[11px] font-bold uppercase tracking-wider">
 								★ Most Loved Plushie
 							</div>
-							<h3 className="text-2xl font-serif font-bold text-[#1E1D1B]">
+							<h3 className="text-2xl font-bold text-[#1E1D1B]">
 								"The Farm Defender" Plush Raccoon
 							</h3>
 							<p className="text-xs sm:text-sm text-[#524B42] leading-relaxed">
 								Clutching a ripe heirloom tomato with both soft paws. Huggable, squeezable, and crafted from baby-soft velvet to remind everyone what truly matters: local soil and clean water.
 							</p>
 							<div className="pt-2 flex items-baseline gap-3">
-								<span className="text-2xl font-serif font-bold text-[#1E3F20]">$38.00</span>
+								<span className="text-2xl font-bold text-[#1E3F20]">$38.00</span>
 								<span className="text-sm text-[#8C5A2B] line-through">$45.00</span>
 								<span className="text-xs font-semibold text-[#D93829]">Save $7 · In Stock</span>
 							</div>
 							<Link
 								href="/product/the-farm-defender-raccoon-plush"
-								className="inline-flex items-center gap-1.5 text-xs font-serif font-bold text-[#D93829] hover:underline"
+								className="inline-flex items-center gap-1.5 text-xs font-bold text-[#D93829] hover:underline"
 							>
 								<span>Adopt your farm defender</span>
 								<ArrowRight className="w-3.5 h-3.5" />
@@ -102,7 +102,7 @@ export function Hero() {
 						<div className="w-10 h-10 rounded-xl bg-[#E8F0E7] text-[#1E3F20] flex items-center justify-center">
 							<Droplets className="w-5 h-5 text-[#2E86AB]" />
 						</div>
-						<h4 className="font-serif font-bold text-base text-[#1E1D1B]">
+						<h4 className="font-bold text-base text-[#1E1D1B]">
 							Water Over Watts
 						</h4>
 						<p className="text-xs text-[#524B42] leading-relaxed">
@@ -115,7 +115,7 @@ export function Hero() {
 						<div className="w-10 h-10 rounded-xl bg-[#F7ECE8] text-[#D93829] flex items-center justify-center">
 							<Sprout className="w-5 h-5 text-[#D93829]" />
 						</div>
-						<h4 className="font-serif font-bold text-base text-[#1E1D1B]">
+						<h4 className="font-bold text-base text-[#1E1D1B]">
 							100% Organic &amp; Plastic-Free
 						</h4>
 						<p className="text-xs text-[#524B42] leading-relaxed">
@@ -128,7 +128,7 @@ export function Hero() {
 						<div className="w-10 h-10 rounded-xl bg-[#F4EFE6] text-[#7C5335] flex items-center justify-center">
 							<Heart className="w-5 h-5 text-[#7C5335]" />
 						</div>
-						<h4 className="font-serif font-bold text-base text-[#1E1D1B]">
+						<h4 className="font-bold text-base text-[#1E1D1B]">
 							Community Powered
 						</h4>
 						<p className="text-xs text-[#524B42] leading-relaxed">

@@ -140,7 +140,7 @@ export function ProductFeatures({ category = "Totes" }: ProductFeaturesProps) {
 	}
 
 	return (
-		<section className="mt-20 border-t border-[#D9CDB8] pt-16 font-serif">
+		<section className="mt-20 border-t border-[#D9CDB8] pt-16 ">
 			<div className="text-center max-w-2xl mx-auto mb-12">
 				<h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1E3F20]">{title}</h2>
 				<p className="mt-2 text-xs sm:text-sm text-[#524B42] font-normal leading-relaxed">{subtitle}</p>
