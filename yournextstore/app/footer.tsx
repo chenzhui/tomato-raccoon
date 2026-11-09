@@ -38,8 +38,8 @@ export async function Footer() {
 	return (
 		<footer className="border-t border-neutral-200 bg-[#F5F5F7] text-neutral-600">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div className="py-16 sm:py-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-					{/* 品牌介绍 */}
+				<div className="py-16 sm:py-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-8">
+					{/* 第 1 列：品牌介绍 */}
 					<div className="space-y-4">
 						<Link href="/" className="inline-flex items-center gap-2.5 text-sm font-semibold text-neutral-900 tracking-tight">
 							<span className="w-5 h-5 rounded-md bg-black text-white flex items-center justify-center text-[10px] font-black">
@@ -52,85 +52,84 @@ export async function Footer() {
 						</p>
 						<div className="flex items-center gap-2 text-xs text-neutral-600">
 							<ShieldCheck className="w-4 h-4 text-neutral-500" />
-							<span>100% Trademark Compliant Parody Merch</span>
+							<span>100% Trademark Compliant</span>
 						</div>
 					</div>
 
-					{/* 客户服务与条款 (Support & Legal) */}
-					<div className="space-y-6">
-						<div>
-							<h3 className="text-xs font-semibold text-neutral-900 uppercase tracking-wider">Support</h3>
-							<ul className="mt-3.5 space-y-2.5 text-xs sm:text-sm">
-								<li>
-									<Link href="/track-order" className="text-neutral-900 hover:text-blue-600 font-medium transition-colors">
-										Track Package (USPS Direct)
-									</Link>
-								</li>
-								<li>
-									<Link href="/returns" className="text-neutral-900 hover:text-blue-600 font-medium transition-colors">
-										30-Day Free Replacement
-									</Link>
-								</li>
-								<li>
-									<Link href="/faq" className="hover:text-black transition-colors">
-										Unboxing & Care FAQ
-									</Link>
-								</li>
-								<li>
-									<Link href="/about" className="hover:text-black transition-colors">
-										About Our Studio
-									</Link>
-								</li>
-							</ul>
-						</div>
-
-						<div>
-							<h3 className="text-xs font-semibold text-neutral-900 uppercase tracking-wider">Legal</h3>
-							<ul className="mt-3.5 space-y-2.5 text-xs sm:text-sm">
-								<li>
-									<Link href="/privacy-policy" className="hover:text-black transition-colors">
-										Privacy Policy
-									</Link>
-								</li>
-								<li>
-									<Link href="/terms-of-service" className="hover:text-black transition-colors">
-										Terms of Service
-									</Link>
-								</li>
-								<li>
-									<Link href="/shipping-policy" className="hover:text-black transition-colors">
-										Shipping Policy
-									</Link>
-								</li>
-								<li>
-									<Link href="/refund-policy" className="hover:text-black transition-colors">
-										Refund & Return Policy
-									</Link>
-								</li>
-							</ul>
-						</div>
+					{/* 第 2 列：客户服务 (Support) */}
+					<div>
+						<h3 className="text-xs font-semibold text-neutral-900 uppercase tracking-wider">Support</h3>
+						<ul className="mt-4 space-y-2.5 text-xs sm:text-sm">
+							<li>
+								<Link href="/track-order" className="text-neutral-900 hover:text-blue-600 font-medium transition-colors">
+									Track Package (USPS)
+								</Link>
+							</li>
+							<li>
+								<Link href="/returns" className="text-neutral-900 hover:text-blue-600 font-medium transition-colors">
+									30-Day Free Replacement
+								</Link>
+							</li>
+							<li>
+								<Link href="/faq" className="hover:text-black transition-colors">
+									Unboxing & Care FAQ
+								</Link>
+							</li>
+							<li>
+								<Link href="/about" className="hover:text-black transition-colors">
+									About Our Studio
+								</Link>
+							</li>
+						</ul>
 					</div>
 
-					{/* 关注我们 (Follow Us) */}
+					{/* 第 3 列：法律条款 (Legal) */}
+					<div>
+						<h3 className="text-xs font-semibold text-neutral-900 uppercase tracking-wider">Legal</h3>
+						<ul className="mt-4 space-y-2.5 text-xs sm:text-sm">
+							<li>
+								<Link href="/privacy-policy" className="hover:text-black transition-colors">
+									Privacy Policy
+								</Link>
+							</li>
+							<li>
+								<Link href="/terms-of-service" className="hover:text-black transition-colors">
+									Terms of Service
+								</Link>
+							</li>
+							<li>
+								<Link href="/shipping-policy" className="hover:text-black transition-colors">
+									Shipping Policy
+								</Link>
+							</li>
+							<li>
+								<Link href="/refund-policy" className="hover:text-black transition-colors">
+									Refund & Return Policy
+								</Link>
+							</li>
+						</ul>
+					</div>
+
+					{/* 第 4 列：关注我们 (Follow Us) */}
 					<div>
 						<h3 className="text-xs font-semibold text-neutral-900 uppercase tracking-wider">Follow Us</h3>
 						<p className="mt-1.5 text-xs text-neutral-500">
-							Watch setups, unboxings & sneak peeks.
+							Watch setups & unboxings.
 						</p>
-						<ul className="mt-4 space-y-3 text-xs sm:text-sm">
+						<ul className="mt-3.5 space-y-2 text-xs sm:text-sm">
 							<li>
 								<a
 									href="https://youtube.com"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="flex items-center gap-3 text-neutral-700 hover:text-red-600 transition-colors group p-2 -mx-2 rounded-xl hover:bg-neutral-200/50"
+									className="flex items-center gap-2.5 text-neutral-700 hover:text-red-600 transition-colors group p-1.5 -mx-1.5 rounded-xl hover:bg-neutral-200/50"
 								>
-									<div className="w-8 h-8 rounded-full bg-white border border-neutral-200 flex items-center justify-center shrink-0 shadow-xs group-hover:border-red-200 transition-colors">
-										<YouTubeIcon className="w-4 h-4 text-neutral-800 group-hover:text-red-600 transition-colors" />
+									<div className="w-7 h-7 rounded-full bg-white border border-neutral-200 flex items-center justify-center shrink-0 shadow-xs group-hover:border-red-200 transition-colors">
+										<YouTubeIcon className="w-3.5 h-3.5 text-neutral-800 group-hover:text-red-600 transition-colors" />
 									</div>
 									<div>
-										<div className="font-medium text-neutral-900 group-hover:text-red-600 transition-colors">YouTube</div>
-										<div className="text-[11px] text-neutral-400">@aichan_studio</div>
+										<div className="font-medium text-neutral-900 group-hover:text-red-600 transition-colors text-xs">YouTube</div>
+										<div className="text-[10px] text-neutral-400">@aichan_studio</div>
 									</div>
 								</a>
 							</li>
@@ -139,25 +138,25 @@ export async function Footer() {
 									href="https://tiktok.com"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="flex items-center gap-3 text-neutral-700 hover:text-black transition-colors group p-2 -mx-2 rounded-xl hover:bg-neutral-200/50"
+									className="flex items-center gap-2.5 text-neutral-700 hover:text-black transition-colors group p-1.5 -mx-1.5 rounded-xl hover:bg-neutral-200/50"
 								>
-									<div className="w-8 h-8 rounded-full bg-white border border-neutral-200 flex items-center justify-center shrink-0 shadow-xs group-hover:border-neutral-400 transition-colors">
-										<TikTokIcon className="w-4 h-4 text-neutral-800 group-hover:text-black transition-colors" />
+									<div className="w-7 h-7 rounded-full bg-white border border-neutral-200 flex items-center justify-center shrink-0 shadow-xs group-hover:border-neutral-400 transition-colors">
+										<TikTokIcon className="w-3.5 h-3.5 text-neutral-800 group-hover:text-black transition-colors" />
 									</div>
 									<div>
-										<div className="font-medium text-neutral-900 group-hover:text-black transition-colors">TikTok</div>
-										<div className="text-[11px] text-neutral-400">@aichan_merch</div>
+										<div className="font-medium text-neutral-900 group-hover:text-black transition-colors text-xs">TikTok</div>
+										<div className="text-[10px] text-neutral-400">@aichan_merch</div>
 									</div>
 								</a>
 							</li>
 						</ul>
 					</div>
 
-					{/* 邮件订阅 (Newsletter - 独占最右侧) */}
+					{/* 第 5 列：邮件订阅 (Newsletter - 独占最右侧) */}
 					<div>
 						<h3 className="text-xs font-semibold text-neutral-900 uppercase tracking-wider">Newsletter</h3>
 						<p className="mt-1.5 text-xs text-neutral-500 leading-relaxed">
-							Subscribe to get early notifications on limited batch drops & secret discounts.
+							Subscribe for early drop alerts & secret discounts.
 						</p>
 						<FooterNewsletter />
 					</div>
