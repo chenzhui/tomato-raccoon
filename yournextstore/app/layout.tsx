@@ -102,9 +102,9 @@ export async function generateMetadata(): Promise<Metadata> {
 async function getNavLinks(): Promise<NavLink[]> {
 	"use cache";
 	cacheLife("hours");
-	// 遵循苹果极简美学：顶栏仅保留核心业务入口（Products 与 Support）
-	// 主页由左侧品牌 Logo 直达，其余细项统一归整于 Support 中心与页脚
+	// 顶部极简三导航：主页 (Home)、全部商品 (Products)、服务中心 (Support)
 	return [
+		{ href: "/", label: "Home" },
 		{ href: "/products", label: "Products" },
 		{ href: "/support", label: "Support" },
 	];
