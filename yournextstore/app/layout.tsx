@@ -1,6 +1,5 @@
 import "@/app/globals.css";
 
-import { UserRound } from "lucide-react";
 import type { Metadata } from "next";
 import { cacheLife } from "next/cache";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -141,20 +140,6 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 									<Suspense>
 										<SearchInput />
 									</Suspense>
-									{/* 使用原生 <a> 标签：/account 是反向代理区域 —— 客户端软导航会触发 500 错误（参见 AGENTS.md）。
-									    特意保持静态：在此读取会话（session）会将页头移出预渲染外壳。
-									    访客进入登录流程，已登录顾客直达控制面板。 */}
-									<a
-										href={
-											storeConfig.language
-												? `/account?lang=${encodeURIComponent(storeConfig.language)}`
-												: "/account"
-										}
-										className="p-1.5 rounded-full hover:bg-neutral-100 text-neutral-600 hover:text-black transition-colors"
-										aria-label="Account"
-									>
-										<UserRound className="w-4 h-4" />
-									</a>
 									<CartButton />
 								</div>
 							</div>
