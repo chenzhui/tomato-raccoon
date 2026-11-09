@@ -16,7 +16,6 @@ const proxiedRoutes = [
 	"/api/mcp",
 	"/api/frame-webhook",
 	"/api/montonio-webhook",
-	"/account",
 ];
 
 // 平台此前用于在该域名上发送邮件的链接。它们现在位于平台域名上，
@@ -130,8 +129,6 @@ export const config = {
 		"/unsubscribe/post",
 		"/confirm-subscription",
 		"/digital-assets/:path*",
-		"/account",
-		"/account/:path*",
 		"/_public/:path*",
 		"/gr_sw_main.js",
 		// 拥有 Markdown 版本的页面（lib/markdown.ts），可选用语言前缀（如 `/de`）。
