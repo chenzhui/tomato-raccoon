@@ -53,7 +53,7 @@ export function NewsletterDialog({ settings }: NewsletterDialogProps) {
 		const wasDismissed = localStorage.getItem(STORAGE_KEY) === "true";
 		if (wasDismissed) return;
 
-		// exit intent on desktop, timer fallback on mobile
+		// 桌面端使用离开意图检测，移动端降级为定时器触发
 		const open = () => {
 			setPopupState("open");
 			document.removeEventListener("mouseleave", handleExitIntent);
@@ -135,7 +135,7 @@ export function NewsletterDialog({ settings }: NewsletterDialogProps) {
 					<div className="flex flex-col sm:flex-row">
 						{imageUrl && (
 							<div className="relative hidden min-h-75 bg-muted sm:block sm:w-1/2">
-								{/* Half of the dialog panel, which caps at max-w-3xl (768px); hidden below sm. */}
+								{/* 对话框面板的一半宽度，最大宽度上限为 max-w-3xl（768px）；在 sm 尺寸以下隐藏。 */}
 								<Image
 									src={imageUrl}
 									alt=""

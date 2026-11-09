@@ -1,9 +1,9 @@
 import { Suspense } from "react";
 
 /**
- * Without this read the client router would reuse a static listing's default view for every query string, so
- * `?page=2` would never reach the server and the `next.config.ts` rewrite (lib/listing-routes.ts). Reading the
- * query makes the router ask the server.
+ * 若不执行此读取，客户端路由将对所有查询字符串复用静态列表页的默认视图，导致
+ * `?page=2` 永远无法传递到服务端及 `next.config.ts` 的重写逻辑（详见 lib/listing-routes.ts）。
+ * 读取查询参数会促使路由器向服务端发起请求。
  */
 export function SearchParamsProbe({ searchParams }: { searchParams: Promise<unknown> }) {
 	return (

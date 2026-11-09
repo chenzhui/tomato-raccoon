@@ -6,7 +6,7 @@ import { getStoreSeo } from "@/lib/commerce";
 import { getFilterFacets, hasFacets } from "@/lib/facets";
 import type { ProductListingParams } from "@/lib/listing-routes";
 
-// "Featured" follows the sort order the merchant set on the store's `all` collection (newest first without one).
+// "精选（Featured）" 遵循商家在店铺的 `all` 合集中设置的排序规则（若未设置则默认按最新优先）。
 const sortOptions = [
 	{ value: "featured", label: "Featured", orderBy: "featured", orderDirection: "desc" },
 	{ value: "newest", label: "Newest", orderBy: "createdAt", orderDirection: "desc" },
@@ -38,13 +38,13 @@ export async function productsMetadata(page: string | undefined): Promise<Metada
 }
 
 /**
- * Every product. The default view (`/products` without a query) prerenders in full; a filter, sort or page number is
- * rewritten to `/products-filtered`, which renders per request (lib/listing-routes.ts).
+ * 全部商品页面。默认视图（不带参数的 `/products`）完整预渲染；
+ * 筛选条件、排序或页码会被重写到 `/products-filtered`，后者按请求实时渲染（参见 lib/listing-routes.ts）。
  */
 export async function ProductsView({ filters }: { filters: ProductListingParams }) {
 	const sortOption = sortOptions.find((s) => s.value === filters.sort) ?? sortOptions[0];
 	const order = { orderBy: sortOption.orderBy, orderDirection: sortOption.orderDirection };
-	// The listing page starts with the facets instead of after them; the grid below reads the same cache entry.
+	// 列表页与分面项数据同时并行加载；下方的商品网格直接读取相同的缓存条目。
 	const [facets] = await Promise.all([getFilterFacets(), getListingPage({ filters, order })]);
 	const filtersAvailable = hasFacets(facets);
 
@@ -59,13 +59,13 @@ export async function ProductsView({ filters }: { filters: ProductListingParams 
 				{filtersAvailable && <ProductFilters facets={facets} active={filters} />}
 
 				<div>
-					{/* Mobile/tablet toolbar: Filters button + compact Sort dropdown (sidebar is hidden below lg). */}
+					{/* 移动端/平板端工具栏：筛选按钮 + 紧凑型排序下拉框（侧边栏在 lg 断点以下隐藏）。 */}
 					<div className="mb-8 flex items-center justify-between gap-3 lg:hidden">
 						{filtersAvailable ? <ProductFiltersMobile facets={facets} active={filters} /> : <span />}
 						<SortSelect options={sortOptions} active={filters} />
 					</div>
 
-					{/* Desktop toolbar: inline sort links (filters live in the sidebar). */}
+					{/* 桌面端工具栏：行内排序链接（筛选栏位于侧边栏）。 */}
 					<div className="mb-8 hidden flex-wrap items-center gap-3 lg:flex">
 						<span className="text-sm text-muted-foreground">Sort by:</span>
 						<SortLinks options={sortOptions} active={filters} />

@@ -48,7 +48,7 @@ function processVariants(variants: Variant[]) {
 		})),
 	);
 
-	// Track seen option IDs per label for O(1) deduplication
+	// 记录每个 label 已出现的选项 ID，用于 O(1) 去重
 	const seenOptionIds = new Map<string, Set<string>>();
 
 	const groupedByLabel = allCombinations.reduce(
@@ -87,7 +87,7 @@ export function VariantSelector({ variants }: VariantSelectorProps) {
 	const pathname = usePathname();
 	const variantGroups = processVariants(variants);
 
-	// Maps for O(1) lookups; the React Compiler memoizes them on `variants`.
+	// 使用 Map 进行 O(1) 查找；React 编译器会针对 `variants` 自动进行记忆化缓存。
 	const optionsByValue = new Map(
 		variantGroups.map((g) => [g.label, new Map(g.options.map((o) => [o.value, o]))]),
 	);
@@ -110,12 +110,12 @@ export function VariantSelector({ variants }: VariantSelectorProps) {
 			}
 			return acc;
 		}, new URLSearchParams());
-		// History API instead of router.push: the page doesn't depend on the query, so no server round trip.
+		// 使用原生 History API 而非 router.push：商详页面并不依赖 query 参数，因此无需向服务端发起往返请求。
 		setUrlQuery(`${pathname}?${params.toString()}`);
 	};
 
-	// Auto-redirect to first variant when no URL params exist (for multi-variant products). Checks the live address:
-	// the hydration render reads an empty query, and this effect runs before the re-render that sees the real one.
+	// 当不存在 URL 参数时（对于多变体商品），自动重定向选择第一个变体。直接检查当前实际地址：
+	// 水合渲染时读取到的 query 可能是空的，而该 effect 的执行先于获取到真实 query 的重新渲染。
 	useEffect(() => {
 		if (variants.length <= 1 || searchParams.size > 0 || window.location.search.length > 1) return;
 

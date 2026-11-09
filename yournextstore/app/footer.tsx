@@ -16,7 +16,7 @@ export async function Footer() {
 		<footer className="border-t border-slate-800 bg-[#06080e] text-slate-400">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="py-12 sm:py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-					{/* Brand */}
+					{/* 品牌介绍 */}
 					<div className="space-y-4">
 						<Link href="/" className="inline-flex items-center gap-2 text-xl font-bold text-white tracking-tight">
 							<Terminal className="w-5 h-5 text-cyan-400" />
@@ -31,7 +31,7 @@ export async function Footer() {
 						</div>
 					</div>
 
-					{/* Golden 5 Waifus */}
+					{/* 黄金 5 大模型角色 */}
 					<div>
 						<h3 className="text-sm font-semibold text-white uppercase tracking-wider">Golden 5 Models</h3>
 						<ul className="mt-4 space-y-2.5 text-sm">
@@ -63,7 +63,7 @@ export async function Footer() {
 						</ul>
 					</div>
 
-					{/* Customer Support */}
+					{/* 客户服务与支持 */}
 					<div>
 						<h3 className="text-sm font-semibold text-white uppercase tracking-wider">Customer Care</h3>
 						<ul className="mt-4 space-y-2.5 text-sm">
@@ -91,7 +91,7 @@ export async function Footer() {
 						</ul>
 					</div>
 
-					{/* Legal Compliance */}
+					{/* 法律合规与政策 */}
 					<div>
 						<h3 className="text-sm font-semibold text-white uppercase tracking-wider">Trust & Policies</h3>
 						<ul className="mt-4 space-y-2.5 text-sm">
@@ -119,7 +119,7 @@ export async function Footer() {
 					</div>
 				</div>
 
-				{/* Bottom Bar */}
+				{/* 底部版权与支付信息栏 */}
 				<div className="py-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
 					<p>&copy; {year} AI-Chan Geek Merch. All rights reserved. Built for developers worldwide.</p>
 					<PaymentMethods />

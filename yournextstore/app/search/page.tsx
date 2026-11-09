@@ -31,8 +31,8 @@ async function getActiveCategories() {
 	return data.filter((c) => !c.parentId).map((c) => ({ id: c.id, slug: c.slug, name: c.name }));
 }
 
-// One browse serves both the header count and the results grid: the second call with the
-// same arguments is a cache hit, not another API request.
+// 一次检索同时提供页头的数量统计与结果网格：使用相同参数的
+// 第二次调用会直接命中缓存，而不会发起额外的 API 请求。
 async function searchProducts({
 	q,
 	page,
@@ -121,7 +121,7 @@ function EmptyQuery({ categories }: { categories: { id: string; slug: string; na
 					<ul className="mt-4 flex flex-wrap gap-x-6 gap-y-3 text-lg">
 						{categories.slice(0, 8).map((c) => (
 							<li key={c.id}>
-								{/* A category alone shows nothing here (results need a query): browse its page. */}
+								{/* 单独选择分类在此处不显示结果（搜索结果需要 query 关键词）：请直接访问其分类页面。 */}
 								<Link
 									href={`/category/${c.slug}`}
 									className="border-b border-foreground/30 pb-0.5 text-foreground transition-colors hover:border-foreground"
@@ -137,8 +137,8 @@ function EmptyQuery({ categories }: { categories: { id: string; slug: string; na
 	);
 }
 
-// Results depend on the query, so the page renders in full per request: a navigation keeps the current view until
-// the results are ready, with no skeleton.
+// 搜索结果依赖于 query 参数，因此页面按请求实时完整渲染：导航跳转时保持当前视图直至
+// 搜索结果就绪，无需骨架屏。
 export const instant = false;
 
 export default function SearchPage(props: {

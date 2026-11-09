@@ -31,7 +31,7 @@ function productsFromPart(part: UIMessage["parts"][number]): ChatProduct[] {
 	return Array.isArray(output.products) ? output.products.filter(isChatProduct) : [];
 }
 
-// One transport for the module: it only holds the endpoint, and useChat needs the same instance on every render.
+// 模块共用一个 transport 实例：它只保存接口端点，而 useChat 在每次渲染时都需要同一个实例。
 const transport = new DefaultChatTransport({ api: "/api/chat" });
 
 export function ChatPanel({
@@ -70,12 +70,12 @@ export function ChatPanel({
 		<div
 			className={cn(
 				"fixed inset-0 z-50 flex flex-col bg-background text-foreground shadow-2xl transition-[opacity,transform,visibility] duration-200 sm:inset-auto sm:right-4 sm:rounded-2xl sm:border",
-				// Maximized: full height, roughly a third of the screen — clamped so it never
-				// drops below the default width or turns into a wall on ultrawides.
+				// 最大化：全高，大约占屏幕宽度的三分之一 —— 使用 clamp 进行限制，
+				// 使其永不低于默认宽度，且在超宽屏上也不会变成一道巨墙。
 				expanded
 					? "sm:top-4 sm:bottom-4 sm:w-[clamp(26rem,33.333vw,42rem)]"
 					: "sm:bottom-4 sm:h-[min(37.5rem,calc(100dvh-2rem))] sm:w-[25rem]",
-				// `invisible` rather than `hidden` so the enter/leave transition actually plays.
+				// `invisible` 而非 `hidden`，以便让进入/离开过渡动画能够正常播放。
 				open ? "translate-y-0 opacity-100" : "pointer-events-none invisible translate-y-4 opacity-0",
 			)}
 			role="dialog"
@@ -87,7 +87,7 @@ export function ChatPanel({
 					<div className="text-xs text-muted-foreground">Usually replies instantly</div>
 				</div>
 				<div className="flex shrink-0 items-center gap-1">
-					{/* Mobile is already full-screen — maximize is a desktop affordance. */}
+					{/* 移动端本身就是全屏展示 —— 最大化是桌面端专用的交互功能。 */}
 					<button
 						type="button"
 						onClick={() => setExpanded((value) => !value)}
@@ -234,7 +234,7 @@ function AssistantBubble({ children, markdown = false }: { children: React.React
 		<div
 			className={cn(
 				"mr-8 self-start rounded-2xl rounded-bl-md border bg-muted/40 px-3 py-2 text-sm",
-				// Markdown handles its own line breaks; pre-wrap on top would double them.
+				// Markdown 会自行处理换行；在此基础上再添加 pre-wrap 会导致双倍换行。
 				!markdown && "whitespace-pre-wrap",
 			)}
 		>

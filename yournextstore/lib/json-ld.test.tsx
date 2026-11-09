@@ -2,7 +2,7 @@ import { expect, mock, test } from "bun:test";
 import type { APIProductGetByIdResult } from "commerce-kit";
 import { renderToString } from "react-dom/server";
 
-// lib/commerce asserts YNS_API_KEY at import time — stub it before the dynamic import.
+// lib/commerce 在导入时会校验 YNS_API_KEY —— 在动态导入前先对其打桩（stub）。
 process.env.YNS_API_KEY ??= "test-key";
 
 const storeConfig = { currency: "usd", locale: "en-US", taxBehavior: "exclusive" as const };

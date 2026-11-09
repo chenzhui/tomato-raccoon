@@ -75,7 +75,7 @@ export default function TrackOrderPage() {
 	return (
 		<div className="min-h-screen bg-[#07090f] text-slate-200 py-12 px-4 sm:px-6 lg:px-8">
 			<div className="max-w-4xl mx-auto space-y-8">
-				{/* Header */}
+				{/* 页面头部区域 */}
 				<div>
 					<Link
 						href="/"
@@ -96,7 +96,7 @@ export default function TrackOrderPage() {
 					</p>
 				</div>
 
-				{/* Search Box */}
+				{/* 订单查询搜索表单 */}
 				<form
 					onSubmit={handleSearch}
 					className="p-6 rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl space-y-4"
@@ -147,10 +147,10 @@ export default function TrackOrderPage() {
 					</div>
 				</form>
 
-				{/* Results Display */}
+				{/* 查询结果展示卡片 */}
 				{result && (
 					<div className="p-6 sm:p-8 rounded-2xl border border-cyan-500/30 bg-[#090d16] shadow-2xl space-y-8 animate-in fade-in duration-300">
-						{/* Order Summary Header */}
+						{/* 订单概览头部信息 */}
 						<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-slate-800">
 							<div>
 								<div className="flex items-center gap-2">
@@ -184,7 +184,7 @@ export default function TrackOrderPage() {
 							</div>
 						</div>
 
-						{/* Visual Progress Stepper */}
+						{/* 物流节点进度条可视化 */}
 						<div className="space-y-4">
 							<h3 className="text-sm font-semibold text-white uppercase tracking-wider">
 								Shipment Milestone Timeline
@@ -225,7 +225,7 @@ export default function TrackOrderPage() {
 							</div>
 						</div>
 
-						{/* Package Items */}
+						{/* 包裹内商品清单 */}
 						<div className="pt-6 border-t border-slate-800 space-y-3">
 							<h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
 								Package Contents
@@ -253,7 +253,7 @@ export default function TrackOrderPage() {
 							</div>
 						</div>
 
-						{/* After-sales Help Hook */}
+						{/* 售后极客换新入口引导 */}
 						<div className="p-4 rounded-xl bg-slate-950 border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
 							<div className="flex items-center gap-2 text-slate-300">
 								<ShieldCheck className="w-4 h-4 text-cyan-400 shrink-0" />

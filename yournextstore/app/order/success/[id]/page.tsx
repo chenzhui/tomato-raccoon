@@ -32,9 +32,9 @@ function OrderSkeleton() {
 	);
 }
 
-// Awaiting params at the top of the page blocks the static shell — the page
-// stays a sync shell and the order details stream inside Suspense. The order
-// fetch stays uncached so the confirmation always reflects the latest state.
+// 在页面顶部直接 await params 会阻塞静态外壳 —— 页面
+// 保持同步外壳结构，订单详情在 Suspense 内部以流式传输。订单
+// 查询保持不缓存，因此确认页面始终反映最新状态。
 export default function OrderSuccessPage(props: { params: Promise<{ id: string }> }) {
 	return (
 		<Suspense fallback={<OrderSkeleton />}>
@@ -55,9 +55,9 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
 	const { lineItems, shippingAddress, shipping, customer } = order.orderData;
 	const courses = order.courses ?? [];
 
-	// The order's own totals are authoritative — they are what the customer was charged,
-	// already net or gross per the store's tax behaviour. Fall back to a line-item sum
-	// only when the order predates them (or the store prices through Stripe Tax).
+	// 订单自身的金额总计具有权威性 —— 即为向顾客收取的实际金额，
+	// 且已根据店铺计税方式计算为净额或毛额。仅当订单创建早于总计字段
+	// （或店铺通过 Stripe Tax 计税）时，才回退到逐行累加。
 	const apiSubtotal = cartDisplaySubtotal(order.orderData, taxBehavior);
 	const subtotal =
 		apiSubtotal !== null
@@ -69,14 +69,14 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
 
 	const shippingCost = orderDisplayShipping(order.orderData, taxBehavior);
 
-	// An inclusive store's prices already hold the tax, so it is stated rather than added.
+	// 含税店铺的商品价格已经包含税费，因此在此声明税额而非再次相加。
 	const includedTax =
 		taxBehavior === "inclusive" && order.orderData.totalTax
 			? BigInt(Math.round(order.orderData.totalTax))
 			: null;
 
-	// Only an exclusive store adds tax on top of what it displayed; an inclusive one has
-	// it inside the subtotal already.
+	// 仅未税（exclusive）店铺会在展示价格之上额外加税；含税店铺
+	// 的税费已经包含在小计中。
 	const taxAmount =
 		taxBehavior === "exclusive" && order.orderData.totalTax
 			? BigInt(Math.round(order.orderData.totalTax))
@@ -97,7 +97,7 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
 						createdAt: order.createdAt,
 						currency,
 						value: minorUnitsToMajor({ amount: total, currency }),
-						// Gross unit prices and `sku || variant id`, as in the product feeds and the ad funnel.
+						// 含税单价和 `sku || variant id`，与商品 feed 及广告漏斗保持一致。
 						items: lineItems.map((item) => ({
 							id: item.productVariant.sku || item.productVariant.id,
 							name: item.productVariant.product.name,
@@ -111,7 +111,7 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
 					}}
 				/>
 			)}
-			{/* Success Header */}
+			{/* 支付成功页面头部 */}
 			<div className="text-center mb-10">
 				<div className="flex justify-center mb-4">
 					<div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
@@ -127,8 +127,8 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
 				)}
 			</div>
 
-			{/* Courses (dormant: only an order that grants a course has any). Older platform versions
-			    don't send the field, so it may be missing at runtime. */}
+			{/* 课程交付（静默：仅当订单包含课程权限时展示）。
+			    旧版本平台不会下发该字段，因此运行时可能不存在。 */}
 			{courses.length > 0 && (
 				<div className="mb-10 rounded-lg border border-border p-6 text-center">
 					<h2 className="font-medium">
@@ -147,7 +147,7 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
 				</div>
 			)}
 
-			{/* Order Items */}
+			{/* 订单商品清单 */}
 			<div className="border border-border rounded-lg overflow-hidden">
 				<div className="bg-secondary/50 px-6 py-4 border-b border-border">
 					<h2 className="font-medium">Order Items</h2>
@@ -158,7 +158,7 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
 					))}
 				</div>
 
-				{/* Order Summary */}
+				{/* 费用明细汇总 */}
 				<div className="bg-secondary/30 px-6 py-4 space-y-2">
 					<div className="flex items-center justify-between text-sm">
 						<span className="text-muted-foreground">Subtotal</span>
@@ -189,7 +189,7 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
 				</div>
 			</div>
 
-			{/* Shipping Address */}
+			{/* 配送地址 */}
 			{shippingAddress && (
 				<div className="border border-border rounded-lg overflow-hidden mt-6">
 					<div className="bg-secondary/50 px-6 py-4 border-b border-border">
@@ -209,7 +209,7 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
 				</div>
 			)}
 
-			{/* Continue Shopping Button */}
+			{/* 继续购物按钮 */}
 			<div className="mt-8 text-center">
 				<Link href="/" className={buttonVariants()}>
 					Continue Shopping
@@ -219,8 +219,8 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
 	);
 };
 
-// Taken from the API type rather than restated: the line item's variant carries the gross twins
-// (`priceGross`, `calculatedPriceGross`, …) that `displayPrice` picks from.
+// 直接引用 API 类型而非重新声明：行项目的变体携带了含税毛额对应项
+// （`priceGross`、`calculatedPriceGross` 等），`displayPrice` 会从中进行挑选。
 type OrderLineItem = APIOrderGetByIdResult["orderData"]["lineItems"][number];
 
 async function OrderItem({ item }: { item: OrderLineItem }) {
@@ -234,7 +234,7 @@ async function OrderItem({ item }: { item: OrderLineItem }) {
 
 	return (
 		<div className="flex gap-4 p-6">
-			{/* Product Image */}
+			{/* 商品图片 */}
 			<Link
 				href={`/product/${product.slug}`}
 				className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-secondary"
@@ -242,7 +242,7 @@ async function OrderItem({ item }: { item: OrderLineItem }) {
 				{image && <YNSMedia src={image} alt={product.name} fill className="object-cover" sizes="80px" />}
 			</Link>
 
-			{/* Product Details */}
+			{/* 商品详情 */}
 			<div className="flex min-w-0 flex-1 flex-col justify-between">
 				<div>
 					<Link

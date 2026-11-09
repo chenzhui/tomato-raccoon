@@ -12,7 +12,7 @@ type QuickAddButtonProps = {
 	variantId: string;
 	variantSku?: string | null;
 	variantPrice: string;
-	/** Gross twin of `variantPrice`, so the optimistic cart line matches the store's tax behaviour. */
+	/** `variantPrice` 对应的含税总价，使乐观更新的购物车行项目与商店的税费行为保持一致。 */
 	variantPriceGross?: string | null;
 	variantImages: string[];
 	product: {
@@ -41,9 +41,9 @@ export function QuickAddButton({
 
 		openCart();
 
-		// Instant local feedback OUTSIDE the transition, then REPLACE with the
-		// server-returned cart (never refetch — cartGet reads a replica that can lag the
-		// write). The transition keeps Checkout disabled until the write lands.
+		// 在 transition 之外提供即时的本地反馈，然后使用服务端返回的购物车进行替换
+		// （切勿重新获取 —— cartGet 读取的副本可能会滞后于写入）。
+		// 在写入完成之前，transition 会保持结账按钮处于禁用状态。
 		dispatch({
 			type: "ADD_ITEM",
 			item: {
@@ -59,8 +59,8 @@ export function QuickAddButton({
 		});
 
 		startMutation(async () => {
-			// The server clamps to available stock and still returns the cart — surface
-			// the failure instead of letting the optimistic item silently vanish.
+			// 服务端会限制在可用库存范围内并仍然返回购物车 —— 显示失败提示，
+			// 而不是让乐观更新的商品静默消失。
 			const result = await addToCart(variantId, 1);
 			const line = result.cart?.lineItems.find((item) => itemKey(item) === lineKey(variantId));
 			if (result.success && result.cart && line) {

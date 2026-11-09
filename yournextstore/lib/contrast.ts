@@ -1,30 +1,28 @@
 /**
- * WCAG contrast maths over the design tokens in `app/globals.css`.
+ * 基于 `app/globals.css` 中设计令牌（design tokens）的 WCAG 对比度算法。
  *
- * Small on purpose: enough CSS colour syntax to read our own palette (`#hex`,
- * `rgb()`, `hsl()`, `oklch()` and `var()` chains) and nothing more. Anything it
- * cannot parse returns `null` so a caller can fail loudly instead of quietly
- * skipping a token it does not understand.
+ * 特意保持精简：仅包含足以读取我们自身调色板的 CSS 颜色语法（`#hex`、
+ * `rgb()`、`hsl()`、`oklch()` 以及 `var()` 链），无多余内容。任何无法
+ * 解析的内容均返回 `null`，以便调用方能明确报错，而不是静默跳过其无法理解的令牌。
  */
 
 export type Rgb = { r: number; g: number; b: number; a: number };
 
-/** The colour syntaxes `resolveColor` understands — quoted in test failures. */
+/** `resolveColor` 支持的颜色语法 —— 在测试失败信息中引用。 */
 export const SUPPORTED_SYNTAXES =
 	"#rgb, #rrggbb, #rrggbbaa, rgb()/rgba(), hsl()/hsla(), oklch(L C H [/ a]), var(--token)";
 
 const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
 
 /**
- * Custom properties of the first `selector { … }` block in `css`.
+ * `css` 中第一个 `selector { … }` 代码块的自定义属性。
  *
- * Brace-matched rather than regex-sliced: `@theme inline { … }` and nested
- * at-rules sit between the blocks we care about, and a lazy `{[^}]*}` stops at
- * the first inner brace.
+ * 使用大括号匹配而非正则表达式截取：`@theme inline { … }` 与嵌套的
+ * at-rule 会夹在我们关心的代码块之间，而简单的非贪婪 `{[^}]*}` 会在遇到第一个内部右大括号时提前停止。
  */
 export const parseCssBlock = (css: string, selector: string) => {
-	// Match the selector only where it opens a rule: `.dark` also appears inside
-	// `@custom-variant dark (&:is(.dark *))`, which is not a block.
+	// 仅在选择器开启一条规则时进行匹配：`.dark` 还会出现在
+	// `@custom-variant dark (&:is(.dark *))` 中，而那并不是一个代码块。
 	const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 	const header = css.match(new RegExp(`(?:^|[};])\\s*${escaped}\\s*\\{`, "m"));
 	if (header?.index === undefined) return null;
@@ -44,8 +42,7 @@ export const parseCssBlock = (css: string, selector: string) => {
 	);
 	if (scan.end === -1) return null;
 
-	// Comments and nested blocks (`@media { … }`) are dropped so only the block's
-	// own declarations are read.
+	// 注释与嵌套块（如 `@media { … }`）会被丢弃，仅读取该块自身的声明。
 	const declarations = rest
 		.slice(1, scan.end)
 		.replace(/\/\*[\s\S]*?\*\//g, "")
@@ -84,7 +81,7 @@ const parseHex = (value: string) => {
 	return null;
 };
 
-/** `12`, `50%` or `none` → a number; `%` is divided by `scale`. */
+/** `12`、`50%` 或 `none` → 数字；`%` 会除以 `scale`。 */
 const parseComponent = (raw: string, scale: number) => {
 	if (raw === "none") return 0;
 	const percent = raw.endsWith("%");
@@ -93,14 +90,14 @@ const parseComponent = (raw: string, scale: number) => {
 	return percent ? (value / 100) * scale : value;
 };
 
-/** Alpha as `0–1`, accepting `0.5` or `50%`. */
+/** 透明度 Alpha 表示为 `0–1`，支持 `0.5` 或 `50%`。 */
 const parseAlpha = (raw: string | undefined) => {
 	if (raw === undefined) return 1;
 	const value = parseComponent(raw, 1);
 	return value === null ? null : clamp01(value);
 };
 
-/** `rgb(1 2 3 / 50%)`, `rgb(1, 2, 3)`, `hsl(0 0% 100%)` … → its arguments. */
+/** `rgb(1 2 3 / 50%)`、`rgb(1, 2, 3)`、`hsl(0 0% 100%)` … → 提取其参数。 */
 const parseFunction = (value: string, name: string) => {
 	const match = value.match(new RegExp(`^${name}a?\\(([^)]*)\\)$`, "i"));
 	if (!match?.[1]) return null;
@@ -161,7 +158,7 @@ const parseHsl = (value: string) => {
 const gamma = (channel: number) =>
 	channel <= 0.0031308 ? channel * 12.92 : 1.055 * channel ** (1 / 2.4) - 0.055;
 
-/** OKLab → sRGB, Björn Ottosson's matrices; out-of-gamut results are clamped. */
+/** OKLab → sRGB，采用 Björn Ottosson 转换矩阵；超出色域的结果将被截断约束。 */
 const oklabToRgb = (L: number, aLab: number, bLab: number) => {
 	const l = (L + 0.3963377774 * aLab + 0.2158037573 * bLab) ** 3;
 	const m = (L - 0.1055613458 * aLab - 0.0638541728 * bLab) ** 3;
@@ -178,7 +175,7 @@ const parseOklch = (value: string) => {
 	if (!parsed) return null;
 	const [rawL, rawC, rawH, inlineAlpha] = parsed.args;
 	if (rawL === undefined || rawC === undefined || rawH === undefined) return null;
-	// Lightness is 0–1 or a percentage of it; chroma is absolute; hue is degrees.
+	// 亮度为 0–1 或其百分比；色度（chroma）为绝对值；色相（hue）为角度（度数）。
 	const L = parseComponent(rawL, 1);
 	const c = parseComponent(rawC, 0.4);
 	const h = parseComponent(rawH.replace(/deg$/i, ""), 360);
@@ -196,15 +193,15 @@ const parseValue = (value: string): Rgb | null => {
 	if (/^rgba?\(/i.test(trimmed)) return parseRgb(trimmed);
 	if (/^hsla?\(/i.test(trimmed)) return parseHsl(trimmed);
 	if (/^oklch\(/i.test(trimmed)) return parseOklch(trimmed);
-	// color-mix(), light-dark(), colour keywords, … — deliberately unsupported.
+	// color-mix()、light-dark()、颜色关键字等 —— 刻意不予支持。
 	return null;
 };
 
 const MAX_VAR_HOPS = 10;
 
 /**
- * Resolve a token to sRGB, following `var(--x)` chains (and their fallbacks).
- * `null` means "not a colour this module can read" — never "transparent".
+ * 将令牌解析为 sRGB，追踪 `var(--x)` 链（及其回退值）。
+ * 返回 `null` 表示“不是此模块可读取的颜色” —— 绝非代表“透明”。
  */
 export const resolveColor = (name: string, tokens: Record<string, string>): Rgb | null => {
 	const seed = tokens[name];
@@ -220,7 +217,7 @@ export const resolveColor = (name: string, tokens: Record<string, string>): Rgb 
 	return value === null ? null : parseValue(value);
 };
 
-/** Flatten a translucent foreground over an opaque background. */
+/** 将半透明前景色合成压平到不透明背景色上。 */
 export const composite = (fg: Rgb, bg: Rgb): Rgb => ({
 	r: fg.r * fg.a + bg.r * (1 - fg.a),
 	g: fg.g * fg.a + bg.g * (1 - fg.a),
@@ -231,11 +228,11 @@ export const composite = (fg: Rgb, bg: Rgb): Rgb => ({
 const linearize = (channel: number) =>
 	channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
 
-/** WCAG 2.x relative luminance. */
+/** WCAG 2.x 相对亮度。 */
 export const relativeLuminance = ({ r, g, b }: Rgb) =>
 	0.2126 * linearize(r) + 0.7152 * linearize(g) + 0.0722 * linearize(b);
 
-/** WCAG contrast ratio, 1–21. Translucent colours are composited over the other one. */
+/** WCAG 对比度，范围 1–21。半透明颜色会先合成到底色上再计算。 */
 export const contrastRatio = (a: Rgb, b: Rgb) => {
 	const flatB = b.a < 1 ? composite(b, { r: 1, g: 1, b: 1, a: 1 }) : b;
 	const flatA = a.a < 1 ? composite(a, flatB) : a;

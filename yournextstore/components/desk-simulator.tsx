@@ -18,7 +18,7 @@ export function DeskSimulator() {
 	const [addedSuccess, setAddedSuccess] = useState<boolean>(false);
 	const [activeTab, setActiveTab] = useState<"code" | "terminal">("code");
 
-	// Positions for standees on the virtual desk
+	// 虚拟桌面上立牌的位置
 	const [positions, setPositions] = useState<Record<string, { x: number; y: number }>>({
 		"whale-chan": { x: 18, y: 35 },
 		"sonnet-tan": { x: 38, y: 28 },
@@ -29,7 +29,7 @@ export function DeskSimulator() {
 
 	const activeChar = AI_CHARACTERS.find((c) => c.key === selectedKey) || AI_CHARACTERS[0];
 
-	// Play satisfying geek synth chime
+	// 播放清脆的极客合成器提示音
 	const playVoiceEffect = (char: AICharacter) => {
 		if (!soundEnabled) return;
 		setIsPlayingAudio(true);
@@ -38,7 +38,7 @@ export function DeskSimulator() {
 			const osc = ctx.createOscillator();
 			const gain = ctx.createGain();
 
-			// Character tone pitch
+			// 角色的音调音高
 			let freq = 520;
 			if (char.key === "whale-chan") freq = 587.33; // D5
 			if (char.key === "sonnet-tan") freq = 659.25; // E5
@@ -60,7 +60,7 @@ export function DeskSimulator() {
 			osc.start();
 			osc.stop(ctx.currentTime + 0.4);
 
-			// Speech synthesis backup for voice reading
+			// 用于语音朗读的语音合成后备方案
 			if ("speechSynthesis" in window) {
 				window.speechSynthesis.cancel();
 				const utterance = new SpeechSynthesisUtterance(char.quote);
@@ -70,7 +70,7 @@ export function DeskSimulator() {
 				window.speechSynthesis.speak(utterance);
 			}
 		} catch (e) {
-			// silent fallback
+			// 静默降级处理
 		}
 		setTimeout(() => setIsPlayingAudio(false), 800);
 	};
@@ -104,7 +104,7 @@ export function DeskSimulator() {
 	const handleAddBundleToCart = async () => {
 		setIsAddingToCart(true);
 		try {
-			// Call API or set cookie
+			// 调用 API 或设置 Cookie
 			const res = await fetch("/api/cart/add-bundle", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
@@ -121,11 +121,11 @@ export function DeskSimulator() {
 
 	return (
 		<div className="relative w-full overflow-hidden rounded-3xl border border-cyan-500/20 bg-linear-to-b from-[#0a0d14] via-[#0f1422] to-[#080b11] p-4 sm:p-8 shadow-2xl shadow-cyan-950/40">
-			{/* Ambient Glowing Gradients */}
+			{/* 环境发光渐变 */}
 			<div className="absolute top-0 left-1/4 h-72 w-96 rounded-full bg-cyan-500/10 blur-[120px] pointer-events-none" />
 			<div className="absolute top-1/3 right-1/4 h-72 w-96 rounded-full bg-violet-600/15 blur-[130px] pointer-events-none" />
 
-			{/* Simulator Header */}
+			{/* 模拟器顶部标题栏 */}
 			<div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
 				<div>
 					<div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-2">
@@ -184,9 +184,9 @@ export function DeskSimulator() {
 				</div>
 			</div>
 
-			{/* Virtual Desk Canvas */}
+			{/* 虚拟桌面画布 */}
 			<div className="relative w-full h-[460px] sm:h-[540px] rounded-2xl border border-slate-800 bg-[#07090e] overflow-hidden select-none">
-				{/* Background Grid Pattern */}
+				{/* 背景网格纹理 */}
 				<div
 					className="absolute inset-0 opacity-15"
 					style={{
@@ -197,9 +197,9 @@ export function DeskSimulator() {
 					}}
 				/>
 
-				{/* Monitor in the Background */}
+				{/* 背景中的显示器 */}
 				<div className="absolute top-4 left-1/2 -translate-x-1/2 w-[92%] sm:w-[740px] h-[220px] sm:h-[260px] rounded-t-xl border-t-4 border-x-4 border-slate-700 bg-slate-950 shadow-2xl overflow-hidden">
-					{/* Monitor Bezel Header */}
+					{/* 显示器边框标题栏 */}
 					<div className="flex items-center justify-between px-3 py-1.5 bg-slate-900 border-b border-slate-800 text-[11px] font-mono text-slate-400">
 						<div className="flex items-center gap-1.5">
 							<div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
@@ -213,7 +213,7 @@ export function DeskSimulator() {
 						</div>
 					</div>
 
-					{/* Monitor Content Screen */}
+					{/* 显示器屏幕内容 */}
 					<div className="p-4 font-mono text-xs text-slate-300 space-y-1.5 leading-relaxed overflow-hidden">
 						{activeTab === "code" ? (
 							<>
@@ -241,7 +241,7 @@ export function DeskSimulator() {
 									buff: <span className="text-cyan-400">+100% Coding Morale</span>,
 								</p>
 								<p className="pl-4 text-emerald-400">
-									// Status: Ready to assist your 2:00 AM debugging session
+									// 状态：已准备就绪，随时陪伴你的凌晨 2:00 Debug 调试
 								</p>
 								<p>&#125;);</p>
 							</>
@@ -258,18 +258,18 @@ export function DeskSimulator() {
 					</div>
 				</div>
 
-				{/* Monitor Stand Base */}
+				{/* 显示器支架底座 */}
 				<div className="absolute top-[236px] sm:top-[276px] left-1/2 -translate-x-1/2 w-48 h-5 bg-linear-to-b from-slate-700 to-slate-900 rounded-sm shadow-md" />
 				<div className="absolute top-[241px] sm:top-[281px] left-1/2 -translate-x-1/2 w-32 h-16 bg-slate-800 border-x border-slate-700" />
 
-				{/* Desk Surface (Large RGB Mat) */}
+				{/* 桌面表面（大型 RGB 鼠标垫） */}
 				<div className="absolute bottom-0 inset-x-0 h-[260px] sm:h-[280px] bg-linear-to-t from-[#0e121d] via-[#121726] to-[#0a0d16] border-t-2 border-cyan-500/40 shadow-[0_-10px_30px_rgba(0,242,254,0.1)]">
-					{/* RGB Edge Lighting Tube */}
+					{/* RGB 边缘灯带 */}
 					<div className="absolute top-0 inset-x-0 h-1 bg-linear-to-r from-cyan-400 via-violet-500 to-pink-500 shadow-[0_0_15px_#00f2fe]" />
 
-					{/* Mechanical Keyboard On Desk */}
+					{/* 桌面上的机械键盘 */}
 					<div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[340px] sm:w-[480px] h-[110px] rounded-xl bg-slate-900/90 border border-slate-700/80 shadow-2xl p-2.5">
-						{/* Keycaps Grid Effect */}
+						{/* 键帽网格效果 */}
 						<div className="w-full h-full rounded-lg bg-slate-950/90 border border-slate-800 p-2 flex flex-col justify-between">
 							<div className="flex gap-1.5 justify-center">
 								{Array.from({ length: 14 }).map((_, i) => (
@@ -295,7 +295,7 @@ export function DeskSimulator() {
 						</div>
 					</div>
 
-					{/* Coffee Mug on the Left Desk */}
+					{/* 桌面左侧的咖啡杯 */}
 					<div className="absolute bottom-16 left-6 sm:left-12 flex flex-col items-center">
 						<div className="w-8 h-10 rounded-b-lg rounded-t-xs bg-linear-to-b from-slate-700 to-slate-900 border border-slate-600 shadow-lg relative">
 							<div className="absolute top-1 left-1 right-1 h-2 rounded-full bg-amber-950/90 border border-amber-900/50" />
@@ -304,13 +304,13 @@ export function DeskSimulator() {
 						<span className="text-[10px] font-mono text-slate-500 mt-1">Coffee</span>
 					</div>
 
-					{/* Wireless Mouse on the Right Desk */}
+					{/* 桌面右侧的无线鼠标 */}
 					<div className="absolute bottom-12 right-6 sm:right-14 w-8 h-12 rounded-2xl bg-linear-to-b from-slate-700 to-slate-900 border border-slate-600/80 shadow-lg">
 						<div className="w-1 h-3 rounded-full bg-cyan-400 mx-auto mt-2 animate-pulse" />
 					</div>
 				</div>
 
-				{/* Standees Rendered on the Desk */}
+				{/* 渲染在桌面上的立牌 */}
 				{AI_CHARACTERS.map((char) => {
 					const isActive = activeCharacters.includes(char.key);
 					const isSelected = selectedKey === char.key;
@@ -330,7 +330,7 @@ export function DeskSimulator() {
 								isSelected ? "scale-110 z-30" : "opacity-85 hover:opacity-100 hover:scale-105"
 							}`}
 						>
-							{/* Tsundere Speech Bubble above Selected Standee */}
+							{/* 选中立牌上方的傲娇气泡台词 */}
 							{isSelected && (
 								<div className="absolute -top-24 left-1/2 -translate-x-1/2 w-64 p-2.5 rounded-xl bg-slate-950/95 border border-cyan-400/60 shadow-[0_0_20px_rgba(0,242,254,0.35)] text-center animate-in fade-in zoom-in-90 duration-200 pointer-events-none">
 									<p className="text-[11px] font-medium text-cyan-200 leading-tight">
@@ -340,19 +340,19 @@ export function DeskSimulator() {
 										<span className="text-cyan-400 font-bold">{char.name}</span>
 										<span>· {char.edition}</span>
 									</div>
-									{/* Bubble Tail */}
+									{/* 气泡尾巴 */}
 									<div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3 h-3 bg-slate-950 border-r border-b border-cyan-400/60 rotate-45" />
 								</div>
 							)}
 
-							{/* Standee Body (Acrylic Double Layer Look) */}
+							{/* 立牌主体（双层亚克力质感） */}
 							<div className="relative flex flex-col items-center">
-								{/* Selection Halo */}
+								{/* 选中光环 */}
 								{isSelected && (
 									<div className="absolute inset-0 rounded-full bg-cyan-400/20 blur-xl animate-pulse pointer-events-none" />
 								)}
 
-								{/* Character Image */}
+								{/* 角色立绘 */}
 								<div className="relative w-28 h-28 sm:w-36 sm:h-36 drop-shadow-[0_12px_15px_rgba(0,0,0,0.8)] transition-transform duration-200 group-hover:-translate-y-1">
 									<Image
 										src={char.fullImage}
@@ -364,7 +364,7 @@ export function DeskSimulator() {
 									/>
 								</div>
 
-								{/* Acrylic Cutout Base (Clear Standee Footing) */}
+								{/* 亚克力切割底座（透明立牌底座） */}
 								<div
 									className={`w-24 sm:w-28 h-4 rounded-full border-2 transition-all duration-300 shadow-lg ${
 										isSelected
@@ -378,7 +378,7 @@ export function DeskSimulator() {
 				})}
 			</div>
 
-			{/* Character Switcher Tray (Bottom Controller) */}
+			{/* 角色切换托盘（底部控制器） */}
 			<div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
 				<div className="flex flex-wrap items-center gap-2">
 					<span className="text-xs font-mono text-slate-400 mr-1 hidden sm:inline">Waifu Pool:</span>
@@ -398,13 +398,13 @@ export function DeskSimulator() {
 											: "border-slate-800 bg-slate-950/50 text-slate-500 hover:border-slate-700"
 								}`}
 							>
-								{/* Mini Avatar */}
+								{/* 迷你头像 */}
 								<div className="relative w-6 h-6 rounded-full overflow-hidden border border-slate-700">
 									<Image src={char.badgeImage} alt={char.name} fill sizes="24px" className="object-cover" />
 								</div>
 								<span>{char.name}</span>
 
-								{/* Desk Toggle Checkmark */}
+								{/* 桌面放置切换勾选标记 */}
 								<div
 									onClick={(e) => toggleCharacterOnDesk(char.key, e)}
 									title={isOnDesk ? "Remove from Desk" : "Place on Desk"}
@@ -421,7 +421,7 @@ export function DeskSimulator() {
 					})}
 				</div>
 
-				{/* High Conversion Bundle Hook */}
+				{/* 高转化捆绑包引导按钮 */}
 				<button
 					onClick={handleAddBundleToCart}
 					disabled={isAddingToCart}
@@ -442,7 +442,7 @@ export function DeskSimulator() {
 				</button>
 			</div>
 
-			{/* Trust Assurance Bar */}
+			{/* 信任保障栏 */}
 			<div className="mt-4 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400">
 				<div className="flex items-center gap-2">
 					<ShieldCheck className="w-4 h-4 text-cyan-400" />

@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 	robots: { index: false, follow: false },
 };
 
-// The delivered-order email links each bought product here with the order's review token
-// (`/product/<id>/review?token=…`); the platform checks the token again when the form is sent.
+// 订单送达邮件会将每件购买的商品链接到此处，并附带订单的评价 token
+// （`/product/<id>/review?token=…`）；表单提交时平台会再次验证该 token。
 export default function ProductReviewPage(props: PageProps<"/product/[slug]/review">) {
 	return (
 		<div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">

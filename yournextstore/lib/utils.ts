@@ -14,7 +14,7 @@ export function isVideoUrl(url: string): boolean {
 	}
 }
 
-/** Returns the first non-video URL from a media array — useful for thumbnails, OG images, and emails. */
+/** 从媒体数组中返回第一个非视频 URL —— 适用于缩略图、OG 分享图和邮件内容。 */
 export const getProductThumbnail = (urls: string[]): string | undefined => {
 	return urls.find((url) => !isVideoUrl(url));
 };

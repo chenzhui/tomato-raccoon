@@ -1,11 +1,11 @@
 import { expect, test } from "bun:test";
 
-// lib/commerce asserts YNS_API_KEY at import time — stub it before the dynamic import.
+// lib/commerce 在导入时会断言检查 YNS_API_KEY —— 在动态导入前将其存根（stub）。
 process.env.YNS_API_KEY ??= "test-key";
 
 const { default: robots } = await import("@/app/robots");
 
-// Google's matching: a rule matches from the start of the path and query, and `*` stands for any run of characters.
+// Google 的匹配规则：规则从路径和查询参数的开头开始匹配，`*` 代表任意字符序列。
 const matches = (rule: string, url: string) =>
 	new RegExp(`^${rule.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replaceAll("*", ".*")}`).test(url);
 

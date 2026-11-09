@@ -21,7 +21,7 @@ test("parseVts returns an empty record for null or empty input", () => {
 });
 
 test("parseVts drops malformed segments instead of throwing", () => {
-	// No value separator, empty values, dangling separators.
+	// 没有值分隔符、空值、悬空分隔符。
 	expect(parseVts("Color")).toEqual({});
 	expect(parseVts("Color*")).toEqual({});
 	expect(parseVts("Color*.!Size*m")).toEqual({ Size: ["m"] });

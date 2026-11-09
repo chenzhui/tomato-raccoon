@@ -79,7 +79,7 @@ export default function ReturnsPage() {
 				throw new Error(data.message || "Failed to submit request");
 			}
 		} catch (err: any) {
-			// Fallback success confirmation
+			// 兜底成功确认状态
 			setSuccessTicket({
 				ticketId: `RMA-${Math.floor(100000 + Math.random() * 900000)}`,
 				orderNumber: formData.orderNumber,
@@ -113,7 +113,7 @@ export default function ReturnsPage() {
 					</p>
 				</div>
 
-				{/* Peel Film Notice Banner */}
+				{/* 撕膜提醒横幅提示 */}
 				<div className="p-4 rounded-xl border border-amber-500/40 bg-amber-950/30 flex items-start gap-3 text-xs text-amber-200">
 					<HelpCircle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
 					<div className="space-y-1">
@@ -125,7 +125,7 @@ export default function ReturnsPage() {
 				</div>
 
 				{successTicket ? (
-					/* Success Confirmation State */
+					/* 提交成功确认状态 */
 					<div className="p-8 rounded-2xl border border-emerald-500/40 bg-emerald-950/20 text-center space-y-6">
 						<div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
 							<CheckCircle2 className="w-8 h-8" />
@@ -155,7 +155,7 @@ export default function ReturnsPage() {
 						</div>
 					</div>
 				) : (
-					/* Return Submission Form */
+					/* 退换货售后申请表单 */
 					<form
 						onSubmit={handleSubmit}
 						className="p-6 sm:p-8 rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl space-y-6"
@@ -189,7 +189,7 @@ export default function ReturnsPage() {
 							</div>
 						</div>
 
-						{/* Issue Category */}
+						{/* 问题类别选择 */}
 						<div>
 							<label className="block text-xs font-medium text-slate-300 mb-1.5">
 								Reason for Claim <span className="text-cyan-400">*</span>
@@ -207,7 +207,7 @@ export default function ReturnsPage() {
 							</select>
 						</div>
 
-						{/* Desired Resolution */}
+						{/* 期望的解决方式 */}
 						<div>
 							<label className="block text-xs font-medium text-slate-300 mb-2">
 								Preferred Resolution <span className="text-cyan-400">*</span>
@@ -262,7 +262,7 @@ export default function ReturnsPage() {
 							</div>
 						</div>
 
-						{/* Photo Upload Area */}
+						{/* 破损照片凭证上传区 */}
 						<div>
 							<label className="block text-xs font-medium text-slate-300 mb-1.5">
 								Photo of Defect / Broken Standee <span className="text-cyan-400">*</span>
@@ -299,7 +299,7 @@ export default function ReturnsPage() {
 							</div>
 						</div>
 
-						{/* Additional Details */}
+						{/* 补充详情说明 */}
 						<div>
 							<label className="block text-xs font-medium text-slate-300 mb-1.5">
 								Additional Description

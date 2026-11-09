@@ -5,13 +5,13 @@ import { commerce } from "@/lib/commerce";
 
 type FullProduct = NonNullable<APIProductGetByIdResult>;
 
-/** Narrow to the featured variant (its price, image, quick-add); unknown ids keep the full product. */
+/** 仅保留指定的推荐变体（其价格、图片、快速添加）；未知 id 则保留完整商品的全部变体。 */
 const featuredVariantOnly = (product: FullProduct, variantId: string | undefined): FullProduct => {
 	const variant = variantId ? product.variants.find((v) => v.id === variantId) : undefined;
 	return variant ? { ...product, variants: [variant] } : product;
 };
 
-/** The editor stores product ids (plus an optional productId → variantId map); the storefront resolves them. */
+/** 编辑器存储商品 id（以及可选的 productId → variantId 映射）；店面前端对其进行解析。 */
 export async function BlogProductEmbed({
 	productIds,
 	variantIds = {},

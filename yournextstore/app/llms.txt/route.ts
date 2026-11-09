@@ -14,8 +14,8 @@ export async function GET() {
 	});
 }
 
-// Cached, so llms.txt is prerendered instead of browsing the catalog on every hit. A cache
-// entry can't hold a Response, so this returns the text and GET wraps it.
+// 已缓存，因此 llms.txt 是预渲染的，而不是在每次请求时都去遍历商品目录。
+// 缓存项中不能直接保存 Response 实例，因此本函数返回文本，由 GET 函数进行包装。
 async function getLlmsTxt() {
 	"use cache";
 	cacheLife("hours");

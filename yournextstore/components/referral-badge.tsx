@@ -16,7 +16,7 @@ export async function ReferralBadge({ docked = false }: { docked?: boolean }) {
 			target="_blank"
 			rel="noopener noreferrer"
 			className={cn(
-				// Docked: positioned by the store-chat dock next to the launcher instead of pinning itself.
+				// 停靠模式（Docked）：由 store-chat 停靠区定位在启动器旁边，而不是自身固定在页面右下角。
 				docked ? "flex" : "fixed bottom-4 right-4 z-40 flex",
 				"items-center gap-1.5 px-3 py-1.5 bg-background/90 backdrop-blur-sm border border-border rounded-md shadow-sm text-xs font-medium text-muted-foreground transition-all duration-200 hover:shadow-md hover:scale-101 no-underline",
 			)}

@@ -4,11 +4,11 @@ import { createContext, useContext } from "react";
 import { CURRENCY, LOCALE } from "@/lib/constants";
 import type { TaxBehavior } from "@/lib/pricing";
 
-// `language` is the storefront's default language as the platform spells it (e.g. "pl-PL"), or null
-// for a store that never set one; `locale` is what prices and dates format in.
+// `language` 是店面默认语言的平台表示形式（例如 "pl-PL"），若商店从未设置则为 null；
+// `locale` 是价格和日期格式化所使用的语言区域。
 type StoreConfig = { currency: string; locale: string; language: string | null; taxBehavior: TaxBehavior };
 
-// Fallback constants only apply when a component renders outside the provider (tests, isolated previews).
+// 降级常量仅在组件于 Provider 外部渲染时生效（如测试、隔离的预览等）。
 const StoreConfigContext = createContext<StoreConfig>({
 	currency: CURRENCY,
 	locale: LOCALE,

@@ -26,32 +26,32 @@ type MediaGalleryProps = {
 	images: string[];
 	productName: string;
 	variants: Variant[];
-	/** Blurred preview of the first image (lib/blur-placeholder.ts), shown until the photo loads. */
+	/** 首张图片的高斯模糊预览图（参见 lib/blur-placeholder.ts），在照片完全加载前展示。 */
 	preview?: BlurPreview | null;
 };
 
 export function MediaGallery({ images, productName, variants, preview = null }: MediaGalleryProps) {
 	const searchParams = useUrlQuery();
 
-	// The gallery always shows the full image set (product + every variant image). When a
-	// variant is selected we don't filter the list — that would hide the other thumbnails —
-	// we just jump the active image to that variant's first photo within the full gallery.
+	// 画廊始终展示完整的图片集（商品主图 + 所有变体图片）。当选中某个
+	// 变体时，我们不筛选列表 —— 否则会隐藏其他缩略图 ——
+	// 而是直接将画廊当前激活的大图跳转至该变体在全量画廊中的首张照片。
 	const displayImages = images;
 
 	const selectedVariant = useSelectedVariant(variants);
 
-	// Only variants with real combinations drive the gallery jump.
+	// 只有具备真实组合规格（combinations）的变体才会触发画廊图片跳转。
 	const firstVariantImage =
 		selectedVariant && selectedVariant.combinations.length > 0 ? selectedVariant.images[0] : undefined;
 	const variantImageIndex = firstVariantImage ? Math.max(images.indexOf(firstVariantImage), 0) : 0;
 
-	// Start on the selected variant's photo when the query is already known (a client navigation into the page);
-	// after a full load the query arrives with hydration and the jump below picks it up.
+	// 当 query 参数已知时（客户端页面内导航跳转），首屏直接停在选中变体的照片；
+	// 页面完整刷新加载时，query 会随水合过程到达，由下方的跳转逻辑捕获处理。
 	const [selectedIndex, setSelectedIndex] = useState(variantImageIndex);
 	const [isZoomed, setIsZoomed] = useState(false);
 
-	// Jump to the selected variant's image when the query changes (avoids useEffect). The previous key lives in
-	// state, not a ref, so a render React discards can't move it without the index update.
+	// 当 query 参数改变时直接跳转至选中变体的图片（避免使用 useEffect 带来的二次渲染）。
+	// 前一个 key 保存在 state 而非 ref 中，使得被 React 放弃的渲染无法在未更新 index 的情况下修改 key。
 	const searchParamsKey = searchParams.toString();
 	const [prevSearchParamsKey, setPrevSearchParamsKey] = useState(searchParamsKey);
 	if (prevSearchParamsKey !== searchParamsKey) {
@@ -67,7 +67,7 @@ export function MediaGallery({ images, productName, variants, preview = null }: 
 		setSelectedIndex((prev) => (prev === displayImages.length - 1 ? 0 : prev + 1));
 	};
 
-	// Keyboard navigation: ArrowLeft / ArrowRight (scoped to gallery container)
+	// 键盘导航：ArrowLeft / ArrowRight（作用域限定在画廊容器内）
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (displayImages.length <= 1) return;
 
@@ -91,14 +91,14 @@ export function MediaGallery({ images, productName, variants, preview = null }: 
 	}
 
 	return (
-		// WAI-APG carousel: a named region; arrow keys bubble up from the focusable controls inside.
+		// WAI-APG 轮播组件无障碍规范：命名区域；方向键由内部可聚焦控件冒泡处理。
 		<section
 			aria-roledescription="carousel"
 			aria-label="Product media gallery"
 			onKeyDown={handleKeyDown}
 			className="flex flex-col gap-4 outline-none lg:sticky lg:top-24 lg:self-start"
 		>
-			{/* Main Image */}
+			{/* 主图展示区 */}
 			<div className="group relative aspect-square overflow-hidden rounded-2xl bg-secondary">
 				{isVideoUrl(displayImages[selectedIndex] ?? "") ? (
 					<video
@@ -116,7 +116,7 @@ export function MediaGallery({ images, productName, variants, preview = null }: 
 						preview={preview}
 						alt={`${productName} - View ${selectedIndex + 1}`}
 						fill
-						// Half of the max-w-7xl (1280 px) container on desktop, not half of any viewport width.
+						// 在桌面端占据 max-w-7xl（1280 px）容器的一半宽度，而不是视口宽度的一半。
 						sizes="(max-width: 1024px) 100vw, min(50vw, 640px)"
 						className={cn(
 							"object-cover transition-transform duration-500",
@@ -128,7 +128,7 @@ export function MediaGallery({ images, productName, variants, preview = null }: 
 					/>
 				)}
 
-				{/* Navigation Arrows */}
+				{/* 导航切换箭头 */}
 				{displayImages.length > 1 && (
 					<div className="absolute inset-x-4 top-1/2 flex -translate-y-1/2 justify-between opacity-0 transition-opacity group-hover:opacity-100">
 						<Button
@@ -158,7 +158,7 @@ export function MediaGallery({ images, productName, variants, preview = null }: 
 					</div>
 				)}
 
-				{/* Zoom Indicator (hidden for videos) */}
+				{/* 放大提示标签（视频时隐藏） */}
 				{!isVideoUrl(displayImages[selectedIndex] ?? "") && (
 					<div className="absolute bottom-4 right-4 opacity-0 transition-opacity group-hover:opacity-100">
 						<div className="flex items-center gap-2 rounded-full bg-background/90 px-3 py-1.5 text-xs font-medium backdrop-blur-sm">
@@ -168,7 +168,7 @@ export function MediaGallery({ images, productName, variants, preview = null }: 
 					</div>
 				)}
 
-				{/* Image Counter */}
+				{/* 图片计数指示器 */}
 				{displayImages.length > 1 && (
 					<div className="absolute bottom-4 left-4 rounded-full bg-background/90 px-3 py-1.5 text-xs font-medium backdrop-blur-sm">
 						{selectedIndex + 1} / {displayImages.length}
@@ -176,7 +176,7 @@ export function MediaGallery({ images, productName, variants, preview = null }: 
 				)}
 			</div>
 
-			{/* Thumbnails */}
+			{/* 缩略图列表 */}
 			{displayImages.length > 1 && (
 				<div className="flex gap-3 overflow-x-auto p-2 -m-2">
 					{displayImages.map((image, index) => (

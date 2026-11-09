@@ -1,8 +1,8 @@
 import { CategoryView, categoryMetadata } from "@/app/category/[...slugs]/category-view";
 import { activeParams, CATEGORY_LISTING_PARAMS } from "@/lib/listing-routes";
 
-// `/category/…?…` with a filter or page number is rewritten here (lib/listing-routes.ts). The query is only known per
-// request, so the page renders in full then: a navigation keeps the current view until it is ready, with no skeleton.
+// 带有筛选条件或页码的 `/category/…?…` 会被重写到此处（参见 lib/listing-routes.ts）。由于 query 参数
+// 只有在请求时才能确定，因此页面在请求时完整渲染：导航跳转时会保持当前视图直至新内容就绪，无需骨架屏。
 export const instant = false;
 
 export async function generateMetadata(props: PageProps<"/category-filtered/[...slugs]">) {

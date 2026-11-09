@@ -1,7 +1,7 @@
 import { PaymentIcon, type PaymentMethodId } from "commerce-kit/payment-icons";
 import { cn } from "@/lib/utils";
 
-// Card checkout on Stripe takes these everywhere; stores list their local methods (BLIK, iDEAL, …) explicitly.
+// Stripe 银行卡结账在各地均支持这些方式；各商店可显式列出其本地支付方式（BLIK、iDEAL 等）。
 const DEFAULT_METHODS: PaymentMethodId[] = ["visa", "mastercard", "amex", "apple_pay", "google_pay"];
 
 export function PaymentMethods({

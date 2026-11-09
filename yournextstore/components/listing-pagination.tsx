@@ -32,7 +32,7 @@ function buildUrl(basePath: string, page: number, filters: Record<string, string
 	return params.size ? `${basePath}?${params}` : basePath;
 }
 
-/** Numbered pagination for product listing pages. Carries every active filter across page links. */
+/** 商品列表页的数字分页组件。在页面链接之间传递所有已启用的筛选参数。 */
 export function ListingPagination({
 	basePath,
 	currentPage,

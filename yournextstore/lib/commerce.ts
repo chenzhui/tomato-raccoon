@@ -4,7 +4,7 @@ import { try_ } from "safe-try";
 import { getMockProducts, AI_CHARACTERS, MOCK_REVIEWS } from "./mock-data";
 import { pool, ensureDbTables } from "./db";
 
-// In-memory cart store with persistence
+// 带持久化支持的内存购物车存储
 const cartMemoryStore = new Map<string, any>();
 
 function getOrCreateCart(cartId?: string) {
@@ -138,14 +138,14 @@ If your item arrives broken, cracked, or damaged, send a photo to support@aichan
 	},
 ];
 
-// Custom Fetch Interceptor that serves all Commerce SDK requests locally
+// 在本地处理所有 Commerce SDK 请求的自定义 Fetch 拦截器
 async function localCommerceFetch(url: string, init?: RequestInit): Promise<Response> {
 	await ensureDbTables();
 	const u = new URL(url);
 	const pathname = u.pathname;
 	const searchParams = u.searchParams;
 
-	// /api/v1/me
+	// /api/v1/me 店铺信息端点
 	if (pathname.includes("/me")) {
 		return new Response(
 			JSON.stringify({
@@ -173,7 +173,7 @@ async function localCommerceFetch(url: string, init?: RequestInit): Promise<Resp
 		);
 	}
 
-	// /api/v1/products/:id/related
+	// /api/v1/products/:id/related 关联商品端点
 	if (pathname.includes("/related")) {
 		const parts = pathname.split("/products/")[1]?.split("/related")[0] || "";
 		const products = getMockProducts().filter((p) => p.id !== parts && p.slug !== parts);
@@ -186,7 +186,7 @@ async function localCommerceFetch(url: string, init?: RequestInit): Promise<Resp
 		);
 	}
 
-	// /api/v1/products/filters
+	// /api/v1/products/filters 商品筛选器端点
 	if (pathname.includes("/filters")) {
 		return new Response(
 			JSON.stringify({
@@ -200,7 +200,7 @@ async function localCommerceFetch(url: string, init?: RequestInit): Promise<Resp
 		);
 	}
 
-	// /api/v1/products/:slugOrId
+	// /api/v1/products/:slugOrId 单个商品端点
 	if (pathname.includes("/products/")) {
 		const slugOrId = decodeURIComponent(pathname.split("/products/")[1]?.split("?")[0] || "");
 		const products = getMockProducts();
@@ -211,7 +211,7 @@ async function localCommerceFetch(url: string, init?: RequestInit): Promise<Resp
 		return new Response(JSON.stringify(p), { status: 200, headers: { "Content-Type": "application/json" } });
 	}
 
-	// /api/v1/products (browse)
+	// /api/v1/products (浏览商品)
 	if (pathname.endsWith("/products")) {
 		const products = getMockProducts();
 		return new Response(
@@ -223,7 +223,7 @@ async function localCommerceFetch(url: string, init?: RequestInit): Promise<Resp
 		);
 	}
 
-	// /api/v1/categories
+	// /api/v1/categories 商品分类端点
 	if (pathname.includes("/categories")) {
 		return new Response(
 			JSON.stringify({
@@ -234,14 +234,14 @@ async function localCommerceFetch(url: string, init?: RequestInit): Promise<Resp
 		);
 	}
 
-	// /api/v1/collections/:slugOrId
+	// /api/v1/collections/:slugOrId 单个合辑端点
 	if (pathname.includes("/collections/")) {
 		const slugOrId = decodeURIComponent(pathname.split("/collections/")[1]?.split("?")[0] || "");
 		const col = mockCollections.find((c) => c.slug === slugOrId || c.id === slugOrId) || mockCollections[0];
 		return new Response(JSON.stringify(col), { status: 200, headers: { "Content-Type": "application/json" } });
 	}
 
-	// /api/v1/collections
+	// /api/v1/collections 商品合辑端点
 	if (pathname.includes("/collections")) {
 		return new Response(
 			JSON.stringify({
@@ -252,7 +252,7 @@ async function localCommerceFetch(url: string, init?: RequestInit): Promise<Resp
 		);
 	}
 
-	// /api/v1/legal
+	// /api/v1/legal 法律条款页面端点
 	if (pathname.includes("/legal")) {
 		const parts = pathname.split("/legal/");
 		if (parts.length > 1 && parts[1]) {
@@ -270,7 +270,7 @@ async function localCommerceFetch(url: string, init?: RequestInit): Promise<Resp
 		);
 	}
 
-	// /api/v1/reviews
+	// /api/v1/reviews 商品评价端点
 	if (pathname.includes("/reviews")) {
 		return new Response(
 			JSON.stringify({
@@ -281,13 +281,13 @@ async function localCommerceFetch(url: string, init?: RequestInit): Promise<Resp
 		);
 	}
 
-	// Cart operations
+	// 购物车操作
 	if (pathname.includes("/cart")) {
 		const cart = getOrCreateCart("default");
 		return new Response(JSON.stringify(cart), { status: 200, headers: { "Content-Type": "application/json" } });
 	}
 
-	// Default fallback
+	// 默认回退处理
 	return new Response(JSON.stringify({ data: [], meta: { count: 0 } }), {
 		status: 200,
 		headers: { "Content-Type": "application/json" },
@@ -377,7 +377,7 @@ export const commerce = Object.assign(client, {
 				[cid, JSON.stringify(cart.lineItems)],
 			);
 		} catch (err) {
-			// silent fallback
+			// 静默降级回退
 		}
 
 		return cart;
@@ -439,7 +439,7 @@ export const commerce = Object.assign(client, {
 				};
 			}
 		} catch (e) {
-			// fallback
+			// 降级回退
 		}
 
 		const num = `AI-${Math.floor(100000 + Math.random() * 900000)}`;

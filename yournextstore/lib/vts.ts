@@ -1,5 +1,5 @@
-// `vts` wire encoding — kept in sync with the API route's parser:
-// `Type1*v1.v2!Type2*v3` (`!` between types, `*` between a type and its values, `.` between values).
+// `vts` 传输编码 —— 与 API 路由的解析器保持同步：
+// `Type1*v1.v2!Type2*v3`（类型之间用 `!` 分隔，类型与其值之间用 `*` 分隔，各值之间用 `.` 分隔）。
 const TYPES_SEPARATOR = "!";
 const TYPE_AND_VALUES_SEPARATOR = "*";
 const VALUES_SEPARATOR = ".";

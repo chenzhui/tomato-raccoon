@@ -32,7 +32,7 @@ test("displayPrice returns the gross price for an inclusive store", () => {
 });
 
 test("displayPrice falls back to net when the gross twin is missing", () => {
-	// Older API payloads (and nested shapes the API does not gross up) carry net only.
+	// 旧版 API 载荷（以及 API 尚未进行含税处理的嵌套结构）仅携带未税价格。
 	expect(displayPrice({ price: "999" }, "inclusive")).toBe("999");
 	expect(displayPrice({ price: "999", originalPrice: "1200" }, "inclusive", "originalPrice")).toBe("1200");
 });
@@ -54,7 +54,7 @@ test("displayAmount falls back to net when the gross twin is missing", () => {
 });
 
 test("displayAmount is null when there is no net amount", () => {
-	// A bundle priced by percentage carries neither fixed-price field.
+	// 按百分比定价的捆绑包不包含任何固定价格字段。
 	expect(displayAmount(null, null, "inclusive")).toBeNull();
 	expect(displayAmount(undefined, "1230", "inclusive")).toBeNull();
 	expect(displayAmount(null, null, "exclusive")).toBeNull();

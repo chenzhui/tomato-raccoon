@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 		const resolution = body.resolution || "replacement";
 		const details = body.details || "";
 
-		// Ensure returns table exists in PostgreSQL
+		// 确保 PostgreSQL 中存在售后工单退换货表（return_tickets）
 		try {
 			await pool.query(`
 				CREATE TABLE IF NOT EXISTS return_tickets (

@@ -8,7 +8,7 @@ export function UrgencyBadge({ stock = 4 }: { stock?: number }) {
 	const [stockLeft, setStockLeft] = useState<number>(stock > 0 ? stock : 4);
 
 	useEffect(() => {
-		// Slightly jitter viewers between 14 and 26 to simulate real live traffic
+		// 在 14 到 26 之间轻微波动在线人数以模拟真实的实时流量
 		const interval = setInterval(() => {
 			const jitter = Math.floor(14 + Math.random() * 12);
 			setViewersCount(jitter);
@@ -18,7 +18,7 @@ export function UrgencyBadge({ stock = 4 }: { stock?: number }) {
 
 	return (
 		<div className="space-y-3 my-4">
-			{/* Live Viewers Indicator */}
+			{/* 实时观看人数指示器 */}
 			<div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-orange-950/40 border border-orange-500/30 text-orange-300 text-xs font-medium">
 				<Flame className="w-4 h-4 text-orange-400 animate-pulse" />
 				<span>
@@ -26,7 +26,7 @@ export function UrgencyBadge({ stock = 4 }: { stock?: number }) {
 				</span>
 			</div>
 
-			{/* Low Stock Warning */}
+			{/* 库存紧张提示 */}
 			<div className="flex items-center justify-between p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-xs">
 				<div className="flex items-center gap-2 text-slate-300">
 					<Clock className="w-4 h-4 text-amber-400 shrink-0" />
@@ -67,7 +67,7 @@ export function VolumeUpsellSelector({
 			</div>
 
 			<div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-				{/* Tier 1: Single */}
+				{/* 档位 1：单件 */}
 				<div
 					onClick={() => handleSelect("single")}
 					className={`relative p-3.5 rounded-xl border cursor-pointer transition-all ${
@@ -83,7 +83,7 @@ export function VolumeUpsellSelector({
 					<p className="text-[11px] text-slate-400 mt-1">Standard 15cm standee</p>
 				</div>
 
-				{/* Tier 2: 3-Pack */}
+				{/* 档位 2：3 件装 */}
 				<div
 					onClick={() => handleSelect("trio")}
 					className={`relative p-3.5 rounded-xl border cursor-pointer transition-all ${
@@ -102,7 +102,7 @@ export function VolumeUpsellSelector({
 					<p className="text-[11px] text-emerald-400 mt-1">✓ Free Express Shipping</p>
 				</div>
 
-				{/* Tier 3: All 5 Bundle */}
+				{/* 档位 3：5 件全套捆绑包 */}
 				<div
 					onClick={() => handleSelect("bundle")}
 					className={`relative p-3.5 rounded-xl border cursor-pointer transition-all ${

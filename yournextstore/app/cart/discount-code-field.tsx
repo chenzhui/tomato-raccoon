@@ -13,7 +13,7 @@ type DiscountMutationResult =
 	| { success: true; cart: Cart | null | undefined }
 	| { success: false; error: string };
 
-/** Cart-drawer discount-code field: 44px controls, 16px input, inline results. */
+/** 购物车抽屉折扣码输入框：44px 操作按钮、16px 输入字体、行内展示结果。 */
 export function DiscountCodeField() {
 	const { currency, locale } = useStoreConfig();
 	const { cart, itemCount, syncCart, reconcile, isMutating, startMutation } = useCart();
@@ -24,7 +24,7 @@ export function DiscountCodeField() {
 
 	const applied = appliedCouponOf(cart, { currency, locale });
 
-	// Runs on the cart-wide transition, so Checkout waits for the re-priced cart.
+	// 在全购物车统一的 transition 中运行，使结账（Checkout）按钮等待重新计价后的购物车。
 	const run = (mutation: () => Promise<DiscountMutationResult>, onSuccess: () => void) => {
 		startMutation(async () => {
 			try {

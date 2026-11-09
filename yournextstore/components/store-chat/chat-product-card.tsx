@@ -24,16 +24,16 @@ export type ChatProduct = {
 		id: string;
 		sku: string | null;
 		label: string;
-		/** Net, minor units. */
+		/** 净价，最小货币单位。 */
 		price: number;
-		/** Gross twin; absent when the chat backend predates tax-behaviour-aware pricing. */
+		/** 对应的含税总价；若聊天后端早于感知税费行为的定价机制则可能缺失。 */
 		priceGross?: number | null;
 		inStock: boolean;
 		imageUrl: string | null;
 	}>;
 };
 
-/** Fire-and-forget analytics beacon to the platform chat route. */
+/** 向平台聊天路由发送的即发即弃式分析信标。 */
 const reportEvent = (payload: {
 	messageId: string;
 	type: "card_click" | "add_to_cart";
@@ -63,8 +63,8 @@ export function ChatProductCard({
 		product.variants.find((variant) => variant.inStock)?.id ?? product.variants[0]?.id,
 	);
 	const selectedVariant = product.variants.find((variant) => variant.id === selectedVariantId);
-	// The chat tool sends numbers, not the API's string price pair — normalise to the
-	// shape lib/pricing works with so the one display rule stays in one place.
+	// 聊天工具发送的是数字，而非 API 的字符串价格对 —— 将其规范化为
+	// lib/pricing 支持的格式，以便将统一的显示规则保持在一处。
 	const selectedPrices = selectedVariant
 		? {
 				price: String(selectedVariant.price),
@@ -80,8 +80,8 @@ export function ChatProductCard({
 			productId: product.productId,
 			variantId: selectedVariant.id,
 		});
-		// Same storefront analytics contract as QuickAddButton — a cart add from chat
-		// must reach the store's trackers like any other.
+		// 与 QuickAddButton 遵循相同的店面分析约定 —— 从聊天中加入购物车
+		// 必须像其他方式一样上报给商店的跟踪器。
 		trackAddToCart(
 			{ id: selectedVariant.id, sku: selectedVariant.sku, price: String(selectedVariant.price) },
 			product.name,
@@ -89,8 +89,8 @@ export function ChatProductCard({
 		);
 
 		openCart();
-		// Same optimistic flow as QuickAddButton: instant local item, then replace with
-		// the server cart inside the transition that keeps Checkout disabled meanwhile.
+		// 与 QuickAddButton 相同的乐观更新流程：先立即更新本地商品，然后在 transition 内
+		// 用服务端购物车替换，在此期间保持结账按钮处于禁用状态。
 		dispatch({
 			type: "ADD_ITEM",
 			item: {

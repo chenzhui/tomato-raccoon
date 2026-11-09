@@ -1,8 +1,8 @@
 import { ProductsView, productsMetadata } from "@/app/products/products-view";
 import { activeParams, PRODUCT_LISTING_PARAMS } from "@/lib/listing-routes";
 
-// `/products?…` with a filter, sort or page is rewritten here (lib/listing-routes.ts). The query is only known per
-// request, so the page renders in full then: a navigation keeps the current view until it is ready, with no skeleton.
+// 带有筛选条件、排序或页码的 `/products?…` 会被重写到此处（参见 lib/listing-routes.ts）。由于 query 参数
+// 只有在请求时才能确定，因此页面在请求时完整渲染：导航跳转时会保持当前视图直至新内容就绪，无需骨架屏。
 export const instant = false;
 
 export async function generateMetadata(props: PageProps<"/products-filtered">) {

@@ -4,18 +4,17 @@ import { join } from "node:path";
 import { contrastRatio, parseCssBlock, resolveColor, SUPPORTED_SYNTAXES } from "@/lib/contrast";
 
 /**
- * The palette in `app/globals.css` must clear WCAG AA (4.5:1) for body text on
- * every surface it is painted on. Themes fork this file, so the check lives
- * here rather than in a reviewer's eye: move the *text* token away from its
- * surface (darker on a light one, lighter on a dark one), never the tint the
- * design is built on.
+ * `app/globals.css` 中的调色板必须在其绘制的每个表面上满足正文文本的 WCAG AA（4.5:1）对比度要求。
+ * 主题可能会派生（fork）该文件，因此该检查应由测试保证，而不是依赖审查者的肉眼：
+ * 应调整“文本”token 与表面的明暗差距（浅色表面上更深，深色表面上更浅），
+ * 绝不要改变设计所依赖的色调（tint）。
  */
 
 const AA = 4.5;
 const FIX =
 	"move the text token's lightness away from the surface's (darker on light, lighter on dark) until ≥ 4.5; keep the tint";
 
-/** Text token, surface token — every combination the components actually paint. */
+/** 文本 token 与表面 token —— 组件实际渲染时绘制的每一种组合。 */
 const PAIRS = [
 	["foreground", "background"],
 	["card-foreground", "card"],
@@ -42,7 +41,7 @@ blocks.map((selector) => {
 
 	return PAIRS.map(([fg, bg]) => {
 		const declared = tokens?.[fg] !== undefined && tokens?.[bg] !== undefined;
-		// A theme that drops a token simply has no such pair to check.
+		// 如果主题中未定义某个 token，则无需检查该对组合。
 		const check = declared ? test : test.skip;
 
 		return check(`${selector}: --${fg} on --${bg} clears WCAG AA`, () => {
@@ -50,8 +49,8 @@ blocks.map((selector) => {
 			const text = resolveColor(fg, palette);
 			const surface = resolveColor(bg, palette);
 
-			// An unreadable value is a failure, not a skip: `color-mix()` in a theme
-			// would otherwise hide a contrast regression from this test.
+			// 无法解析的值应视为测试失败，而不是跳过：否则主题中的 `color-mix()`
+			// 会对本测试掩盖对比度退化问题。
 			expect(
 				text,
 				`${selector} --${fg}: ${palette[fg]} — unsupported colour syntax. Supported: ${SUPPORTED_SYNTAXES}.`,

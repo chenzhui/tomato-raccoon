@@ -1,5 +1,5 @@
-// ─── DO NOT REMOVE ──────────────────────────────────────────────────────────
-// GDPR cookie consent banner. Entry point + server logic in ./cookie-consent.tsx.
+// ─── 请勿删除 ──────────────────────────────────────────────────────────────────
+// GDPR Cookie 同意横幅。入口与服务端逻辑位于 ./cookie-consent.tsx。
 // ────────────────────────────────────────────────────────────────────────────
 "use client";
 
@@ -9,7 +9,7 @@ import { browser } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { notifyConsentChanged } from "@/lib/track";
 
-// Must match CONSENT_COOKIE in ./cookie-consent.tsx
+// 必须与 ./cookie-consent.tsx 中的 CONSENT_COOKIE 保持一致
 const CONSENT_COOKIE = "yns-cookie-consent";
 
 const recordChoice = (choice: "accepted" | "declined") => {
@@ -23,8 +23,7 @@ const recordChoice = (choice: "accepted" | "declined") => {
 		ad_personalization: state,
 		analytics_storage: state,
 	});
-	// Nudges the platform storefront kit to re-read the cookie and start its
-	// trackers without a reload.
+	// 通知平台店面工具包重新读取 Cookie 并启动其跟踪器，无需刷新页面。
 	notifyConsentChanged();
 };
 
@@ -35,8 +34,7 @@ declare global {
 }
 
 export const CookieConsentBanner = () => {
-	// Renders only in the browser (the prerender keeps the Suspense fallback), so the
-	// visitor's choice is read here and the page stays static.
+	// 仅在浏览器中渲染（预渲染时保留 Suspense 的 fallback），因此访客的选择在此处读取，页面保持静态。
 	use(browser("The consent choice is a browser cookie."));
 	const [hidden, setHidden] = useState(() =>
 		document.cookie.split("; ").some((cookie) => cookie.startsWith(`${CONSENT_COOKIE}=`)),
@@ -53,9 +51,8 @@ export const CookieConsentBanner = () => {
 	};
 
 	return (
-		// z-[45]: above the "Made with YNS" badge, the chat launcher and the newsletter launcher (z-40 at
-		// bottom-4), which would otherwise overlap its buttons, and below the cart sheet and dialogs (z-50),
-		// which it would otherwise cover, checkout button included.
+		// z-[45]：高于 "Made with YNS" 徽章、聊天启动按钮和通讯订阅启动按钮（位于 bottom-4 的 z-40），
+		// 否则它们会遮挡横幅的按钮；同时低于购物车抽屉和对话框（z-50），否则横幅会遮挡它们（包括结账按钮）。
 		<div className="fixed bottom-0 left-0 right-0 z-[45] border-t border-border bg-background/95 p-4 shadow-lg backdrop-blur-md">
 			<div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
 				<div className="flex-1">

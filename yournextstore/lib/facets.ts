@@ -12,7 +12,7 @@ const EMPTY_FACETS = {
 export async function getFilterFacets() {
 	"use cache";
 	cacheLife("minutes");
-	// Filters are an enhancement — never let a facets failure take down the product list.
+	// 筛选功能属于增强体验 —— 绝不能因获取分面失败而导致商品列表崩溃。
 	try {
 		return await commerce.productFilters();
 	} catch {
@@ -20,7 +20,7 @@ export async function getFilterFacets() {
 	}
 }
 
-/** Whether a listing has anything to filter by; a category page hides the category facet itself. */
+/** 列表是否包含可供筛选的项；分类页面会隐藏分类本身的分面。 */
 export const hasFacets = (
 	facets: Awaited<ReturnType<typeof getFilterFacets>>,
 	{ categories = true }: { categories?: boolean } = {},

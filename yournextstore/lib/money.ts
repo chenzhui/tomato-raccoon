@@ -29,11 +29,11 @@ const getDecimalAmountFromInt = ({ amount: minor, currency }: MoneyInt) => {
 	return (Number(minor) / multiplier).toFixed(getDecimalsForCurrency(currency));
 };
 
-/** Minor units to the major-unit number analytics/ad APIs expect (2000 → 20). */
+/** 将次要货币单位转换为分析/广告 API 所期望的主要货币单位数值（如 2000 → 20）。 */
 export const minorUnitsToMajor = ({ amount, currency }: MoneyInt) =>
 	Number.parseFloat(getDecimalAmountFromInt({ amount, currency }));
 
-// https://docs.stripe.com/currencies#zero-decimal
+// 零位小数货币参考：https://docs.stripe.com/currencies#zero-decimal
 const edgeCaseCurrencies = {
 	BIF: 0,
 	CLP: 0,

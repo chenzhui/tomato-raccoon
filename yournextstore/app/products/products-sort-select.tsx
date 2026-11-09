@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 type SortOption = { value: string; label: string };
 
-// Build a sort href that preserves every active filter and resets to the first page.
+// 构建排序链接 href，保留当前所有生效的筛选条件并重置回第一页。
 function buildSortHref(
 	searchParams: URLSearchParams,
 	pathname: string,
@@ -16,7 +16,7 @@ function buildSortHref(
 	defaultValue: string | undefined,
 ): string {
 	const params = new URLSearchParams(searchParams.toString());
-	// Any sort change keeps the result set but reorders it — return to the first page.
+	// 任何排序规则变动都会重排结果集 —— 此时需重置回第一页。
 	params.delete("page");
 	if (value === defaultValue) {
 		params.delete("sort");
@@ -26,7 +26,7 @@ function buildSortHref(
 	return params.size ? `${pathname}?${params}` : pathname;
 }
 
-/** The active sort comes from the server (`active`), like the filters (lib/listing-routes.ts). */
+/** 当前生效的排序参数来自服务端（`active`），与筛选条件类似（参见 lib/listing-routes.ts）。 */
 export function SortLinks({
 	options,
 	active,
@@ -60,7 +60,7 @@ export function SortLinks({
 	);
 }
 
-/** Compact sort dropdown for small screens. The active sort comes from the server (`active`), like `SortLinks`. */
+/** 适用于小屏设备的紧凑型排序下拉框。生效的排序同样来自服务端（`active`），与 `SortLinks` 保持一致。 */
 export function SortSelect({
 	options,
 	className,

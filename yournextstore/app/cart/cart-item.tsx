@@ -33,13 +33,13 @@ export function CartItem({ item }: CartItemProps) {
 	const latestCartRef = useRef<Cart | null>(null);
 	const sendFailedRef = useRef(false);
 
-	// Optimistic update + queued sync: rapid clicks collapse into the newest absolute
-	// quantity (safe thanks to mode "set"), one request in flight per line, and each
-	// transition stays open until the queue drains so the value never flickers back.
+	// 乐观更新 + 队列化同步：快速连续点击会合并为最新的绝对数量
+	// （得益于 mode: "set" 保证操作安全），每个商品行同一时间只有一个在途请求，
+	// 且每个 transition 在队列清空前都保持 pending 状态，防止界面数值闪烁回退。
 	const updateQuantity = (action: Parameters<typeof dispatch>[0], target: number) => {
-		// Mirror this line's pending window onto the cart-wide `isMutating` flag so the
-		// Checkout link stays blocked while the write is in flight. `done` resolves when
-		// the local transition finishes; the work itself only runs once.
+		// 将当前行的 pending 状态同步映射到整个购物车的 isMutating 标识上，
+		// 使得在写入在途期间结账（Checkout）链接保持禁用。
+		// 当本地 transition 完成时 resolve done；具体更新任务本身只执行一次。
 		const { promise: done, resolve: resolveDone } = Promise.withResolvers<void>();
 		startMutation(async () => {
 			await done;
@@ -51,20 +51,20 @@ export function CartItem({ item }: CartItemProps) {
 				sendQueueRef.current = sendQueueRef.current.then(async () => {
 					const latest = targetQuantityRef.current;
 					if (latest === null) {
-						return; // newest value already sent
+						return; // 最新数值已发送
 					}
 					targetQuantityRef.current = null;
 					const res = await setCartQuantity(productVariant.id, latest, item.subscriptionPlanId);
-					// Remember the newest server-returned cart so we can sync from it (never
-					// refetch — cartGet hits a read replica and can rebase stale).
+					// 记录服务端返回的最新购物车状态以便从中同步（绝不要调用
+					// refetch —— cartGet 请求读副本可能会回退到陈旧的旧状态）。
 					if (res.success && res.cart) {
 						latestCartRef.current = res.cart;
 					} else {
 						sendFailedRef.current = true;
 					}
 				});
-				// Drain the queue, then reconcile once. Concurrent transitions land here
-				// together, so this runs a single sync per batch.
+				// 清空队列，然后执行一次状态对齐（reconcile）。并发的 transition
+				// 会在此汇合，因此每批操作只执行单次同步。
 				let tail: Promise<void>;
 				do {
 					tail = sendQueueRef.current;
@@ -102,7 +102,7 @@ export function CartItem({ item }: CartItemProps) {
 
 	return (
 		<div className="flex gap-3 py-4">
-			{/* Product Image */}
+			{/* 商品图片 */}
 			<Link
 				href={`/product/${product.slug}`}
 				onClick={closeCart}
@@ -111,7 +111,7 @@ export function CartItem({ item }: CartItemProps) {
 				{image && <YNSMedia src={image} alt={product.name} fill className="object-cover" sizes="96px" />}
 			</Link>
 
-			{/* Product Details */}
+			{/* 商品详情 */}
 			<div className="flex min-w-0 flex-1 flex-col justify-between py-0.5">
 				<div className="flex items-start justify-between gap-2">
 					<div className="min-w-0 space-y-1">
@@ -139,7 +139,7 @@ export function CartItem({ item }: CartItemProps) {
 				</div>
 
 				<div className="flex items-center justify-between">
-					{/* Quantity Controls */}
+					{/* 数量控制组件 */}
 					<div
 						className={cn(
 							"inline-flex items-center rounded-full border border-border transition-opacity",
@@ -165,7 +165,7 @@ export function CartItem({ item }: CartItemProps) {
 						</button>
 					</div>
 
-					{/* Price */}
+					{/* 价格显示 */}
 					<span className="text-sm font-semibold">
 						{formatMoney({ amount: lineTotal, currency, locale })}
 					</span>

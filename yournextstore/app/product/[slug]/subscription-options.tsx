@@ -12,15 +12,15 @@ export type SubscriptionPlan = {
 
 type SubscriptionOptionsProps = {
 	plans: SubscriptionPlan[];
-	/** The chosen plan, or null for a one-time purchase. */
+	/** 所选方案，若为单次购买则为 null。 */
 	value: string | null;
 	onChange: (planId: string | null) => void;
-	/** False when the product is sold on a plan only. */
+	/** 当商品仅限按方案订阅销售时为 false。 */
 	allowOneTime: boolean;
 };
 
-// The plan price itself is the platform's: the cart prices a plan line and shows the saving,
-// so this only names each choice.
+// 订阅方案价格由平台确定：购物车会对方案行项目计价并显示减免金额，
+// 因此此处仅展示每个选项的名称。
 export function SubscriptionOptions({ plans, value, onChange, allowOneTime }: SubscriptionOptionsProps) {
 	const options = [
 		...(allowOneTime ? [{ id: null, label: "One-time purchase", detail: null }] : []),

@@ -19,7 +19,7 @@ import { YNSMedia } from "@/lib/yns-media";
 
 const POSTS_LIMIT = 24;
 
-// `next dev` and `next build` fail if anything on this route renders per request (AGENTS.md).
+// `next dev` 和 `next build` 在此路由按请求实时渲染任何内容时都会报错（参见 AGENTS.md）。
 export const ensureStatic = "navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -39,9 +39,9 @@ export async function generateMetadata(): Promise<Metadata> {
 	};
 }
 
-// Listed addresses still prerender in full (the boundary resolves at build time, so no fallback shows). An address
-// added later streams in behind the prerendered chrome, so `notFound()` there renders the not-found page inside the
-// layout instead of a bare error document.
+// 已列出的地址仍会完整预渲染（边界在构建时解析，因此不显示 fallback）。后续新增的地址
+// 会在预渲染的外壳后以流式加载，因此其 notFound() 会在布局内渲染 404 页面，
+// 而不是渲染空白的纯文本错误文档。
 export default function BlogPage() {
 	return (
 		<Suspense fallback={null}>
@@ -79,7 +79,7 @@ async function BlogPageContent() {
 		<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 			<JsonLdScript data={blogJsonLd} />
 
-			{/* Header */}
+			{/* 页面头部 */}
 			<div className="mb-10">
 				<Breadcrumb>
 					<BreadcrumbList>
@@ -96,7 +96,7 @@ async function BlogPageContent() {
 				<p className="mt-3 text-lg text-muted-foreground">News, guides, and stories from our team.</p>
 			</div>
 
-			{/* Posts */}
+			{/* 文章列表 */}
 			{posts.length === 0 ? (
 				<div className="rounded-lg border border-border bg-secondary/30 p-12 text-center">
 					<h2 className="text-xl font-medium tracking-tight">No posts yet</h2>

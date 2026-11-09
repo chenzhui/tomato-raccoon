@@ -3,8 +3,7 @@ import { cookies } from "next/headers";
 export const CART_COOKIE = "yns_cart";
 export type CartCookieJson = { id: string };
 
-// Shared by set and clear: a partitioned cookie is only removed by a Set-Cookie that
-// carries the same Partitioned/SameSite/Secure/Path attributes.
+// 由 set 和 clear 共享：分区 Cookie 只能由携带相同 Partitioned/SameSite/Secure/Path 属性的 Set-Cookie 标头移除。
 const CART_COOKIE_OPTIONS = {
 	httpOnly: true,
 	secure: true,
@@ -30,15 +29,14 @@ export async function clearCartCookie() {
 }
 
 /**
- * True when the API says the cookie's cart no longer exists (checked out, expired, store
- * re-seeded). commerce-kit throws a plain Error carrying only the API message — no status —
- * so the message text is the only signal.
+ * 当 API 指示该 Cookie 对应的购物车已不复存在时返回 true（已结账、已过期、店铺重新初始化）。
+ * commerce-kit 会抛出一个仅包含 API 错误信息的普通 Error（无状态码），因此错误文本是唯一的判别依据。
  */
 export function isCartNotFoundError(error: unknown) {
 	return error instanceof Error && /cart not found/i.test(error.message);
 }
 
-/** Pure parser for the cart cookie value — exported separately so it can be unit tested. */
+/** 购物车 Cookie 值的纯解析函数 —— 独立导出以便进行单元测试。 */
 export function parseCartCookie(value: string | undefined | null): CartCookieJson | null {
 	if (!value) {
 		return null;

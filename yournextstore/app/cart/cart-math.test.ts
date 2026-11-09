@@ -41,11 +41,11 @@ test("getLineItemUnitPrice returns the gross price for an inclusive store", () =
 });
 
 test("getLineItemUnitPrice falls back to net when a line carries no gross twin", () => {
-	// Optimistic lines built client-side, and older API payloads, are net-only.
+	// 客户端构建的乐观行项目以及较早期的 API 返回负载仅包含净额（net-only）。
 	expect(getLineItemUnitPrice(lineItem(), "inclusive")).toBe(1000n);
 });
 
-// A fixed-price bundle (168.30 gross) with two pick-one groups; `bundleProducts` lists every option.
+// 固定价格的捆绑包（含税毛额 168.30），包含两个“二选一”分组；bundleProducts 列出了所有可选商品。
 const fixedChoiceBundle = () => ({
 	quantity: 1,
 	productVariant: {
@@ -77,7 +77,7 @@ test("getLineItemUnitPrice shows a fixed-price bundle at its own price, not the 
 });
 
 test("getLineItemUnitPrice takes a bundle without selections from the API line price too", () => {
-	// A whole bundle added by its own variant carries no selections; the API has still priced it.
+	// 通过捆绑包自身变体直接添加的整个捆绑包不包含 selections 数组；API 仍然为其进行了计价。
 	const item = { ...fixedChoiceBundle(), setSelections: [] };
 	expect(getLineItemUnitPrice(item, "inclusive")).toBe(16830n);
 });
@@ -111,7 +111,7 @@ test("cartReducer drops the server totals so the subtotal never mixes bases", ()
 	const next = cartReducer(cart, { type: "INCREASE", key: lineKey("v-1") });
 	expect(next?.subtotal).toBeNull();
 	expect(next?.subtotalGross).toBeNull();
-	// …and the fallback sum is now the one the sidebar shows.
+	// …此时回退计算出的求和结果即为侧边栏当前展示的值。
 	expect(getCartDisplaySubtotal(next, "exclusive")).toBe(2000n);
 });
 

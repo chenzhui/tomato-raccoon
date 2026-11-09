@@ -55,11 +55,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 	};
 }
 
-// Every known address prerenders in full; one added later renders on its first visit (lib/catalog-paths.ts).
+// 所有已知地址都完整预渲染；后续新增的地址在首次访问时渲染（参见 lib/catalog-paths.ts）。
 export const generateStaticParams = () => slugParams(getAllPosts(), (post) => post.slug);
 
-// The SDK throws on a 404 despite its `| null` type. Without the null, the `!post`
-// branches never run and an unknown slug answers 200 with the error page.
+// 尽管 SDK 标注了 | null 类型，但在 404 时实际上会抛出异常。如果不捕获并转为 null，
+// !post 分支将永远不会执行，未知的 slug 会带着错误页面返回 200 状态码。
 const getBlogPostData = async (slug: string) => {
 	"use cache";
 	cacheLife("minutes");
@@ -71,11 +71,11 @@ const getBlogPostData = async (slug: string) => {
 	return error ? null : post;
 };
 
-// An address added after the build renders in full on its first request before anything is sent, so a missing one
-// answers 404 with the not-found page inside the layout, not a 200 behind an already-sent shell (AGENTS.md).
+// 在构建后新增的地址会在首次请求时完整渲染后再发送内容，因此不存在的页面
+// 会在布局内返回 404 状态码及未找到页面，而不是在已发送的外壳后返回 200 响应（参见 AGENTS.md）。
 export const ensureStatic = "navigation";
 
-// Listed addresses prerender in full: the boundary resolves at build time, so no fallback ever shows.
+// 已列出的地址完整预渲染：边界在构建时解析，因此绝不显示 fallback。
 export default function BlogPostPage(props: Parameters<typeof BlogPostPageContent>[0]) {
 	return (
 		<Suspense fallback={null}>
@@ -111,7 +111,7 @@ async function BlogPostPageContent({ params }: { params: Promise<{ slug: string 
 			<JsonLdScript data={articleJsonLd} />
 			<JsonLdScript data={breadcrumbJsonLd} />
 
-			{/* Header */}
+			{/* 页面头部 */}
 			<div className="mb-8">
 				<Breadcrumb>
 					<BreadcrumbList>
@@ -139,7 +139,7 @@ async function BlogPostPageContent({ params }: { params: Promise<{ slug: string 
 				<h1 className="mt-4 text-4xl font-medium tracking-tight text-balance">{post.title}</h1>
 			</div>
 
-			{/* Cover image */}
+			{/* 封面图 */}
 			{post.image && (
 				<div className="relative aspect-[3/2] bg-secondary rounded-2xl overflow-hidden mb-10">
 					<YNSMedia
@@ -154,12 +154,12 @@ async function BlogPostPageContent({ params }: { params: Promise<{ slug: string 
 				</div>
 			)}
 
-			{/* Content */}
+			{/* 正文内容 */}
 			<div className="prose prose-sm dark:prose-invert max-w-none tiptap-content">
 				<TiptapRenderer content={post.content} />
 			</div>
 
-			{/* Footer nav */}
+			{/* 底部导航 */}
 			<div className="mt-16 border-t border-border pt-8">
 				<Link
 					href="/blog"

@@ -12,7 +12,7 @@ import {
 } from "@/app/cart/cart-math";
 import { useStoreConfig } from "@/components/store-config-provider";
 
-// Re-exported so consumers keep importing cart types and pricing from the context module.
+// 重新导出，方便调用方继续从 context 模块直接导入购物车类型及计价工具。
 export { type Cart, type CartLineItem, getLineItemUnitPrice };
 
 type CartContextValue = {
@@ -25,21 +25,21 @@ type CartContextValue = {
 	cartId: string | null;
 	openCart: () => void;
 	closeCart: () => void;
-	/** Instant local mutation for optimistic feedback. */
+	/** 纯本地即时状态变更，用于乐观 UI 反馈。 */
 	dispatch: (action: CartAction) => void;
-	/** Replace local state with the server's authoritative cart (no-op on null). */
+	/** 用服务端权威的购物车状态替换本地状态（传入 null 时为空操作）。 */
 	syncCart: (next: Cart | null) => void;
-	/** Refetch the authoritative cart from the server — call only when a write FAILED. */
+	/** 从服务端重新拉取权威购物车 —— 仅在写入失败时调用。 */
 	reconcile: () => Promise<void>;
 	startMutation: (fn: () => void | Promise<void>) => void;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
 
-// A GET, not a server action: the router runs a page's actions one at a time, so an action
-// read would hold back the shopper's first add to cart. `no-store` here AND the route's
-// `Cache-Control: private, no-store`: Back after a checkout must never restore the paid cart.
-// Rejects on a failed or non-OK response, so every caller keeps the cart it has.
+// 采用 GET 请求而非 Server Action：路由器一次按顺序执行一个 action，因此 action
+// 读取会阻塞顾客的首次“加入购物车”操作。此处使用 no-store 且路由配合设置
+// Cache-Control: private, no-store：顾客结账后按后退键绝不能恢复已支付的购物车。
+// 请求失败或状态非 OK 时 reject，以便调用方保留当前购物车。
 async function fetchCart() {
 	const response = await fetch("/api/cart", { cache: "no-store" });
 	if (!response.ok) {
@@ -57,20 +57,19 @@ export function CartProvider({ children }: CartProviderProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isMutating, startMutation] = useTransition();
 
-	// PLAIN state — no useOptimistic. `dispatch` applies the local mutation for instant
-	// feedback; `syncCart` replaces it with the server's authoritative cart. Because state
-	// never rebases, the local mutation can't be double-applied on top of the synced cart.
+	// 纯原生 state —— 未使用 useOptimistic。dispatch 应用本地变更以获得即时反馈；
+	// syncCart 则直接用服务端的权威购物车替换它。由于状态绝不重新基线化（rebase），
+	// 本地变更绝不会在已同步的购物车之上被重复应用。
 	//
-	// Starts EMPTY and loads in the browser (the effect below): the cart is a cookie read,
-	// and reading it on the server would render every page per request instead of serving
-	// the static prerender.
+	// 初始为 EMPTY 并在浏览器端加载（见下方 effect）：购物车属于 cookie 读取操作，
+	// 在服务端读取会导致所有页面变成按请求实时渲染，无法使用静态预渲染。
 	const [cart, setCart] = useState<Cart | null>(null);
-	// Set by every write. Guards against the initial cart load landing on top of a
-	// mutation the customer made before it arrived.
+	// 每次写入时置为 true。防止初始购物车加载晚于顾客在页面加载完成前所做的修改，
+	// 从而避免覆盖顾客的本地操作。
 	const written = useRef(false);
 
-	// No useCallback/useMemo in this provider: the React Compiler memoizes the callbacks,
-	// the derived values and the context value.
+	// 此 Provider 中无需使用 useCallback/useMemo：React 编译器会自动缓存回调函数、
+	// 派生值及 context 对象。
 	const dispatch = (action: CartAction) => {
 		written.current = true;
 		setCart((prev) => cartReducer(prev, action));
@@ -83,16 +82,15 @@ export function CartProvider({ children }: CartProviderProps) {
 	};
 	const reconcile = async () => {
 		written.current = true;
-		// Keep showing the current cart if the refetch fails — never an unhandled rejection.
+		// 若重新获取失败，继续展示当前购物车 —— 绝不产生未捕获的 Promise rejection。
 		await fetchCart()
 			.then(setCart)
 			.catch(() => undefined);
 	};
 
 	useEffect(() => {
-		// One read per full page load; soft navigations keep this provider mounted. A write
-		// that lands first wins, and a failed load leaves the cart empty, never an unhandled
-		// rejection.
+		// 每次页面完整加载仅读取一次；客户端软导航会保持本 Provider 持续挂载。
+		// 先完成的写入操作优先，加载失败时保持购物车为空，绝不产生未捕获的 rejection。
 		void fetchCart()
 			.then((initial) => {
 				if (!written.current) {
@@ -103,13 +101,13 @@ export function CartProvider({ children }: CartProviderProps) {
 	}, []);
 
 	useEffect(() => {
-		// Re-fetch the cart when restored from bfcache — it can change on the hosted
-		// checkout (different origin) and would otherwise show stale items.
-		// The refetch lives in here, not in `reconcile`, so the effect depends on nothing.
+		// 当从往返缓存（bfcache）恢复时重新拉取购物车 —— 顾客可能在独立托管的
+		// 结账页面（不同源）修改了购物车，否则会展示过期商品。
+		// 重新拉取逻辑直接写在 effect 内部而非调用 reconcile，使 effect 无额外依赖项。
 		const onPageShow = (event: PageTransitionEvent) => {
 			if (event.persisted) {
 				written.current = true;
-				// Keep showing the current cart if the refetch fails — never an unhandled rejection.
+				// 若重新获取失败，继续展示当前购物车 —— 绝不产生未捕获的 Promise rejection。
 				void fetchCart()
 					.then(setCart)
 					.catch(() => undefined);
@@ -122,12 +120,11 @@ export function CartProvider({ children }: CartProviderProps) {
 	const items = cart?.lineItems ?? [];
 	const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
-	// The API's own subtotal when the cart is the server's (already net or gross per the
-	// store's tax behaviour, discounts applied); a local sum of display prices while a
-	// mutation is in flight, because `cartReducer` clears the totals it just invalidated.
+	// 当购物车来自服务端时，采用 API 计算的小计（已根据店铺计税规则计算净额/毛额并扣除折扣）；
+	// 当变更请求正在进行时，使用本地展示价格之和，因为 cartReducer 会清除刚失效的总金额。
 	const subtotal = getCartDisplaySubtotal(cart, taxBehavior);
 
-	// The sentinel "local" id marks a null-base ADD the server hasn't answered yet.
+	// 哨兵 ID "local" 标识服务端尚未确认的 null-base ADD 操作。
 	const cartId = cart?.id && cart.id !== "local" ? cart.id : null;
 
 	const value = {

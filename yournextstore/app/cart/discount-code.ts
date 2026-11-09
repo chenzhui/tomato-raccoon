@@ -4,7 +4,7 @@ import { cartDisplaySubtotal, type TaxBehavior } from "@/lib/pricing";
 
 export type AppliedCoupon = { code: string; label: string };
 
-/** What the API knows about a coupon, enough to say why it was refused. */
+/** API 返回的优惠券相关信息，足以明确说明被拒绝的原因。 */
 export type CouponFacts = {
 	startDate: string | null;
 	endDate: string | null;
@@ -14,10 +14,10 @@ export type CouponFacts = {
 	maxProductCount: number | null;
 };
 
-// Percent coupons are stored in thousandths of a percent: "10000" is 10%.
+// 百分比优惠券以千分之一为单位存储：例如 "10000" 代表 10%。
 const PERCENT_PRECISION = 1000;
 
-/** The coupon on a server cart, labelled for the cart drawer ("LATO10", "10% off"). */
+/** 服务端购物车中的优惠券，格式化后供购物车抽屉展示（如 "LATO10", "优惠 10%"）。 */
 export function appliedCouponOf(
 	cart: Cart | null,
 	{ currency, locale }: { currency: string; locale: string },
@@ -40,9 +40,8 @@ export function appliedCouponOf(
 }
 
 /**
- * How much the discount takes off the subtotal, from the API's own totals: the subtotal before
- * discounts minus the discounted one. `null` whenever the totals are absent (Stripe Tax, or an
- * optimistic cart mid-mutation) or nothing is taken off.
+ * 折扣从小计中减免的金额，由 API 自身的总额计算得出：即打折前的小计减去打折后的小计。
+ * 当缺少总额数据（如使用 Stripe Tax，或本地处于乐观变更中）或未产生折扣时返回 `null`。
  */
 export function cartDiscountOf(cart: Cart | null, taxBehavior: TaxBehavior): bigint | null {
 	const before = cartDisplaySubtotal(cart, taxBehavior);
@@ -54,7 +53,7 @@ export function cartDiscountOf(cart: Cart | null, taxBehavior: TaxBehavior): big
 	return discount > 0n ? discount : null;
 }
 
-/** Why a code was refused, worded for the shopper; null coupon = unknown code. */
+/** 折扣码被拒绝的原因，面向顾客的友好提示文案；coupon 为 null 表示未找到该代码。 */
 export function refusedCodeMessage(coupon: CouponFacts | null, itemCount: number, now: Date): string {
 	if (!coupon) {
 		return "This code doesn't exist";

@@ -22,7 +22,7 @@ type ProductGridProps = {
 	limit?: number;
 	showViewAll?: boolean;
 	viewAllHref?: string;
-	/** Load the first card's image eagerly. Off for grids below the fold (related products). */
+	/** 预先优先加载第一张卡片的图片。首屏下方的网格（如相关商品）关闭此项。 */
 	eagerFirstImage?: boolean;
 };
 

@@ -39,7 +39,7 @@ type PaginationLinkProps = {
 } & Pick<React.ComponentProps<typeof Button>, "size"> &
   React.ComponentProps<typeof Link>
 
-// next/link, not <a>: a page change is a soft navigation, not a full document load.
+// 使用 next/link 而非 <a>：页面切换属于软导航，而非整个文档的重新加载。
 function PaginationLink({
   className,
   isActive,

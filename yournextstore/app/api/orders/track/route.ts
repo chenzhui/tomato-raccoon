@@ -25,7 +25,7 @@ export async function GET(req: Request) {
 			console.error("Database lookup error in track:", dbErr);
 		}
 
-		// Fallback for mock demo numbers or when freshly generated
+		// 模拟演示订单号或新生成订单时的保底回退数据
 		if (!orderRow) {
 			orderRow = {
 				order_number: orderNumber,

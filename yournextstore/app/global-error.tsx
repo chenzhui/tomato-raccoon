@@ -1,8 +1,8 @@
 "use client";
 
-// Catches errors thrown by the root layout itself (e.g. the meGetCached read),
-// which the regular app/error.tsx boundary cannot reach. Renders its own
-// <html>/<body> because the root layout is gone when this shows.
+// 捕获根布局（root layout）自身抛出的错误（例如 meGetCached 读取失败），
+// 这些错误是常规的 app/error.tsx 错误边界无法捕获到的。
+// 在此渲染自定义的 <html>/<body>，因为当显示此页面时根布局已经被卸载。
 export default function GlobalError({
 	error,
 	retry,

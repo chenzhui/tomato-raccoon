@@ -7,9 +7,9 @@ const SIZE = 16;
 export type BlurPreview = { src: string; blurDataURL: string };
 
 /**
- * A blurred preview for `placeholder="blur"` (about 300 B of base64 in the HTML): it shows at once and the photo
- * fades in over it, instead of popping onto an empty box after navigation. null without an image, for a video, or
- * when the image can't be fetched (then there's no preview).
+ * 用于 `placeholder="blur"` 的模糊预览图（在 HTML 中占用约 300 字节的 Base64）：它会立即显示，且照片会在其上
+ * 淡入呈现，而不是在路由导航后突兀地跳出一个空白框。没有图片、属于视频或图片抓取失败时返回 null
+ * （此时不使用预览）。
  */
 export async function blurPreview(url: string | undefined): Promise<BlurPreview | null> {
 	if (!url || isVideoUrl(url)) return null;
@@ -17,7 +17,7 @@ export async function blurPreview(url: string | undefined): Promise<BlurPreview 
 	return blurDataURL ? { src: url, blurDataURL } : null;
 }
 
-// Plain "use cache" (not "remote"): the result goes into the prerendered shell, and Blob URLs are immutable.
+// 普通的 "use cache"（非 "remote"）：结果直接写入预渲染的 Shell 中，且 Blob URL 是不可变的。
 async function blurDataUrl(url: string): Promise<string | null> {
 	"use cache";
 	cacheLife("max");

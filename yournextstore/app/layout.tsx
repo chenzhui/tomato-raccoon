@@ -33,7 +33,7 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
 	variable: "--font-geist-mono",
 	subsets: ["latin"],
-	// Paints only inside chat and code spans, so it loads on use instead of blocking every first paint.
+	// 仅在聊天和代码块中渲染，因此按需加载，避免阻塞首次绘制。
 	preload: false,
 });
 
@@ -44,8 +44,8 @@ async function getStoreMetadata(): Promise<Metadata> {
 	const storeName = me.store.name || "Your Next Store";
 	const storeDescription = me.store.settings?.storeDescription || "Your next e-commerce store";
 	const faviconUrl = getStoreFaviconUrl(me.store.settings) ?? "/logo.svg";
-	// The platform favicon is whatever was uploaded (here a 500x500 PNG). Route it through
-	// the image optimizer so browsers fetch a few KB from this origin, not the blob host.
+	// 平台的 favicon 为上传的原始图片（此处为 500x500 PNG）。通过
+	// 图像优化器路由，使浏览器从同源仅获取几 KB 的体积，而不是直接请求 blob 主机。
 	const iconUrl = (size: number) =>
 		getImageProps({ src: faviconUrl, width: size, height: size, alt: "" }).props.src;
 	const storeLogo =
@@ -59,9 +59,8 @@ async function getStoreMetadata(): Promise<Metadata> {
 		},
 		description: storeDescription,
 		applicationName: storeName,
-		// No `alternates.canonical` here on purpose: Next inherits it into every page that
-		// does not set its own, which silently declares each such page a duplicate of the
-		// home page. The home page carries its own canonical in app/page.tsx instead.
+		// 特意不在此处设置 alternates.canonical：Next.js 会将其继承到每个未单独设置 canonical 的页面中，
+		// 这会静默地将这些页面声明为首页的重复副本。首页的 canonical 链接已在 app/page.tsx 中单独设置。
 		openGraph: {
 			type: "website",
 			siteName: storeName,
@@ -88,10 +87,10 @@ async function getStoreMetadata(): Promise<Metadata> {
 			},
 		},
 		icons: {
-			// No `type`: the URL is whatever the admin uploaded and the optimizer negotiates the
-			// format, and declaring image/svg+xml over a PNG makes Chrome drop the icon.
+			// 不指定 type：URL 是管理员上传的资源且优化器会自动协商格式，
+			// 若对 PNG 声明 image/svg+xml 会导致 Chrome 丢弃图标。
 			icon: [{ url: iconUrl(64), sizes: "64x64" }],
-			// iOS wants a PNG here (the optimizer negotiates WebP), so the original stays for the home-screen icon.
+			// iOS 在此处需要 PNG 格式（优化器会协商成 WebP），因此保留原始地址供主屏幕图标使用。
 			apple: [{ url: faviconUrl, sizes: "180x180" }],
 		},
 		manifest: "/manifest.webmanifest",
@@ -100,8 +99,8 @@ async function getStoreMetadata(): Promise<Metadata> {
 
 export async function generateMetadata(): Promise<Metadata> {
 	const metadata = await getStoreMetadata();
-	// URL instances can't cross the "use cache" serialization boundary, so
-	// metadataBase is attached outside the cached scope (env-only, no IO).
+	// URL 实例无法跨越 "use cache" 的序列化边界，
+	// 因此 metadataBase 附着在缓存作用域外部（仅依赖环境变量，无 I/O 操作）。
 	return { ...metadata, metadataBase: new URL(getCanonicalUrl()) };
 }
 
@@ -126,12 +125,10 @@ async function getNavLinks(): Promise<NavLink[]> {
 }
 
 async function CartProviderWrapper({ children }: { children: React.ReactNode }) {
-	// Only cached reads here. Awaiting anything request-time (cookies, headers) would
-	// take the header, nav and footer out of the prerendered shell and leave the page
-	// blank until the server responds; CartProvider loads the cart in the browser. The
-	// other half of the rule: no
-	// <Suspense> around this component either — the boundary itself is what streams the
-	// chrome out of the shell, whether or not anything inside it is request-time.
+	// 此处仅进行带缓存的读取操作。等待任何请求时数据（cookies、headers）都会导致
+	// 页头、导航和页脚脱离预渲染外壳（shell），在服务器响应前页面将保持空白；
+	// CartProvider 会在浏览器端加载购物车。规则的另一部分：该组件外部也绝不能包裹
+	// <Suspense> —— 边界本身会将外壳框架流式推送到 shell 之外，无论其内部是否有请求时数据。
 	const [links, storeConfig] = await Promise.all([getNavLinks(), getStoreConfig()]);
 
 	return (
@@ -155,9 +152,9 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 										<SearchInput />
 									</Suspense>
 									<ThemeToggle />
-									{/* Plain <a>: /account is a proxied zone — soft navigation 500s (see AGENTS.md).
-									    Static on purpose: reading the session here would pull the header out of the
-									    prerendered shell. Guests get the sign-in flow, shoppers land on the dashboard. */}
+									{/* 使用原生 <a> 标签：/account 是反向代理区域 —— 客户端软导航会触发 500 错误（参见 AGENTS.md）。
+									    特意保持静态：在此读取会话（session）会将页头移出预渲染外壳。
+									    访客进入登录流程，已登录顾客直达控制面板。 */}
 									<a
 										href={
 											storeConfig.language
@@ -178,8 +175,8 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 					<Footer />
 				</div>
 				<CartSidebar />
-				{/* Inside CartProvider on purpose: add-to-cart from chat uses the cart context.
-			    Also renders the "Made with YNS" badge so badge and launcher share one dock. */}
+				{/* 特意放置在 CartProvider 内部：聊天界面的加入购物车功能需要使用购物车上下文（cart context）。
+			    同时渲染 "Made with YNS" 徽章，使徽章和启动器共享同一个固定停靠栏。 */}
 				<Suspense>
 					<StoreChatSection />
 				</Suspense>
@@ -188,7 +185,7 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 	);
 }
 
-// The shop's language, as the platform decides it: the default language once it is switched on, else the store's own.
+// 店铺语言由平台决定：启用后为默认语言，否则为店铺自身语言。
 async function getHtmlLang(): Promise<string> {
 	const { locale } = await getStoreConfig();
 	return locale.split("-")[0] || "en";
@@ -207,16 +204,15 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	// VERCEL_ENV is unset off Vercel, so fall back to NODE_ENV: a self-hosted production
-	// build must not ship the builder devtools.
+	// 在非 Vercel 环境下 VERCEL_ENV 未设置，因此回退到 NODE_ENV：自托管的生产构建绝不能包含 builder 开发工具。
 	const env = process.env.VERCEL_ENV || process.env.NODE_ENV;
 	const lang = await getHtmlLang();
 
 	return (
-		// suppressHydrationWarning: next-themes sets the theme class on <html> before hydration.
+		// suppressHydrationWarning：next-themes 在水合前就会在 <html> 上设置主题类名。
 		<html lang={lang} suppressHydrationWarning>
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-				{/* DO NOT REMOVE / REORDER: required for GDPR + GTM Consent Mode v2. Must stay at top of <body>. */}
+				{/* 请勿删除 / 调整顺序：GDPR 和 GTM 同意模式 v2 必需组件。必须保留在 <body> 顶部。 */}
 				<Suspense>
 					<CookieConsent />
 				</Suspense>

@@ -11,14 +11,14 @@ export type VolumeTier = {
 	productVariantId: string | null;
 };
 
-/** `volumePrice` comes back in the basis the shopper should see, ready to format. */
+/** volumePrice 按照顾客应看到的税费口径返回，可直接格式化展示。 */
 export function useVolumePricing(
 	tiers: VolumeTier[],
 	selectedVariantId: string | undefined,
 	quantity: number,
 	taxBehavior: TaxBehavior,
 ) {
-	// A variant's own tiers win over the product-wide ones.
+	// 变体专属的阶梯定价优先于商品全局的阶梯定价。
 	const variantTiers = tiers.filter((t) => t.productVariantId === selectedVariantId);
 	const resolvedTiers = selectedVariantId
 		? (variantTiers.length > 0 ? variantTiers : tiers.filter((t) => !t.productVariantId)).toSorted(

@@ -5,11 +5,11 @@ import { DeskSimulator } from "@/components/desk-simulator";
 export function Hero() {
 	return (
 		<section className="relative overflow-hidden bg-[#07090f] text-white pt-10 pb-16 sm:pb-24">
-			{/* Cyberpunk Neon Glow Effects */}
+			{/* 赛博朋克霓虹发光特效 */}
 			<div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-linear-to-b from-cyan-500/10 via-violet-600/10 to-transparent blur-[140px] pointer-events-none" />
 
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-				{/* Top Announcement Pill */}
+				{/* 顶部胶囊公告栏 */}
 				<div className="flex justify-center mb-6">
 					<div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-950/40 text-cyan-300 text-xs font-mono font-medium shadow-[0_0_15px_rgba(0,242,254,0.2)]">
 						<Terminal className="w-3.5 h-3.5 text-cyan-400" />
@@ -19,7 +19,7 @@ export function Hero() {
 					</div>
 				</div>
 
-				{/* Main Hero Header */}
+				{/* Hero 核心标题区 */}
 				<div className="text-center max-w-4xl mx-auto mb-10">
 					<h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] text-transparent bg-clip-text bg-linear-to-r from-white via-slate-100 to-cyan-300">
 						Stop Coding Alone. <br />
@@ -31,7 +31,7 @@ export function Hero() {
 						Premium dual-sided acrylic standees, squishy plush dangos, and desk mats. Handcrafted for Silicon Valley engineers, Reddit geeks, and tech weebs.
 					</p>
 
-					{/* Fast Action Buttons */}
+					{/* 快捷行动按钮组 */}
 					<div className="mt-8 flex flex-wrap items-center justify-center gap-4">
 						<Link
 							href="#products"
@@ -49,7 +49,7 @@ export function Hero() {
 						</Link>
 					</div>
 
-					{/* Quick Highlights */}
+					{/* 快速亮点展示 */}
 					<div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400">
 						<div className="flex items-center gap-1.5">
 							<CheckCircle2 className="w-4 h-4 text-cyan-400" />
@@ -66,7 +66,7 @@ export function Hero() {
 					</div>
 				</div>
 
-				{/* Core Differentiating Interactive Feature: Desk Setup Simulator */}
+				{/* 核心差异化交互功能：桌面搭建模拟器 */}
 				<div id="simulator" className="mt-8 scroll-mt-20">
 					<DeskSimulator />
 				</div>

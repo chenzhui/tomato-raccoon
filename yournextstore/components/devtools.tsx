@@ -4,9 +4,8 @@ import { useRouter } from "next/navigation";
 import Script from "next/script";
 import { useEffect } from "react";
 
-// Only the YNS builder/toolbar hosts may drive or observe navigation when the
-// storefront is embedded in an iframe (matches `allowedDevOrigins` and the
-// toolbar hosts in instrumentation-client.ts).
+// 当店面嵌入在 iframe 中时，仅允许 YNS 构建器/工具栏域名驱动或监听导航
+// （与 instrumentation-client.ts 中的 `allowedDevOrigins` 及工具栏域名相匹配）。
 const TRUSTED_PARENT_HOSTNAME = /(^|\.)(yns\.store|yns\.cx|yournextstore\.com|vercel\.run|localhost)$/;
 
 const isTrustedParentOrigin = (origin: string) => {
@@ -41,7 +40,7 @@ export function NavigationReporter() {
 (function() {
   if (window.parent === window) return;
 
-  // Report only to the embedding origin, and only when it's a trusted YNS host.
+  // 仅向嵌入该页面的源上报，且仅当该源为受信任的 YNS 域名时上报。
   var parentOrigin = "";
   try { parentOrigin = new URL(document.referrer).origin; } catch (e) {}
   if (!parentOrigin) return;
@@ -80,9 +79,8 @@ export function ErrorOverlayRemover() {
 	useEffect(() => {
 		if (window.parent === window) return;
 
-		// Merchants watch this dev server through the builder iframe, so none of the Next.js dev
-		// chrome belongs to them. Both the chip and the container it sits in are named, so a
-		// restructure of either one still leaves it hidden.
+		// 商家通过构建器 iframe 查看此开发服务器，因此无需向其展示任何 Next.js 开发工具 UI。
+		// 浮标及其所在的容器均已指定选择器，因此任一结构的调整仍能保持其处于隐藏状态。
 		const hiddenSelectors = ["[data-nextjs-dialog-overlay]", "[data-next-badge-root]", "[data-nextjs-toast]"];
 
 		const inject = () => {
@@ -95,7 +93,7 @@ export function ErrorOverlayRemover() {
 			style.textContent = `${hiddenSelectors.join(",\n")} { display: none !important; }`;
 			shadowRoot.appendChild(style);
 
-			// Otherwise a Next.js rename degrades silently into dev chrome over the preview.
+			// 否则一旦 Next.js 改名，将静默降级导致开发工具 UI 遮挡预览画面。
 			if (!hiddenSelectors.some((selector) => shadowRoot.querySelector(selector))) {
 				console.warn("Next.js dev overlay found, but none of its chrome selectors matched:", hiddenSelectors);
 			}
@@ -104,8 +102,8 @@ export function ErrorOverlayRemover() {
 
 		if (inject()) return;
 
-		// The portal mounts after hydration and lands directly on <body>. Bounded, so a portal
-		// that never arrives cannot leave a live observer on the preview.
+		// 该 portal 在水合之后挂载并直接置于 <body> 下。设置超时上限，
+		// 以免在 portal 从未出现时在预览页面上残留长期运行的 observer。
 		const observer = new MutationObserver(() => {
 			if (inject()) observer.disconnect();
 		});

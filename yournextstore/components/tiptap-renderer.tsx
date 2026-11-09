@@ -9,13 +9,12 @@ import type { JSONContent } from "commerce-kit";
 import { Children, type ReactNode } from "react";
 import { BlogProductEmbed } from "@/components/blog-product-embed";
 
-// The admin editor writes images as `imageResize`. Alias it onto Image rather than pull the
-// editor-only dependency into the storefront.
+// 管理后台编辑器将图片写入为 `imageResize`。将其别名指向 Image，而不是将仅在编辑器中使用的依赖引入到店面中。
 const ImageResize = Image.extend({ name: "imageResize" });
 const BODY_IMAGE_ATTRIBUTES = { loading: "lazy", decoding: "async" };
 
-// The admin editor's featured-products block, declared for the same reason as the image alias.
-// A leaf: rendered from `productIds` (+ optional `variantIds` productId → variantId map), no children.
+// 管理后台编辑器的推荐商品块，声明的原因与图片别名相同。
+// 叶子节点：由 `productIds`（+ 可选的 `variantIds` 即 productId → variantId 映射）渲染，无子节点。
 const ProductEmbed = TiptapNode.create({
 	name: "productEmbed",
 	group: "block",
@@ -27,7 +26,7 @@ const ProductEmbed = TiptapNode.create({
 	renderHTML: () => ["div", { "data-type": "product-embed" }],
 });
 
-// The admin editor's table nodes, declared for the same reason as the image alias.
+// 管理后台编辑器的表格节点，声明的原因与图片别名相同。
 const Table = TiptapNode.create({ name: "table", group: "block", content: "tableRow+" });
 const TableRow = TiptapNode.create({ name: "tableRow", content: "(tableCell | tableHeader)+" });
 const TableCell = TiptapNode.create({
@@ -57,7 +56,7 @@ const extensions = [
 	}),
 	FontSize,
 	Youtube.configure({}),
-	// Body images sit below the fold and come without dimensions, so they load lazily and decode off the main thread.
+	// 正文图片位于首屏下方且没有指定尺寸，因此使用懒加载并在主线程之外解码。
 	Image.configure({ allowBase64: false, inline: true, HTMLAttributes: BODY_IMAGE_ATTRIBUTES }),
 	ImageResize.configure({ allowBase64: false, inline: true, HTMLAttributes: BODY_IMAGE_ATTRIBUTES }),
 	ProductEmbed,
@@ -69,11 +68,11 @@ const extensions = [
 
 type Node = TiptapJSONContent;
 
-/** True if a node carries any actual rendered text/media (recursively). */
+/** 如果节点（递归地）包含任何实际渲染的文本/媒体内容，则返回 true。 */
 function hasMeaningfulContent(node: Node | undefined | null): boolean {
 	if (!node) return false;
 	if (typeof node.text === "string" && node.text.trim().length > 0) return true;
-	// Self-contained media nodes count as meaningful even without text children.
+	// 自包含的媒体节点即使没有文本子节点，也被视为有意义的内容。
 	if (
 		node.type &&
 		["image", "imageResize", "youtube", "horizontalRule", "hardBreak", "productEmbed"].includes(node.type)
@@ -91,25 +90,23 @@ function isListType(node: Node | undefined | null): boolean {
 }
 
 /**
- * Prune empty TipTap structures from already-loaded product content:
- *  (a) listItems whose only content is empty paragraph(s) with no text,
- *  (b) bulletList/orderedList left with zero items,
- *  (c) a heading immediately followed by such a now-empty/removed list
- *      (drops the orphan "Features" heading too).
+ * 从已加载的商品内容中修剪空的 TipTap 结构：
+ *  (a) 唯一内容为无文本空段落的 listItem，
+ *  (b) 剩余 0 个列表项的 bulletList/orderedList，
+ *  (c) 紧接着此类现在为空/已删除列表的标题
+ *      （也会删除孤立的“特性/Features”标题）。
  */
-// Node types that may hold INLINE content only. A block nested inside one renders as
-// `<p><p>…</p></p>`, which React rejects at hydration ("<p> cannot be a descendant of <p>").
+// 仅可包含行内（INLINE）内容的节点类型。嵌套在其中的块级节点会被渲染为
+// `<p><p>…</p></p>`，React 在水合阶段会报错拒绝（"<p> cannot be a descendant of <p>"）。
 const INLINE_ONLY_NODES = new Set(["paragraph", "heading"]);
 const INLINE_NODE_TYPES = new Set(["text", "hardBreak", "image"]);
 
 /**
- * Lift block nodes out of inline-only parents.
+ * 将块级节点从仅行内父节点中提升出来。
  *
- * Source HTML nests blocks inside inline tags (`<b><p>Title</p></b>`), and a store whose catalogue
- * was imported before the transform-side fix still has that shape stored server-side — 813 of
- * 4motos.pl's products did. Normalizing here keeps those product pages hydration-clean without
- * re-importing: inline children stay put and block children are hoisted beside the parent, in
- * document order.
+ * 源 HTML 会将块级元素嵌套在行内标签内部（`<b><p>Title</p></b>`），而在转换端修复之前导入目录的商店
+ * 在服务端仍然存储着这种结构 —— 4motos.pl 的 813 个商品就是这种情况。在此进行规范化处理可保持这些
+ * 商品页面的水合正常，而无需重新导入：行内子节点保持原位，块级子节点按文档顺序提升到父节点同级。
  */
 function liftNestedBlocks(nodes: Node[]): Node[] {
 	const out: Node[] = [];
@@ -157,7 +154,7 @@ function pruneEmptyNodes(nodes: Node[]): Node[] {
 		if (!entry) continue;
 		const { node, origNextWasList } = entry;
 		if (node.type === "heading" && origNextWasList && !isListType(cleaned[i + 1]?.node)) {
-			continue; // orphaned section heading like "Features"
+			continue; // 孤立的章节标题，如 "Features"
 		}
 		result.push(node);
 	}
@@ -165,11 +162,9 @@ function pruneEmptyNodes(nodes: Node[]): Node[] {
 }
 
 /**
- * Typography the store's design system owns, which pasted content routinely carries as inline
- * styles. Copying an article out of Word/Google Docs/an old CMS brings the *source's* font stack
- * along, so a single paragraph renders in Helvetica inside an otherwise serif page. The store
- * decides the typeface and the type scale; text colour is left alone because merchants do apply
- * it deliberately from the editor toolbar.
+ * 商店设计系统自有的排版样式，而粘贴的内容通常会带有行内样式。从 Word/Google Docs/旧 CMS
+ * 复制文章会带来源内容的字体栈，导致整页衬线字体中出现单个 Helvetica 段落。商店决定字体族
+ * 和字号层级；文本颜色则予以保留，因为商家确实会通过编辑器工具栏主动设置文字颜色。
  */
 const OVERRIDDEN_TEXT_STYLES = ["fontFamily", "fontSize"] as const;
 
@@ -194,7 +189,7 @@ const headerRow = (row: Node): Node => ({
 	content: row.content?.map((cell: any) => ({ ...cell, type: "tableHeader" })),
 });
 
-/** A table's first row heads its columns: imported tables store it as plain cells, with no header at all. */
+/** 表格的第一行作为表头列：导入的表格将其存储为普通单元格，完全没有表头。 */
 function promoteHeaderRows(nodes: Node[]): Node[] {
 	return nodes.map((node) => {
 		const content = node.content && promoteHeaderRows(node.content);
@@ -205,8 +200,7 @@ function promoteHeaderRows(nodes: Node[]): Node[] {
 	});
 }
 
-// Passed as `unhandledNode`/`unhandledMark`: without them a node or mark with no matching
-// extension makes the whole render throw and the article comes out blank.
+// 作为 `unhandledNode`/`unhandledMark` 传入：若没有它们，没有匹配扩展的节点或标记会导致整个渲染抛出异常，文章将显示为空白。
 function passThrough({ children }: { children?: ReactNode | ReactNode[] }): ReactNode {
 	return children ?? null;
 }

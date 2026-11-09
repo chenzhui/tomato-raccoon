@@ -36,7 +36,7 @@ export function SearchInput() {
 
 	return (
 		<>
-			{/* lg only — icon trigger opens popover with input inside */}
+			{/* 仅限 lg 屏幕 — 图标触发器打开内部带有输入框的弹出层 */}
 			<Popover open={iconOpen} onOpenChange={setIconOpen}>
 				<PopoverTrigger
 					aria-label="Search"
@@ -93,7 +93,7 @@ export function SearchInput() {
 				</PopoverContent>
 			</Popover>
 
-			{/* xl+ — inline input bar */}
+			{/* xl 及以上屏幕 — 行内搜索输入栏 */}
 			<form onSubmit={handleSubmit} className="hidden xl:block">
 				<Popover open={inlinePanelOpen} onOpenChange={setInlineOpen}>
 					<div ref={inlineAnchorRef} className="relative">

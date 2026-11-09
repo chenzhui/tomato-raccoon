@@ -3,8 +3,8 @@ import { Suspense } from "react";
 import { ProductGrid } from "@/components/sections/product-grid";
 import { commerce } from "@/lib/commerce";
 
-// The merchant's suggested products first, then the same category. The platform picks the
-// order and leaves out the product itself and anything a shopper can't buy right now.
+// 优先推荐商家指定的关联商品，其次推荐同类目商品。平台负责确定
+// 排序顺序，并排除当前商品自身以及顾客当前无法购买的任何商品。
 async function getRelatedProducts(productId: string) {
 	"use cache";
 	cacheLife("minutes");

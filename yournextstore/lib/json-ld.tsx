@@ -13,8 +13,8 @@ function getBaseUrl(): string {
 	return getCanonicalUrl();
 }
 
-// A plain child, no dangerouslySetInnerHTML: React escapes `<script` and `</script` inside a script's text when it
-// renders on the server (as `<script`), so a product name can't end the tag or trap its closing one.
+// 纯子节点，不使用 dangerouslySetInnerHTML：React 在服务端渲染脚本内部文本时会转义 `<script` 和 `</script`，
+// 因此商品名称无法提前闭合该标签或破坏其闭合标签。
 export function JsonLdScript({ data }: { data: Record<string, unknown> }) {
 	return <script type="application/ld+json">{JSON.stringify(data)}</script>;
 }
@@ -25,15 +25,15 @@ export async function buildProductJsonLd(
 	brandName: string | null,
 ): Promise<Record<string, unknown>> {
 	const { currency: storeCurrency, taxBehavior } = await getStoreConfig();
-	// schema.org `price` must be the price the shopper sees on the page — gross on an
-	// inclusive store, net on an exclusive one. Same rule the platform storefront emits.
+	// schema.org 的 `price` 必须是买家在页面上看到的价格 —— 含税店铺中为含税价，
+	// 未税店铺中为未税价。与平台 storefront 输出的规则一致。
 	const { min, max } = priceRange(product.variants, taxBehavior);
 	const currency = storeCurrency.toUpperCase();
-	// Minor units per the currency's decimals: 1999 is ¥1999, not ¥19.99.
+	// 根据货币的小数位数换算的次要货币单位：1999 对应 ¥1999，而非 ¥19.99。
 	const lowPrice = minorUnitsToMajor({ amount: min, currency });
 	const highPrice = minorUnitsToMajor({ amount: max, currency });
 	const url = `${getBaseUrl()}/product/${product.slug}`;
-	// `stock: null` means the variant doesn't track inventory.
+	// `stock: null` 表示该变体不追踪库存。
 	const availability = product.variants.some((variant) => variant.stock === null || (variant.stock ?? 0) > 0)
 		? "https://schema.org/InStock"
 		: "https://schema.org/OutOfStock";
@@ -46,8 +46,8 @@ export async function buildProductJsonLd(
 		image: product.images,
 		sku: product.variants[0]?.sku ?? product.id,
 		brand: brandName ? { "@type": "Brand", name: brandName } : undefined,
-		// One price is one Offer, however many variants share it (sizes of the same shirt): Google's merchant listings
-		// read `price`, and an AggregateOffer with lowPrice equal to highPrice says less.
+		// 无论有多少个变体共享同一价格（如同款衬衫的不同尺码），都只作为一个 Offer：Google 的商家商品名录
+		// 读取 `price`，而 lowPrice 等于 highPrice 的 AggregateOffer 所能传达的信息较少。
 		offers:
 			min === max
 				? {
@@ -130,8 +130,8 @@ export function buildCollectionJsonLd(collection: APICollectionGetByIdResult): R
 		description:
 			typeof collection.description === "string" ? collection.description : `${collection.name} collection`,
 		image: collection.image ?? undefined,
-		// Plain links, not Product: Google rejects a Product snippet without offers, and the
-		// product page carries the full Product.
+		// 仅提供普通链接，而非 Product：Google 会拒绝没有报价（offers）的 Product 摘要，
+		// 且商品详情页本身已包含完整的 Product 信息。
 		mainEntity: {
 			"@type": "ItemList",
 			numberOfItems: collection.productCollections.length,
@@ -198,7 +198,7 @@ async function getStoreOrganization() {
 	};
 }
 
-// Posts carry no author, so the store stands in as both author and publisher.
+// 文章未指定作者，因此店铺同时作为作者和发布者。
 export async function buildBlogPostingJsonLd(
 	post: NonNullable<APIPostGetByIdResult>,
 ): Promise<Record<string, unknown>> {

@@ -5,10 +5,9 @@ type OrderedVariant = {
 const UNPOSITIONED = Number.MAX_SAFE_INTEGER;
 
 /**
- * Variants in the merchant's option order: Bone before Sand, then 10 cm before 15 cm. The API
- * returns variants in no set order, and the default variant, the swatch order and the gallery
- * all follow the order of this list. Each variant lists its options in the same order, so the
- * positions compare option by option.
+ * 按照商家设定的选项顺序对变体排序：例如 Bone 在 Sand 之前，然后 10 cm 在 15 cm 之前。API
+ * 返回的变体没有固定顺序，而默认变体、色卡顺序以及图片画廊
+ * 都遵循该列表的顺序。每个变体按相同顺序列出其选项，因此按选项逐个对比位置权重（position）。
  */
 export function sortVariantsByOptions<V extends OrderedVariant>(variants: readonly V[]): V[] {
 	const positions = (variant: V) =>

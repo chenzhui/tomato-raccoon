@@ -39,16 +39,16 @@ export default function CheckoutPage() {
 		cvc: "888",
 	});
 
-	// Compute totals
+	// 计算金额总计
 	let subtotalCents = 0;
 	for (const item of items) {
 		const price = Number.parseInt(item.productVariant.price, 10) || 0;
 		subtotalCents += price * item.quantity;
 	}
 
-	// Default fallback if cart is empty (e.g. direct visit)
+	// 购物车为空时的默认兜底（例如直接访问结账页）
 	if (subtotalCents === 0 && items.length === 0) {
-		subtotalCents = 5999; // Default bundle test
+		subtotalCents = 5999; // 默认捆绑包测试金额
 	}
 
 	const isFreeShipping = subtotalCents >= 4000;
@@ -118,7 +118,7 @@ export default function CheckoutPage() {
 				throw new Error(data.message || "Order processing failed");
 			}
 		} catch (err: any) {
-			// Fallback demo order number
+			// 兜底模拟订单号
 			const fallbackOrderNumber = `AI-${Math.floor(100000 + Math.random() * 900000)}`;
 			syncCart(null);
 			router.push(`/order/success/${fallbackOrderNumber}`);
@@ -130,7 +130,7 @@ export default function CheckoutPage() {
 	return (
 		<div className="min-h-screen bg-[#07090f] text-slate-200 py-10 px-4 sm:px-6 lg:px-8">
 			<div className="max-w-6xl mx-auto">
-				{/* Header */}
+				{/* 页面头部 */}
 				<div className="flex items-center justify-between pb-8 mb-8 border-b border-slate-800">
 					<Link href="/" className="inline-flex items-center gap-2 text-sm text-cyan-400 hover:text-cyan-300">
 						<ArrowLeft className="w-4 h-4" />
@@ -143,10 +143,10 @@ export default function CheckoutPage() {
 				</div>
 
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-					{/* Left: Shipping & Payment Form */}
+					{/* 左侧：配送与支付表单 */}
 					<div className="lg:col-span-7 space-y-8">
 						<form onSubmit={handleSubmitOrder} className="space-y-8">
-							{/* Contact Information */}
+							{/* 联系信息 */}
 							<div className="p-6 rounded-2xl border border-slate-800 bg-slate-900/60 space-y-4">
 								<h2 className="text-lg font-bold text-white flex items-center gap-2">
 									<span>1. Contact Information</span>
@@ -165,7 +165,7 @@ export default function CheckoutPage() {
 								</div>
 							</div>
 
-							{/* Shipping Address */}
+							{/* 配送地址 */}
 							<div className="p-6 rounded-2xl border border-slate-800 bg-slate-900/60 space-y-4">
 								<h2 className="text-lg font-bold text-white flex items-center gap-2">
 									<span>2. Shipping Address</span>
@@ -281,7 +281,7 @@ export default function CheckoutPage() {
 								</div>
 							</div>
 
-							{/* Payment Method */}
+							{/* 支付方式 */}
 							<div className="p-6 rounded-2xl border border-slate-800 bg-slate-900/60 space-y-4">
 								<h2 className="text-lg font-bold text-white flex items-center justify-between">
 									<span>3. Payment Method</span>
@@ -335,14 +335,14 @@ export default function CheckoutPage() {
 						</form>
 					</div>
 
-					{/* Right: Order Summary Sidebar */}
+					{/* 右侧：订单摘要侧边栏 */}
 					<div className="lg:col-span-5 space-y-6">
 						<div className="p-6 rounded-2xl border border-slate-800 bg-slate-900/60 sticky top-24 space-y-6">
 							<h3 className="text-base font-bold text-white uppercase tracking-wider pb-4 border-b border-slate-800">
 								Order Summary
 							</h3>
 
-							{/* Items */}
+							{/* 商品清单 */}
 							<div className="space-y-4 max-h-80 overflow-y-auto pr-1">
 								{items.length > 0 ? (
 									items.map((item, idx) => (
@@ -389,7 +389,7 @@ export default function CheckoutPage() {
 								)}
 							</div>
 
-							{/* Calculation */}
+							{/* 费用明细结算 */}
 							<div className="space-y-2 pt-4 border-t border-slate-800 text-xs">
 								<div className="flex justify-between text-slate-400">
 									<span>Subtotal</span>
@@ -410,7 +410,7 @@ export default function CheckoutPage() {
 								</div>
 							</div>
 
-							{/* Trust Guarantees */}
+							{/* 信任与保障承诺 */}
 							<div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2 text-[11px] text-slate-400">
 								<div className="flex items-center gap-2 text-cyan-400 font-medium">
 									<ShieldCheck className="w-4 h-4" />

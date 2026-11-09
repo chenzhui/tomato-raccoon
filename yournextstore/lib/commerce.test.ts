@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, expect, test } from "bun:test";
 
-// lib/commerce asserts YNS_API_KEY at import time — stub it before the dynamic import.
+// lib/commerce 在导入时会校验 YNS_API_KEY —— 在动态导入前先对其打桩（stub）。
 process.env.YNS_API_KEY ??= "test-key";
 const { getCanonicalUrl } = await import("@/lib/commerce");
 

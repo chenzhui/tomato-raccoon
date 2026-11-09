@@ -16,7 +16,7 @@ export function ThemeToggle() {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" aria-label="Change theme" />}>
-				{/* CSS-driven swap keeps server and client markup identical (no hydration flash). */}
+				{/* 基于 CSS 的图标切换保持服务端与客户端标记完全一致（避免水合闪烁）。 */}
 				<Sun className="size-5 dark:hidden" />
 				<Moon className="hidden size-5 dark:block" />
 			</DropdownMenuTrigger>

@@ -41,8 +41,8 @@ function StarInput({ value, onChange }: { value: number; onChange: (v: number) =
 
 type TokenAnswer = APIReviewTokenResult | { status: "failed" };
 
-// Asked only when the shopper clicks, so the product page stays cached. Same-origin under the
-// proxied /checkout, so the browser sends the shopper's session cookie.
+// 仅在顾客点击时发起请求，从而让商详页面保持静态缓存。由于在被代理的
+// /checkout 路径下属于同源请求，浏览器会自动携带顾客的 session cookie。
 async function fetchReviewToken(productId: string): Promise<TokenAnswer> {
 	const response = await fetch(`/checkout/api/review-token?product=${encodeURIComponent(productId)}`).catch(
 		() => null,
@@ -51,8 +51,8 @@ async function fetchReviewToken(productId: string): Promise<TokenAnswer> {
 	return answer ?? { status: "failed" };
 }
 
-// A buyer who checked out as a guest, or under another email, can only review from the link in
-// their delivery email.
+// 以访客身份结账或使用其他邮箱购买的顾客，只能通过
+// 配送确认邮件中的链接进行评价。
 const BUYERS_ONLY =
 	"Only customers who bought this product can review it. Bought it? Use the review link in your delivery email.";
 
@@ -76,7 +76,7 @@ export function WriteReview({ productId }: { productId: string }) {
 		<div className="space-y-3">
 			<Button
 				variant="outline"
-				// Only a failed check is worth repeating; the other answers hold until the shopper navigates.
+				// 只有检查失败时才值得重试；其他检查结果在顾客离开页面前保持有效。
 				disabled={checking || (answer !== null && answer.status !== "failed")}
 				onClick={async () => {
 					setChecking(true);
@@ -103,7 +103,7 @@ export function WriteReview({ productId }: { productId: string }) {
 	);
 }
 
-/** Posts a review with the token that proves the purchase: from WriteReview or the delivered-order email link. */
+/** 携带证明购买行为的 token 提交评价：token 可来自 WriteReview 检查或已送达订单的邮件链接。 */
 export function ReviewForm({ productId, token }: { productId: string; token: string }) {
 	const [state, action, isPending] = useActionState(submitReview, null);
 	const [rating, setRating] = useState(0);

@@ -73,7 +73,7 @@ export function ProductReviews({
 				<h2 className="text-3xl font-medium tracking-tight">Customer Reviews</h2>
 				<ReviewSummary summary={reviews.summary} />
 			</div>
-			{/* How reviews are checked (EU Omnibus): shown wherever reviews are. */}
+			{/* 评价审核机制说明（欧盟 Omnibus 指令要求）：在所有展示评价的区域显示。 */}
 			<p className="-mt-4 mb-8 text-sm text-muted-foreground">
 				Only customers who bought a product can review it. Reviews marked "Verified purchase" come from a
 				confirmed order.

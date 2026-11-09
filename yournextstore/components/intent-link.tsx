@@ -1,6 +1,6 @@
 "use client";
 
-// Adapted from components/ui/link.tsx in vercel/shop (MIT, Copyright (c) 2025 Vercel, Inc.).
+// 改编自 vercel/shop 中的 components/ui/link.tsx（MIT 协议，版权所有 (c) 2025 Vercel, Inc.）。
 
 import NextLink from "next/link";
 import { type ComponentProps, type Ref, useEffect, useRef, useState } from "react";
@@ -44,7 +44,7 @@ function canUpgrade(anchor: HTMLAnchorElement): boolean {
 		const current = new URL(window.location.href);
 		const destination = new URL(anchor.href);
 
-		// The root ensureStatic keeps per-link prefetches static, so search params resolve only on navigation and a same-path upgrade adds nothing.
+		// 根级的 ensureStatic 使每个链接的预取保持静态，因此搜索参数仅在导航时解析，同路径的升级并不会带来任何收益。
 		return (
 			(destination.protocol === "http:" || destination.protocol === "https:") &&
 			destination.origin === current.origin &&
@@ -126,8 +126,8 @@ function assignRef(ref: Ref<HTMLAnchorElement> | undefined, anchor: HTMLAnchorEl
 }
 
 /**
- * A link that prefetches on intent: the route's shared App Shell by default (partialPrefetching), and the full page
- * once the shopper hovers or focuses it or, on touch screens, stops scrolling near it, so the click shows real content.
+ * 基于用户意图进行预取的链接组件：默认预取路由的共享应用外壳（App Shell，即 partialPrefetching）；
+ * 一旦顾客悬停、聚焦链接，或在触屏上停留在其附近停止滚动时，预取完整页面，从而在点击时立即显示真实内容。
  */
 export function IntentLink({
 	as,
@@ -204,7 +204,7 @@ export function IntentLink({
 			}}
 			onPointerDown={(event) => {
 				onPointerDown?.(event);
-				// Navigation renders the cached shell instead of waiting on an in-flight per-link prefetch, so an upgrade after a press only duplicates the request.
+				// 导航会直接渲染缓存的外壳，而不会等待进行中的单链接预取，因此在按下后再触发升级只会造成重复请求。
 				cancelPendingIntent();
 				cancelSettleIntent();
 			}}

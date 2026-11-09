@@ -2,9 +2,9 @@ import { type NextRequest, NextResponse } from "next/server";
 import { getSubdomainPublicUrl } from "@/lib/commerce";
 
 async function handler(request: NextRequest) {
-	// better-auth lives on the apex (global users), not the tenant subdomain — on a
-	// tenant subdomain `/api/auth/*` rewrites into `[domain]` and 404s. Target the apex,
-	// same as the page proxy in proxy.ts.
+	// better-auth 运行在主域名（apex，全局用户系统）上，而不是租户子域名上 —— 在
+	// 租户子域名上 `/api/auth/*` 会被重写到 `[domain]` 并导致 404。因此目标指向主域名，
+	// 与 proxy.ts 中的页面代理保持一致。
 	const { publicUrl } = await getSubdomainPublicUrl();
 
 	const url = new URL(request.nextUrl.pathname + request.nextUrl.search, publicUrl);

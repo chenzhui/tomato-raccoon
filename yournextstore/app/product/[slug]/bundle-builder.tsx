@@ -18,13 +18,13 @@ type Bundle = NonNullable<APIProductGetByIdResult["bundle"]>;
 type Group = Bundle["groups"][number];
 type GroupItem = Group["items"][number];
 
-// quantity chosen per variant, scoped per group
+// 每个变体所选择的数量，按分组作用域划分
 type GroupSelections = Record<string, Record<string, number>>;
 
-// Raw bundle pricing fields off the product (commerce-kit 0.50). `discountPercentage` is already on
-// the clean `bundle` object; the mode + fixed/amount values live on the product for now.
-// TODO: fold priceMode/fixedPriceAmount/amountOffAmount (and their gross twins) into
-// `serializeBundleForApi` and read from `product.bundle` instead of the raw fields — see YNS-1449.
+// 商品上的原始捆绑包定价字段 (commerce-kit 0.50)。`discountPercentage` 已经存在于
+// 规范的 `bundle` 对象上；模式 + 固定金额/减免金额数值目前暂存于商品对象上。
+// 待办：将 priceMode/fixedPriceAmount/amountOffAmount（及其含税孪生字段）合并到
+// `serializeBundleForApi` 中，并直接从 `product.bundle` 读取，而非读取原始字段 —— 参见 YNS-1449。
 type Pricing = {
 	mode: "fixed" | "percent" | "amount";
 	fixedPriceAmount: string | null;
@@ -33,10 +33,9 @@ type Pricing = {
 	amountOffAmountGross: string | null;
 };
 
-// Preview total (minor units), in the basis the shopper sees: `sum` already comes in gross for an
-// inclusive store, so the fixed/amount-off operands must match it. The cart response is
-// authoritative; this mirrors the core modes so fixed-price and amount-off bundles don't show the
-// full component sum on the PDP.
+// 预览总价（最小货币单位），按照顾客看到的计税口径计算：对于含税店铺，
+// `sum` 本身已经是含税毛额，因此固定价/减免额操作数必须与其匹配。
+// 购物车返回结果具有权威性；此处同步核心计算模式，使固定价格和满减捆绑包在商详页上不直接显示所有组件的总和。
 const priceTotal = (
 	sum: bigint,
 	pricing: Pricing,
@@ -53,8 +52,8 @@ const priceTotal = (
 		);
 		return sum > off ? sum - off : 0n;
 	}
-	// percent: core stores percent × 1000, so pct/100 becomes (sum × round(pct×1000)) / 100000.
-	// A ratio needs no gross twin — scaling a gross sum gives the gross discounted total.
+	// 百分比折扣：核心服务存储 percent × 1000，因此 pct/100 转换为 (sum × round(pct×1000)) / 100000。
+	// 比例计算不需要毛额镜像 —— 按比例缩放毛额总和直接得出折后毛额总计。
 	const pct = discountPercentage ?? 0;
 	return pct > 0 ? sum - (sum * BigInt(Math.round(pct * 1000))) / 100_000n : sum;
 };
@@ -104,14 +103,13 @@ export function BundleBuilder({
 		});
 	};
 
-	// Radio groups (pick exactly one): selecting an item replaces the current pick.
+	// 单选分组（严格只能选一个）：选择新项目会直接替换当前已选项目。
 	const pickRadio = (group: Group, variantId: string) => {
 		setSelections((prev) => ({ ...prev, [group.id]: { [variantId]: 1 } }));
 	};
 
-	// Preview only — the cart response is authoritative for the final (taxed) price. Component
-	// prices and the fixed/amount-off pricing fields both carry gross twins, so an inclusive store
-	// previews the bundle inc-tax throughout.
+	// 仅用于预览 —— 最终（含税）价格以购物车返回为准。组件价格与
+	// 固定价/满减定价字段均带有毛额对应项，因此含税店铺在整个过程中均能以含税价预览捆绑包。
 	const originalTotal = groups
 		.flatMap((group) =>
 			Object.entries(selections[group.id] ?? {}).map(([variantId, quantity]) => {
@@ -164,9 +162,8 @@ export function BundleBuilder({
 				const isRadio = group.maxQuantity === 1 && !group.allowDuplicates;
 				const atGroupMax = group.maxQuantity != null && picked >= group.maxQuantity;
 				const isForcedGroup = group.items.every((i) => i.forced);
-				// A "swatch group" is a choice among variants of one product (e.g. colors): label the
-				// options by their variant value instead of the repeated product name. Groups made of
-				// distinct products keep their product names.
+				// “色卡分组（swatch group）”指同一商品的不同变体之间的选择（例如不同颜色）：
+				// 使用其变体值标记选项，而不是重复显示商品名称。由不同独立商品组成的分组则保留各自的商品名称。
 				const isSwatchGroup =
 					group.items.length > 1 && new Set(group.items.map((i) => i.variant.productSlug)).size === 1;
 
@@ -190,8 +187,8 @@ export function BundleBuilder({
 								const image = item.variant.images[0] ?? item.variant.productImages[0];
 								const stock = item.variant.stock;
 								const outOfStock = stock != null && stock <= 0;
-								// Without duplicates, each option caps at 1 unit (distinct picks); with
-								// duplicates the only limit is the group total. Mirrors the editor.
+								// 在不允许重复选购时，每个选项上限为 1 件（不同挑选）；
+								// 允许重复时唯一的上限是分组总数限制。与后台编辑器规则一致。
 								const itemCap = item.maxQuantity ?? (group.allowDuplicates ? Number.POSITIVE_INFINITY : 1);
 								const canIncrement =
 									!item.forced &&
@@ -199,9 +196,8 @@ export function BundleBuilder({
 									qty < itemCap &&
 									(stock == null || qty < stock) &&
 									!atGroupMax;
-								// Variant option values (e.g. "Charcoal"). In a swatch group they become the
-								// card label; a color option also renders a swatch dot. Guard against an
-								// older API deployment that doesn't send `options` yet (version skew).
+								// 变体规格值（例如 "炭黑色"）。在色卡分组中它们作为卡片标题；
+								// 颜色选项还会渲染一个色卡圆点。兼容尚未返回 options 的旧版 API 部署（版本偏差防范）。
 								const options = item.variant.options ?? [];
 								const optionText = options.map((o) => o.value).join(" / ");
 								const swatchColor = options.find((o) => o.colorValue)?.colorValue ?? null;

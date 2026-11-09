@@ -8,12 +8,12 @@ const PRODUCTS_PER_PAGE = 12;
 
 type ListingQuery = {
 	filters: ProductListingParams;
-	/** Fixed category of a category page; on `/products` it comes from the filters. */
+	/** 分类页面的固定分类；在 `/products` 页面上则来自于筛选参数。 */
 	category?: string;
 	order?: { orderBy: "createdAt" | "price" | "name" | "featured"; orderDirection: "asc" | "desc" };
 };
 
-/** One page of a listing. Cached, so a view can start it alongside its facets and the grid reads the same entry. */
+/** 列表页的单页数据。已缓存，因此视图可以在请求分面数据的同时发起此请求，而商品网格读取的是同一个缓存条目。 */
 export async function getListingPage({ filters, category, order }: ListingQuery) {
 	"use cache";
 	cacheLife("minutes");
@@ -33,7 +33,7 @@ export async function getListingPage({ filters, category, order }: ListingQuery)
 	return { currentPage, result, totalPages: Math.ceil(result.meta.count / PRODUCTS_PER_PAGE) };
 }
 
-/** Product grid and pagination shared by `/products` and category pages. */
+/** `/products` 页面与分类页面共享的商品网格及分页组件。 */
 export async function ListingProducts({ basePath, ...query }: ListingQuery & { basePath: string }) {
 	const { currentPage, result, totalPages } = await getListingPage(query);
 

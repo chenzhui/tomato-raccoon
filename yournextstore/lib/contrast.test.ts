@@ -21,7 +21,7 @@ test("oklch resolves the achromatic ends of the scale", () => {
 });
 
 test("oklch matches the browser's sRGB conversion for a neutral grey", () => {
-	// oklch(0.556 0 0) renders as #737373; allow one unit of rounding per channel.
+	// oklch(0.556 0 0) 渲染为 #737373；每个通道允许 1 个单位的舍入误差。
 	const [r, g, b] = channels(color("oklch(0.556 0 0)"));
 	expect(Math.abs((r ?? 0) - 0x73)).toBeLessThanOrEqual(1);
 	expect(Math.abs((g ?? 0) - 0x73)).toBeLessThanOrEqual(1);
@@ -29,7 +29,7 @@ test("oklch matches the browser's sRGB conversion for a neutral grey", () => {
 });
 
 test("oklch converts a chromatic colour through OKLab", () => {
-	// oklch(0.627 0.258 29.23) is sRGB red.
+	// oklch(0.627 0.258 29.23) 对应 sRGB 的纯红色。
 	const [r, g, b] = channels(color("oklch(0.627 0.258 29.23)"));
 	expect(Math.abs((r ?? 0) - 255)).toBeLessThanOrEqual(2);
 	expect(g ?? 0).toBeLessThanOrEqual(2);
@@ -61,7 +61,7 @@ test("resolveColor follows a var() chain", () => {
 	const palette = { a: "var(--b)", b: "#fff" };
 	expect(channels(resolveColor("a", palette))).toEqual([255, 255, 255]);
 	expect(resolveColor("missing", palette)).toBeNull();
-	// A dangling chain falls back to the var() fallback, then to nothing.
+	// 悬空链会回退到 var() 的回退值，最后回退为空。
 	expect(channels(resolveColor("c", { c: "var(--nope, #000)" }))).toEqual([0, 0, 0]);
 	expect(resolveColor("d", { d: "var(--nope)" })).toBeNull();
 });
@@ -81,7 +81,7 @@ test("composite flattens a translucent colour over its backdrop", () => {
 test("contrastRatio matches the WCAG extremes", () => {
 	expect(contrastRatio(WHITE, BLACK)).toBeCloseTo(21, 2);
 	expect(contrastRatio(WHITE, WHITE)).toBeCloseTo(1, 5);
-	// A translucent foreground is composited before the ratio is taken.
+	// 半透明前景色会在计算对比度之前先进行颜色合成压平。
 	expect(contrastRatio({ ...BLACK, a: 0.5 }, WHITE)).toBeCloseTo(contrastRatio(color("#808080"), WHITE), 1);
 });
 
@@ -103,7 +103,7 @@ test("parseCssBlock brace-matches the block instead of stopping at the first `}`
 	expect(root?.muted).toBe("oklch(0.97 0 0)");
 	expect(channels(resolveColor("foreground", root ?? {}))).toEqual([255, 255, 255]);
 
-	// The `.dark` inside `@custom-variant` must not be mistaken for the block.
+	// 绝不能将 `@custom-variant` 内部的 `.dark` 误判为样式块。
 	expect(parseCssBlock(css, ".dark")?.background).toBe("oklch(0.145 0 0)");
 	expect(parseCssBlock(css, ".missing")).toBeNull();
 });

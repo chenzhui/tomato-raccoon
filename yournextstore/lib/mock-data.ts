@@ -157,7 +157,7 @@ export const MOCK_REVIEWS: StoreReview[] = [
 
 export function getMockProducts() {
 	return [
-		// 1. Full Desk Bundle (Hero SKU)
+		// 1. 全套桌面大礼包（主力 SKU）
 		{
 			id: "prod-bundle-desk",
 			slug: "ultimate-waifu-desk-bundle",
@@ -187,7 +187,7 @@ export function getMockProducts() {
 			],
 		},
 
-		// 2. Whale-Chan Standee
+		// 2. Whale-Chan 立牌
 		{
 			id: "prod-whale-standee",
 			slug: "whale-chan-r1-standee",
@@ -211,7 +211,7 @@ export function getMockProducts() {
 			],
 		},
 
-		// 3. Sonnet-Tan Standee
+		// 3. Sonnet-Tan 立牌
 		{
 			id: "prod-sonnet-standee",
 			slug: "sonnet-tan-35-standee",
@@ -235,7 +235,7 @@ export function getMockProducts() {
 			],
 		},
 
-		// 4. Omni-Chan Standee
+		// 4. Omni-Chan 立牌
 		{
 			id: "prod-omni-standee",
 			slug: "omni-chan-4o-standee",
@@ -259,7 +259,7 @@ export function getMockProducts() {
 			],
 		},
 
-		// 5. Rebel-Tan Standee
+		// 5. Rebel-Tan 立牌
 		{
 			id: "prod-rebel-standee",
 			slug: "rebel-tan-x-standee",
@@ -283,7 +283,7 @@ export function getMockProducts() {
 			],
 		},
 
-		// 6. TwinStar-Chan Standee
+		// 6. TwinStar-Chan 立牌
 		{
 			id: "prod-twinstar-standee",
 			slug: "twinstar-chan-standee",
@@ -307,7 +307,7 @@ export function getMockProducts() {
 			],
 		},
 
-		// 7. Large Geek RGB Desk Mat
+		// 7. 极客大号 RGB 桌垫
 		{
 			id: "prod-desk-mat",
 			slug: "all-waifus-xl-rgb-desk-mat",
@@ -331,7 +331,7 @@ export function getMockProducts() {
 			],
 		},
 
-		// 8. Whale-Chan Plush Dango
+		// 8. Whale-Chan 毛绒团子
 		{
 			id: "prod-whale-plush",
 			slug: "whale-chan-plush-dango",

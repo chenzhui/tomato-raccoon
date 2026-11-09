@@ -22,17 +22,17 @@ async function getBlogState() {
 	return { enabled: true, posts: await getAllPosts().catch(() => []) };
 }
 
-// The newest of a list's dates, or undefined for an empty list (the entry then has no <lastmod>).
+// 返回列表中的最新日期，若列表为空则返回 undefined（该条目将不包含 <lastmod>）。
 function newest(dates: string[]) {
 	const times = dates.map((date) => new Date(date).getTime()).filter((time) => !Number.isNaN(time));
 	return times.length > 0 ? new Date(Math.max(...times)) : undefined;
 }
 
-// Cached, so the sitemap is prerendered and refreshed every minute or so instead of walking the whole catalog on every
-// crawl (the lists come from lib/catalog-paths.ts, which keep the same lifetime: a renamed product must not keep its
-// old address here for an hour). Every <lastmod> is a real date: a listing takes its newest entry's,
-// and a page with no date of its own (about, FAQ, contact) has none. Google trusts lastmod only on a site where it's
-// consistently accurate, so a page that claims to change on every regeneration costs the real dates too.
+// 已缓存，因此站点地图为预渲染并在大约每分钟刷新一次，而不是在每次爬虫抓取时遍历整个商品目录
+// （列表来自 lib/catalog-paths.ts，保持相同的生命周期：重命名的商品不能在此处保留旧地址长达一小时）。
+// 每一个 <lastmod> 都是真实的日期：列表页面采用其最新条目的日期，
+// 自身没有独立日期的页面（about、FAQ、contact）则不设 lastmod。Google 仅在网站的 lastmod
+// 始终保持准确时才会信任它，如果页面在每次重新生成时都谎称有更新，反而会损害真实日期的可信度。
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	"use cache";
 	cacheLife("minutes");

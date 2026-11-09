@@ -8,7 +8,7 @@ import { getStoreSeo } from "@/lib/commerce";
 import { JsonLdScript } from "@/lib/json-ld";
 import { isStoreToolEnabled } from "@/lib/store-tools";
 
-// `next dev` and `next build` fail if anything on this route renders per request (AGENTS.md).
+// `next dev` 和 `next build` 在此路由按请求实时渲染任何内容时都会报错（参见 AGENTS.md）。
 export const ensureStatic = "navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -35,9 +35,9 @@ const contactJsonLd = {
 	description: "Get in touch with our team. Questions about orders, products, or anything else.",
 };
 
-// Listed addresses still prerender in full (the boundary resolves at build time, so no fallback shows). An address
-// added later streams in behind the prerendered chrome, so `notFound()` there renders the not-found page inside the
-// layout instead of a bare error document.
+// 已列出的地址仍会完整预渲染（边界在构建时解析，因此不显示 fallback）。后续新增的地址
+// 会在预渲染的外壳后以流式加载，因此其 notFound() 会在布局内渲染 404 页面，
+// 而不是渲染空白的纯文本错误文档。
 export default function ContactPage() {
 	return (
 		<Suspense fallback={null}>
@@ -58,7 +58,7 @@ async function ContactPageContent() {
 		<div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 			<JsonLdScript data={contactJsonLd} />
 
-			{/* Header */}
+			{/* 页面头部 */}
 			<div className="mb-10">
 				<Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
 					Home
@@ -72,10 +72,10 @@ async function ContactPageContent() {
 				</p>
 			</div>
 
-			{/* Form */}
+			{/* 联系表单 */}
 			<ContactForm />
 
-			{/* FAQ link */}
+			{/* 常见问题 (FAQ) 链接 */}
 			<p className="mt-10 text-sm text-muted-foreground">
 				Looking for a quick answer? Check our{" "}
 				<Link href="/faq" className="font-medium text-foreground hover:underline">

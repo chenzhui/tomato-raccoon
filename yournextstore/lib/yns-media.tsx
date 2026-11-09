@@ -52,17 +52,17 @@ const YNSImage = process.env.NODE_ENV === "development" ? YNSImageWithPolling : 
 type YNSMediaProps = ImageProps & {
 	autoPlay?: boolean;
 	controls?: boolean;
-	/** Blurred preview (lib/blur-placeholder.ts), applied while this exact image loads. */
+	/** 模糊预览图（lib/blur-placeholder.ts），在此特定图片加载期间应用。 */
 	preview?: BlurPreview | null;
 };
 
-/** Renders a <video> for video URLs, otherwise falls back to the Image component. */
+/** 针对视频 URL 渲染 <video>，否则回退到 Image 组件。 */
 export const YNSMedia = ({ autoPlay = true, controls = false, preview = null, ...props }: YNSMediaProps) => {
 	const src = typeof props.src === "string" ? props.src : "";
 	if (isVideoUrl(src)) {
 		return (
 			<video
-				// Videos have no alt attribute — surface the image alt text to assistive tech instead.
+				// 视频标签没有 alt 属性 —— 改为向无障碍辅助技术暴露图片的 alt 文本。
 				aria-label={props.alt || undefined}
 				className={typeof props.className === "string" ? props.className : undefined}
 				style={

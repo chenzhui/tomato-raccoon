@@ -12,7 +12,7 @@ type RestockState = {
 export async function subscribeToRestock(_prev: RestockState, formData: FormData): Promise<RestockState> {
 	const productVariantId = formData.get("productVariantId");
 	const email = formData.get("email");
-	// Optional — only a ticked box makes the address a marketing subscriber.
+	// 可选 —— 只有勾选复选框才会将该邮箱加入营销订阅者列表。
 	const marketingConsent = formData.get("marketingConsent") === "on";
 
 	if (!productVariantId || typeof productVariantId !== "string") {

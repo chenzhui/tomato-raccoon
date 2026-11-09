@@ -22,12 +22,12 @@ import { formatMoney } from "@/lib/money";
 import { cn } from "@/lib/utils";
 import { encodeVts, parseVts } from "@/lib/vts";
 
-// Search params owned by the filters, cleared by "Clear all".
+// 由筛选器拥有的搜索参数，点击“全部清除”时会清空。
 
-// Max entries shown per filter group before collapsing the rest behind "Show more".
+// 每个筛选组中最多显示的条目数，超出部分折叠在“显示更多”后。
 const VISIBLE_ENTRY_LIMIT = 10;
 
-/** Renders a list of filter entries, truncated to `limit` with a "Show more"/"Show less" toggle. */
+/** 渲染筛选条目列表，截断至 `limit` 数量，并提供“显示更多”/“显示更少”切换功能。 */
 function CollapsibleList<T>({
 	items,
 	className,
@@ -66,9 +66,8 @@ type FilterControlsProps = {
 };
 
 /**
- * The listing's active filters come from the server (empty on the static default view, the query on the
- * `…-filtered` routes, lib/listing-routes.ts), not from the browser address: the controls stay in the prerendered
- * shell without `useSearchParams()`.
+ * 列表页的已启用筛选器来自服务端（在静态默认视图中为空，在 `…-filtered` 路由中为查询参数，见 lib/listing-routes.ts），
+ * 而非直接取自浏览器地址栏：控件保留在预渲染外壳中，无需使用 `useSearchParams()`。
  */
 type ActiveFilters = { active: Record<string, string | undefined> };
 
@@ -86,11 +85,10 @@ function FilterControls({
 	const selectedVts = parseVts(searchParams.get("vts"));
 	const [optimisticVts, setOptimisticVts] = useOptimistic(selectedVts);
 
-	// KNOWN LIMITATION: the filters endpoint reports price bounds — and matches
-	// priceMin/priceMax — in NET minor units, with no gross twin. On a tax-inclusive
-	// store the slider therefore reads slightly below the prices shown on the cards.
-	// Grossing them up here would desync the slider from the query the API actually
-	// runs, so the bounds stay net until the endpoint exposes gross bounds of its own.
+	// 已知限制：筛选接口以“净价”最小货币单位返回价格边界并匹配 priceMin/priceMax，
+	// 没有对应的含税总价数据。因此在含税商店中，滑块显示的价格会略低于卡片上显示的价格。
+	// 若在此将其转换为含税价，会导致滑块与 API 实际执行的查询不同步，
+	// 因此在接口自身提供含税边界前，边界值仍保持净价。
 	const { min: priceFloor, max: priceCeil } = facets.priceBounds;
 	const priceMinParam = searchParams.get("priceMin");
 	const priceMaxParam = searchParams.get("priceMax");
@@ -102,7 +100,7 @@ function FilterControls({
 	const commit = (mutate: (params: URLSearchParams) => void) => {
 		const params = new URLSearchParams(searchParams.toString());
 		mutate(params);
-		// Any filter change can shrink the result set — return to the first page.
+		// 任何筛选条件的改变都可能缩减结果集 —— 重置回第一页。
 		params.delete("page");
 		startTransition(() => {
 			router.push(params.size ? `${pathname}?${params}` : pathname, { scroll: false });
@@ -147,7 +145,7 @@ function FilterControls({
 
 	const hasActiveFilters = FILTER_KEYS.some((key) => searchParams.has(key));
 	const hasPrice = priceCeil > priceFloor;
-	// All groups that will render, in display order — only the first opens by default.
+	// 所有将要渲染的组（按显示顺序）—— 默认仅展开第一个组。
 	const accordionGroups = [
 		...(showCategories && facets.categories.length > 0 ? ["categories"] : []),
 		...(showCollections && facets.collections.length > 0 ? ["collections"] : []),
@@ -241,8 +239,8 @@ function FilterControls({
 									items={vt.values}
 									className="space-y-2"
 									renderItem={(value) => {
-										// No spaces: the checkbox names itself through aria-labelledby, a space-separated
-										// id list, so "Dual Color" would point at two ids and leave it unnamed.
+										// 不包含空格：复选框通过 aria-labelledby（以空格分隔的 id 列表）命名自身，
+										// 若包含空格（如 "Dual Color"）会导致指向两个 id 而使其失去正确名称。
 										const id = `${vt.label}-${value}`.replace(/\s+/g, "-");
 										const checked = selectedValues.includes(value);
 										return (
@@ -334,7 +332,7 @@ function FilterControls({
 	);
 }
 
-/** Desktop sidebar filters (hidden on small screens — use `ProductFiltersMobile` there). */
+/** 桌面端侧边栏筛选器（在小屏幕上隐藏 —— 小屏请使用 `ProductFiltersMobile`）。 */
 export function ProductFilters({
 	className,
 	...props
@@ -346,7 +344,7 @@ export function ProductFilters({
 	);
 }
 
-/** Mobile filters trigger + slide-over sheet (hidden on large screens). */
+/** 移动端筛选器触发按钮 + 抽屉弹层（在大屏幕上隐藏）。 */
 export function ProductFiltersMobile(props: FilterControlsProps & ActiveFilters) {
 	const searchParams = toSearchParams(props.active);
 	const activeCount = FILTER_KEYS.filter((key) => searchParams.has(key)).length;

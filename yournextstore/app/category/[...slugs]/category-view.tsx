@@ -19,8 +19,8 @@ import { getFilterFacets, hasFacets } from "@/lib/facets";
 import { buildCategoryBreadcrumbJsonLd, JsonLdScript } from "@/lib/json-ld";
 import type { CategoryListingParams } from "@/lib/listing-routes";
 
-// The SDK loads the parent chain up to 2 levels deep (self -> parent -> grandparent),
-// so the canonical path is capped at 3 segments (e.g. fashion/tops/t-shirts).
+// SDK 最多加载 2 层的父级链（自身 -> 父级 -> 祖父级），
+// 因此规范化路径最多限制为 3 个层级（例如 fashion/tops/t-shirts）。
 type CategoryLike = { name: string; slug: string; parent?: CategoryLike | null };
 
 const flattenParents = (category: CategoryLike): Array<{ name: string; slug: string }> => {
@@ -66,8 +66,8 @@ export async function categoryMetadata(slugs: string[]): Promise<Metadata> {
 	};
 }
 
-// The SDK throws on a 404 despite its `| null` type. Without the null, the `!category`
-// branches never run and an unknown slug answers 200 with the error page.
+// 尽管 SDK 标注了 | null 类型，但在 404 时实际上会抛出异常。如果不捕获并转为 null，
+// !category 分支将永远不会执行，未知的 slug 会带着错误页面返回 200 状态码。
 const getCategoryData = async (slug: string) => {
 	"use cache";
 	cacheLife("minutes");
@@ -76,8 +76,8 @@ const getCategoryData = async (slug: string) => {
 };
 
 /**
- * A category with or without filters. The default view (`/category/…` without a query) prerenders in full; a filter
- * or page number is rewritten to `/category-filtered/…`, which renders per request (lib/listing-routes.ts).
+ * 无论是否带有筛选条件的分类视图。默认视图（不带参数的 `/category/…`）完整预渲染；
+ * 筛选条件或页码会被重写到 `/category-filtered/…`，后者按请求实时渲染（参见 lib/listing-routes.ts）。
  */
 export async function CategoryView({ slugs, filters }: { slugs: string[]; filters: CategoryListingParams }) {
 	const slug = slugs.at(-1);
@@ -85,7 +85,7 @@ export async function CategoryView({ slugs, filters }: { slugs: string[]; filter
 		notFound();
 	}
 
-	// All cached and independent: the category, its facets and the listing page start together.
+	// 均已缓存且相互独立：分类信息、筛选分面与商品列表页并行开始加载。
 	const [category, facets] = await Promise.all([
 		getCategoryData(slug),
 		getFilterFacets(),
@@ -94,7 +94,7 @@ export async function CategoryView({ slugs, filters }: { slugs: string[]; filter
 	if (!category?.active) {
 		notFound();
 	}
-	// Category facet is hidden here (it's the page context), so don't count it.
+	// 此处隐藏了分类自身的分面项（因为这就是当前页面的上下文），因此不计入在内。
 	const filtersAvailable = hasFacets(facets, { categories: false });
 
 	const hierarchy = flattenParents(category as CategoryLike);

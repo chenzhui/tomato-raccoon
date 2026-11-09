@@ -76,7 +76,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 	};
 }
 
-// Every known address prerenders in full; one added later renders on its first visit (lib/catalog-paths.ts).
+// 所有已知地址都完整预渲染；后续新增的地址在首次访问时渲染（参见 lib/catalog-paths.ts）。
 export const generateStaticParams = () => slugParams(getAllProducts(), (product) => product.slug);
 
 const getProductPageData = async (slug: string) => {
@@ -92,7 +92,7 @@ const getProductPageData = async (slug: string) => {
 			? commerce.productReviewsBrowse({ idOrSlug: slug }, { limit: 20 }).catch(() => null)
 			: Promise.resolve(null),
 	]);
-	// The SDK gives the product a brand id only; an inactive brand isn't shown.
+	// SDK 仅向商品下发 brand id；未激活的品牌不予展示。
 	const brand = product?.brandId
 		? await commerce.brandGet({ idOrSlug: product.brandId }).catch(() => null)
 		: null;
@@ -105,11 +105,11 @@ const getProductPageData = async (slug: string) => {
 	};
 };
 
-// An address added after the build renders in full on its first request before anything is sent, so a missing one
-// answers 404 with the not-found page inside the layout, not a 200 behind an already-sent shell (AGENTS.md).
+// 在构建后新增的地址会在首次请求时完整渲染后再发送内容，因此不存在的商品
+// 会在布局内返回 404 状态码及未找到页面，而不是在已发送的外壳后返回 200 响应（参见 AGENTS.md）。
 export const ensureStatic = "navigation";
 
-// Listed addresses prerender in full: the boundary resolves at build time, so no fallback ever shows.
+// 已列出的地址完整预渲染：边界在构建时解析，因此绝不显示 fallback。
 export default function ProductPage(props: Parameters<typeof ProductPageContent>[0]) {
 	return (
 		<Suspense fallback={null}>
@@ -129,8 +129,8 @@ async function ProductPageContent({ params }: { params: Promise<{ slug: string }
 	const reviewSummary = reviews?.summary ?? null;
 	const variants = sortVariantsByOptions(product.variants);
 
-	// The plans a shopper can pick, in the merchant's order. productGet lists inactive plans too, and
-	// the cart refuses those.
+	// 顾客可选择的订阅方案，按商家设定的顺序排列。productGet 也会返回未激活方案，
+	// 购物车接口会拒绝未激活的方案。
 	const plans = (product.subscriptionPlanProducts ?? [])
 		.map(({ subscriptionPlan }) => subscriptionPlan)
 		.filter((plan) => plan.active)
@@ -178,12 +178,12 @@ async function ProductPageContent({ params }: { params: Promise<{ slug: string }
 				</BreadcrumbList>
 			</Breadcrumb>
 			<div className="lg:grid lg:grid-cols-2 lg:gap-16">
-				{/* Left: Image Gallery (sticky on desktop) */}
+				{/* 左侧：图片画廊（桌面端粘性吸顶） */}
 				<MediaGallery images={allImages} productName={product.name} variants={variants} preview={preview} />
 
-				{/* Right: Product Details */}
+				{/* 右侧：商品详情信息 */}
 				<div className="mt-8 lg:mt-0 space-y-8">
-					{/* Title & reviews summary */}
+					{/* 标题与评价概览 */}
 					<div className="space-y-3">
 						{brand && (
 							<Link
@@ -210,8 +210,8 @@ async function ProductPageContent({ params }: { params: Promise<{ slug: string }
 						)}
 					</div>
 
-					{/* Configurable bundle → group builder; otherwise the standard variant add-to-cart.
-					    Renders only for bundle products, so it stays dormant for regular stores. */}
+					{/* 可配置捆绑包 → 分组构建器；否则使用标准变体加购按钮。
+					    仅对捆绑包商品渲染，因此在常规商品店铺中保持静默。 */}
 					{product.type === "bundle" && product.bundle?.groups?.length ? (
 						<BundleBuilder
 							bundleId={product.id}
@@ -243,7 +243,7 @@ async function ProductPageContent({ params }: { params: Promise<{ slug: string }
 				</div>
 			</div>
 
-			{/* Full description (below the fold, full width) */}
+			{/* 详细描述（首屏下方，全宽展开） */}
 			{product.content && (
 				<section className="mt-16 border-t border-border pt-12">
 					<h2 className="mb-6 text-2xl font-medium tracking-tight">Product details</h2>
@@ -253,13 +253,13 @@ async function ProductPageContent({ params }: { params: Promise<{ slug: string }
 				</section>
 			)}
 
-			{/* Reviews Section */}
+			{/* 商品评价区域 */}
 			{reviews && <ProductReviews reviews={reviews} productId={product.id} />}
 
-			{/* Features Section (full width below) */}
+			{/* 商品特色区域（下方全宽展示） */}
 			<ProductFeatures />
 
-			{/* Related Products */}
+			{/* 推荐关联商品 */}
 			<RelatedProducts productId={product.id} />
 		</div>
 	);

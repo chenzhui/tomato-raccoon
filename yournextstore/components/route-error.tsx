@@ -5,10 +5,9 @@ import Link from "next/link";
 import { useEffect } from "react";
 
 /**
- * Shared fallback for route-level error boundaries. `retry` re-fetches and
- * re-renders the boundary's children (Server Components included), so a
- * transient commerce API failure recovers in place instead of unmounting
- * the whole page to the root boundary.
+ * 路由级错误边界的共享后备组件。`retry` 会重新获取并
+ * 重新渲染该边界的子组件（包括服务端组件 Server Components），因此
+ * 电商 API 的瞬时故障可以就地恢复，而无需将整个页面卸载并冒泡到根错误边界。
  */
 export function RouteErrorFallback({
 	title,

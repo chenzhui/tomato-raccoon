@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
-// The panel (and the AI SDK with it) loads on first open — never in the initial bundle.
+// 聊天面板（连同其引入的 AI SDK）仅在首次打开时加载 —— 绝不包含在初始打包产物中。
 const ChatPanel = dynamic(() => import("./chat-panel").then((mod) => mod.ChatPanel));
 
 export type StoreChatConfig = {
@@ -21,7 +21,7 @@ export function StoreChatLauncher({ badge, ...config }: StoreChatConfig & { badg
 	const [open, setOpen] = useState(false);
 	const [loaded, setLoaded] = useState(false);
 
-	// `?chat=open` (admin preview link) expands the chat on load.
+	// `?chat=open`（管理后台预览链接）会在加载时直接展开聊天面板。
 	useEffect(() => {
 		if (new URLSearchParams(window.location.search).get("chat") === "open") {
 			setOpen(true);
@@ -37,8 +37,8 @@ export function StoreChatLauncher({ badge, ...config }: StoreChatConfig & { badg
 	return (
 		<>
 			{loaded && <ChatPanel config={config} open={open} onClose={() => setOpen(false)} />}
-			{/* Badge and launcher share one dock so they never overlap. The panel now
-			    occupies this corner while open, so the whole dock steps aside. */}
+			{/* 徽章和启动按钮共用一个停靠区，确保它们永不重叠。
+			    面板展开时会占据该角落位置，因此整个停靠区将自动隐藏让位。 */}
 			<div className={cn("fixed bottom-4 right-4 z-40 flex items-center gap-2", open && "hidden")}>
 				{badge}
 				<button

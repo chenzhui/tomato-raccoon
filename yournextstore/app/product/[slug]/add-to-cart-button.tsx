@@ -19,9 +19,8 @@ import { trackAddToCart } from "@/lib/track";
 import { cn } from "@/lib/utils";
 import { UrgencyBadge, VolumeUpsellSelector } from "@/components/urgency-badge";
 
-// Every net price below has a gross twin; which of the pair a shopper sees is the store's
-// `taxBehavior` (see lib/pricing.ts). The twins stay optional so this still renders against
-// an older API payload that sends the net values only.
+// 下方每个净额价格都对应一个含税毛额；顾客看到哪一个由店铺的
+// `taxBehavior` 决定（参见 lib/pricing.ts）。保留毛额为可选字段，以便兼容仅返回净额的旧版 API 负载。
 type Variant = {
 	id: string;
 	price: string;
@@ -31,7 +30,7 @@ type Variant = {
 	sku: string | null;
 	images: string[];
 	stock: number | null;
-	/** EU Omnibus: lowest price in the last 30 days (null unless the store enables omnibus). */
+	/** 欧盟 Omnibus 指令：最近 30 天内的最低价格（除非店铺启用 omnibus，否则为 null）。 */
 	omnibusPrice: string | null;
 	omnibusPriceGross?: string | null;
 	combinations: {
@@ -58,11 +57,11 @@ type AddToCartButtonProps = {
 	};
 	summary?: string | null;
 	volumePricingTiers?: VolumeTier[];
-	/** Show a "remind me when back in stock" flow when out of stock (Restock Notifications module). */
+	/** 缺货时是否展示“到货提醒”流程（到货通知模块）。 */
 	restockNotificationsEnabled?: boolean;
-	/** How the product may be bought: once or on a plan (`optional`), on a plan only (`only`), or as a curated box (`rolling`). */
+	/** 商品购买方式：可单次或按周期订阅（`optional`）、仅限订阅（`only`）或订阅盲盒（`rolling`）。 */
 	subscriptionMode?: "optional" | "only" | "rolling";
-	/** Active plans, in display order. */
+	/** 可用的订阅方案列表，按展示顺序排列。 */
 	plans?: SubscriptionPlan[];
 };
 
@@ -80,8 +79,8 @@ function buttonLabel(
 	return formattedTotal ? `Add to Cart — ${formattedTotal}` : "Add to Cart";
 }
 
-// Headline price. For the selected variant we show its own price (and the struck-through
-// list price when it's on sale). Before a variant is picked we fall back to a range.
+// 主标题价格。对于已选变体展示其自身价格（打折时展示划线原价）。
+// 在选中变体之前回退展示价格区间。
 function headlinePrice(
 	variants: Variant[],
 	variant: Variant | undefined,
@@ -109,7 +108,7 @@ function headlinePrice(
 	};
 }
 
-// Stock availability. null stock means it isn't tracked (treated as in stock).
+// 库存状态。stock 为 null 表示不追踪库存（视为有货）。
 function stockStatusOf(variant: Variant | undefined) {
 	if (!variant) return null;
 	const { stock } = variant;
@@ -135,14 +134,14 @@ export function AddToCartButton({
 
 	const selectedVariant = useSelectedVariant(variants);
 
-	// A product sold on a plan only starts on its first plan. A rolling box (contents that change every
-	// cycle) needs more than this panel offers, so it isn't sold here.
+	// 仅限订阅的商品默认选择其首个方案。滚动盲盒（每个周期
+	// 更换内容）所需功能超出了本面板范围，因此不在此处销售。
 	const allowOneTime = subscriptionMode === "optional";
 	const [planId, setPlanId] = useState<string | null>(allowOneTime ? null : (plans[0]?.id ?? null));
 	const plan = plans.find(({ id }) => id === planId) ?? null;
 	const purchasable = allowOneTime || (subscriptionMode === "only" && plan !== null);
 
-	// stock === null means stock isn't tracked for this variant (unlimited)
+	// stock === null 表示该变体不追踪库存（无限制）
 	const isOutOfStock = selectedVariant?.stock === 0;
 	const maxQuantity = selectedVariant?.stock ?? 99;
 	const effectiveQuantity = isOutOfStock ? 1 : Math.min(quantity, maxQuantity);
@@ -161,7 +160,7 @@ export function AddToCartButton({
 	const buttonText = buttonLabel(selectedVariant, isOutOfStock, plan, totalPrice ? fmt(totalPrice) : null);
 	const priceInfo = headlinePrice(variants, selectedVariant, taxBehavior, fmt);
 
-	// EU Omnibus: when the variant is discounted, show the lowest price recorded in the last 30 days.
+	// 欧盟 Omnibus 指令：当变体打折时，显示过去 30 天内记录的最低价格。
 	const lowestPrice =
 		selectedVariant && priceInfo.compareAt
 			? displayPrice(selectedVariant, taxBehavior, "omnibusPrice")
@@ -185,9 +184,8 @@ export function AddToCartButton({
 		openCart();
 		setQuantity(1);
 
-		// Instant local feedback OUTSIDE the transition, then REPLACE with the
-		// server-returned cart (never refetch — cartGet reads a replica that can lag
-		// the write).
+		// 在 transition 外部提供即时的本地乐观反馈，随后使用
+		// 服务端返回的最新购物车进行替换（REPLACE，绝不重新拉取 —— cartGet 会读取读副本，存在写入延迟）。
 		dispatch({
 			type: "ADD_ITEM",
 			item: {
@@ -197,11 +195,10 @@ export function AddToCartButton({
 				productVariant: {
 					id: variantId,
 					price: selectedVariant.price,
-					// Carry the gross twin so the optimistic line renders in the same basis the
-					// server-returned cart will use — no net/gross flip while the write is in flight.
+					// 附带含税毛额，使乐观行项目与服务端返回的购物车渲染在相同的计税口径下 —— 避免在写入期间发生净额/毛额突变。
 					priceGross: selectedVariant.priceGross,
 					images: selectedVariant.images,
-					// So the line names its options at once, not only after the server replies.
+					// 立即在此列出变体选项，无需等待服务端响应后再显示。
 					combinations: selectedVariant.combinations,
 					product,
 				},
@@ -209,8 +206,8 @@ export function AddToCartButton({
 		});
 
 		startMutation(async () => {
-			// The server clamps line quantities to available stock and still responds
-			// with the updated cart — sync from the RETURNED cart; reconcile only on failure.
+			// 服务端会将行项目数量限制在可用库存范围内，并返回
+			// 更新后的购物车 —— 直接从返回的权威购物车同步；仅在请求失败时对齐（reconcile）。
 			const result = await addToCart(variantId, addedQuantity, planId);
 			const line = result.cart?.lineItems.find((item) => itemKey(item) === lineKey(variantId, planId));
 			if (result.success && result.cart && line) {
@@ -229,7 +226,7 @@ export function AddToCartButton({
 		<div className="space-y-8">
 			{summary && <p className="text-muted-foreground leading-relaxed whitespace-pre-line">{summary}</p>}
 
-			{/* Price & sale */}
+			{/* 价格与促销信息 */}
 			<div className="space-y-2">
 				<div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
 					<span className="text-3xl font-semibold tracking-tight">{priceInfo.display}</span>
@@ -247,7 +244,7 @@ export function AddToCartButton({
 					<p className="text-xs text-muted-foreground">Lowest price in the last 30 days: {omnibusPrice}</p>
 				)}
 
-				{/* SKU & stock availability */}
+				{/* SKU 与库存可用性 */}
 				{(selectedVariant?.sku || stockStatus) && (
 					<div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
 						{stockStatus && (

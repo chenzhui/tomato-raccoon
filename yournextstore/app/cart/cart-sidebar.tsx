@@ -25,9 +25,8 @@ export function CartSidebar() {
 	const { cart, isOpen, closeCart, items, itemCount, subtotal, isMutating } = useCart();
 	const discount = cartDiscountOf(cart, taxBehavior);
 
-	// `?lang=` tells the platform which language version the shopper is leaving from, so the hosted
-	// checkout and everything after it (order, emails) speak it even for a cart made before the
-	// language was recorded.
+	// `?lang=` 告诉平台顾客当前离开时的语言版本，以便独立托管的
+	// 结账页面及后续环节（订单、邮件）都能使用该语言，即使该购物车是在记录语言之前创建的。
 	const checkoutUrl = language ? `/checkout?lang=${encodeURIComponent(language)}` : "/checkout";
 
 	return (
@@ -91,17 +90,17 @@ export function CartSidebar() {
 										{formatMoney({ amount: subtotal - (discount ?? 0n), currency, locale })}
 									</span>
 								</div>
-								{/* Tax is already inside the shown subtotal on an inclusive store — promising to
-								    "calculate taxes at checkout" there would read as an extra charge to come. */}
+								{/* 在含税店铺中，税费已经包含在展示的小计中 —— 在此处若提示
+								    “税费将在结账时计算”会被顾客误认为还有额外附加收费。 */}
 								<p className="text-xs text-muted-foreground">
 									{taxBehavior === "inclusive"
 										? "Shipping calculated at checkout"
 										: "Shipping and taxes calculated at checkout"}
 								</p>
-								{/* Keep this a plain <a>, never <Link>/router.push: /checkout is proxied to a
-								    different Next.js zone (yns.store). A soft RSC nav 500s the cross-zone request.
-								    While a cart write is in flight, block the link: a full navigation now would
-								    load /checkout before the item is committed server-side and show an empty cart. */}
+								{/* 此处必须保持原生 <a> 标签，绝不要用 <Link>/router.push：/checkout 被代理到
+								    另一个不同的 Next.js zone (yns.store)。跨 zone 进行 RSC 客户端软导航会触发 500。
+								    当购物车写入在途时禁用链接：若此时进行页面完整跳转，会在服务端完成写入前
+								    加载 /checkout，从而显示空购物车。 */}
 								<a
 									href={checkoutUrl}
 									aria-disabled={isMutating}

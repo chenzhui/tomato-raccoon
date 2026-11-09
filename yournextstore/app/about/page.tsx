@@ -4,7 +4,7 @@ import Link from "next/link";
 import { getStoreSeo, meGetCached } from "@/lib/commerce";
 import { JsonLdScript } from "@/lib/json-ld";
 
-// `next dev` and `next build` fail if anything on this route renders per request (AGENTS.md).
+// `next dev` 和 `next build` 在此路由按请求实时渲染任何内容时都会报错（参见 AGENTS.md）。
 export const ensureStatic = "navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -57,7 +57,7 @@ export default async function AboutPage() {
 		<div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 			<JsonLdScript data={aboutJsonLd} />
 
-			{/* Header */}
+			{/* 页面头部 */}
 			<div className="mb-10">
 				<Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
 					Home
@@ -68,7 +68,7 @@ export default async function AboutPage() {
 				{storeDescription && <p className="mt-3 text-lg text-muted-foreground">{storeDescription}</p>}
 			</div>
 
-			{/* Story */}
+			{/* 品牌故事 */}
 			<div className="space-y-12">
 				<section>
 					<h2 className="text-2xl font-medium tracking-tight mb-4">Our Story</h2>
@@ -109,7 +109,7 @@ export default async function AboutPage() {
 				</section>
 			</div>
 
-			{/* CTA */}
+			{/* 行动呼吁 (CTA) */}
 			<div className="mt-16 rounded-lg border border-border bg-secondary/30 p-8 text-center">
 				<h2 className="text-2xl font-medium tracking-tight">Want to learn more?</h2>
 				<p className="mt-2 text-muted-foreground">

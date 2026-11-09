@@ -12,8 +12,8 @@ export default function Home() {
 	return (
 		<>
 			<Hero />
-			{/* No <Suspense>: the grid is "use cache", so it renders into the prerendered shell in document order. A boundary
-			    around cached data still ships the skeleton first and the content later in the HTML. */}
+			{/* 不使用 <Suspense>：商品网格采用了 "use cache"，因此按文档顺序直接渲染到预渲染外壳中。
+			    在已缓存数据外包裹边界仍会先输出骨架屏，稍后才在 HTML 中发送内容。 */}
 			<ProductGrid title="Featured Products" limit={6} />
 			<About />
 			<Newsletter />

@@ -5,15 +5,13 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
 /**
- * Marketing-permissions opt-in shown on every newsletter signup form.
+ * 展示在每个通讯订阅表单上的营销许可勾选框。
  *
- * Themed by the store's own `Checkbox`, so it inherits each theme's palette rather than
- * carrying colours of its own. It posts under the `marketingConsent` field for plain
- * `<form action={...}>` submissions — kept as a literal on both sides because a constant
- * exported from this "use client" module would reach the server action as a client
- * reference, not a string. It also reports `checked` so the caller can keep its submit
- * button disabled until the shopper opts in; a native `required` here would block
- * submission through Radix's hidden input, which the browser cannot focus to explain.
+ * 采用商店自有的 `Checkbox` 主题，因此继承每个主题的调色板，而不是
+ * 自带颜色。对于普通的 `<form action={...}>` 提交，它以 `marketingConsent` 字段名称提交
+ * —— 两端都保留字面量，因为从该 "use client" 模块导出的常量传递到 Server Action 时会作为客户端引用而非字符串。
+ * 它还上报 `checked` 状态，以便调用方可以在顾客勾选前禁用提交按钮；
+ * 若在此处使用原生的 `required`，会因 Radix 的隐藏 input 而阻止提交，且浏览器无法聚焦到该隐藏 input 显示提示。
  */
 export function NewsletterConsent({
 	checked,

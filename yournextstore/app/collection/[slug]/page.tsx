@@ -68,7 +68,7 @@ function CollectionHeader({ collection }: { collection: APICollectionGetByIdResu
 						<h1 className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-foreground">
 							{collection.name}
 						</h1>
-						{/* The API sends rich text (TipTap); older payloads sent a plain string. */}
+						{/* API 会返回富文本格式（TipTap）；旧版本负载中为普通纯字符串。 */}
 						{typeof collection.description === "string" ? (
 							<p className="mt-4 text-lg text-muted-foreground leading-relaxed">{collection.description}</p>
 						) : collection.description ? (
@@ -97,8 +97,8 @@ function CollectionHeader({ collection }: { collection: APICollectionGetByIdResu
 	);
 }
 
-// The platform resolves the collection: a hand-picked one from its members, an automatic one from its rule, both in
-// the sort order the merchant set on it. The page has no pagination, so it renders one page; 100 is the API's max.
+// 平台负责解析合集内容：手动挑选的合集解析其成员商品，自动化合集按其规则解析，均按照
+// 商家设置的排序顺序排列。该页面没有分页，因此渲染一整页；100 为 API 的最大限制。
 async function getCollectionProducts(collection: APICollectionGetByIdResult) {
 	"use cache";
 	cacheLife("minutes");
@@ -122,11 +122,11 @@ async function CollectionProducts({ collection }: { collection: APICollectionGet
 	);
 }
 
-// Every known address prerenders in full; one added later renders on its first visit (lib/catalog-paths.ts).
+// 所有已知地址都完整预渲染；后续新增的地址在首次访问时渲染（参见 lib/catalog-paths.ts）。
 export const generateStaticParams = () => slugParams(getAllCollections(), (collection) => collection.slug);
 
-// The SDK throws on a 404 despite its `| null` type. Without the null, the `!collection`
-// branches never run and an unknown slug answers 200 with the error page.
+// 尽管 SDK 标注了 | null 类型，但在 404 时实际上会抛出异常。如果不捕获并转为 null，
+// !collection 分支将永远不会执行，未知的 slug 会带着错误页面返回 200 状态码。
 const getCollectionData = async (slug: string) => {
 	"use cache";
 	cacheLife("minutes");
@@ -134,11 +134,11 @@ const getCollectionData = async (slug: string) => {
 	return error ? null : collection;
 };
 
-// An address added after the build renders in full on its first request before anything is sent, so a missing one
-// answers 404 with the not-found page inside the layout, not a 200 behind an already-sent shell (AGENTS.md).
+// 在构建后新增的地址会在首次请求时完整渲染后再发送内容，因此不存在的页面
+// 会在布局内返回 404 状态码及未找到页面，而不是在已发送的外壳后返回 200 响应（参见 AGENTS.md）。
 export const ensureStatic = "navigation";
 
-// Listed addresses prerender in full: the boundary resolves at build time, so no fallback ever shows.
+// 已列出的地址完整预渲染：边界在构建时解析，因此绝不显示 fallback。
 export default function CollectionPage(props: Parameters<typeof CollectionPageContent>[0]) {
 	return (
 		<Suspense fallback={null}>

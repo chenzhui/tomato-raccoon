@@ -1,34 +1,33 @@
 /**
- * Tax-behavior-aware price selection.
+ * 区分税费模式的价格选择。
  *
- * Prices are STORED net. The API also returns a gross twin for every net price field
- * (`price` → `priceGross`, `originalPrice` → `originalPriceGross`, …). The store's
- * `taxBehavior` decides which of the two a shopper is supposed to see:
+ * 价格按未税价存储（STORED net）。API 还会为每个未税价格字段返回对应的含税孪生字段
+ * （`price` → `priceGross`，`originalPrice` → `originalPriceGross` 等）。店铺的
+ * `taxBehavior` 决定了买家应该看到哪一个价格：
  *
  *   shown = taxBehavior === "inclusive" ? variant.priceGross : variant.price
  *
- * That single rule is the whole module. Everything here is pure: pick a field, never
- * compute tax. When a gross twin is missing (an older API payload, or a nested shape
- * the API does not gross up yet) the net value is returned instead, so a storefront
- * on an older backend degrades to today's behaviour rather than rendering nothing.
+ * 这条单一规则贯穿整个模块。此处所有函数均为纯函数：仅选择字段，绝不计算税额。
+ * 当缺少对应的含税字段时（旧版 API 载荷，或 API 尚未进行含税处理的嵌套结构），
+ * 会直接返回未税值，以便运行在旧版后端上的 storefront 能够降级回退，而非什么都不渲染。
  */
 
 export type TaxBehavior = "inclusive" | "exclusive";
 
-/** Net price fields that have a `${field}Gross` twin. */
+/** 拥有 `${field}Gross` 含税孪生字段的未税价格字段。 */
 export type PriceField = "price" | "originalPrice" | "calculatedPrice" | "prePromotionPrice" | "omnibusPrice";
 
-/** Any object carrying (some of) the net price fields and their gross twins. */
+/** 携带（部分）未税价格字段及其对应含税孪生字段的任意对象。 */
 export type PriceSource = {
 	readonly [K in PriceField | `${PriceField}Gross`]?: string | null;
 };
 
-/** A price source that is guaranteed to carry an effective `price`. */
+/** 保证携带有效 `price` 的价格源。 */
 export type PricedVariant = PriceSource & { readonly price: string };
 
 export type VolumePricingTier = { readonly price: string; readonly priceGross?: string | null };
 
-/** Cart/order money totals as the API returns them (minor units, `null` under Stripe Tax). */
+/** API 返回的购物车/订单金额总计（次要货币单位，在启用 Stripe Tax 时为 `null`）。 */
 export type TotalsSource = {
 	readonly subtotal?: number | null;
 	readonly subtotalNet?: number | null;
@@ -50,10 +49,10 @@ export function displayPrice(variant: PriceSource, taxBehavior: TaxBehavior, fie
 }
 
 /**
- * The same pick as {@link displayPrice}, for a net/gross pair that does not travel as one object —
- * a product's bundle pricing fields, say, where the twins sit side by side on the product
- * (`bundleFixedPriceAmount` / `bundleFixedPriceAmountGross`). `null` net stays `null`; a missing
- * gross twin degrades to net, exactly as the field-based helper does.
+ * 与 {@link displayPrice} 相同的选择逻辑，适用于不作为单一对象传递的未税/含税字段对 ——
+ * 例如商品的捆绑包定价字段，孪生字段并排挂载在商品对象上
+ * （`bundleFixedPriceAmount` / `bundleFixedPriceAmountGross`）。`null` 的未税价仍保持 `null`；
+ * 缺失含税字段时会降级为未税价，与基于字段的辅助函数行为完全一致。
  */
 export function displayAmount(
 	net: string | null | undefined,
@@ -66,14 +65,14 @@ export function displayAmount(
 	return taxBehavior === "inclusive" ? (gross ?? net) : net;
 }
 
-/** The per-unit price of a volume-pricing tier, in the basis the shopper should see. */
+/** 阶梯批量定价层级的单价，按买家应看到的计税基准呈现。 */
 export function displayTierPrice(tier: VolumePricingTier, taxBehavior: TaxBehavior) {
 	return taxBehavior === "inclusive" ? (tier.priceGross ?? tier.price) : tier.price;
 }
 
 /**
- * Cheapest and dearest displayed price across a set of variants. Returns `{ min: 0n, max: 0n }`
- * for an empty list — callers that render a range must check the list themselves.
+ * 一组变体中展示的最低价与最高价。列表为空时返回 `{ min: 0n, max: 0n }`
+ * —— 负责渲染区间范围的调用方必须自行检查列表是否为空。
  */
 export function priceRange(
 	variants: readonly PricedVariant[],
@@ -106,9 +105,9 @@ export function priceRange(
 }
 
 /**
- * A listing's price: the lowest variant price, marked `from` when the variants are priced
- * differently, so a card never shows the cheapest size as the price of all of them.
- * `compareAt` is that variant's price before a promotion, to strike through; null when not on sale.
+ * 商品列表展示价格：最低变体价格；当各变体定价不同时标记 `from`（起步价），
+ * 这样卡片绝不会把最便宜尺码的价格当成所有变体的统一定价。
+ * `compareAt` 是该变体促销前的原价，用于划线显示；未促销时为 null。
  */
 export function listingPrice(variants: readonly PricedVariant[], taxBehavior: TaxBehavior) {
 	if (variants.length === 0) {
@@ -122,9 +121,9 @@ export function listingPrice(variants: readonly PricedVariant[], taxBehavior: Ta
 }
 
 /**
- * The subtotal a shopper should see, taken from the API's own totals (minor units).
- * `null` when the store computes tax at checkout (Stripe Tax) or the cart carries no
- * totals — callers then fall back to summing display prices locally.
+ * 买家应看到的小计金额，取自 API 自身的总计字段（次要货币单位）。
+ * 当店铺在结账时才计算税费（Stripe Tax）或购物车未携带总计字段时为 `null`
+ * —— 调用方随后会降级回退至在本地对展示价格求和。
  */
 export function cartDisplaySubtotal(
 	cart: TotalsSource | null | undefined,
@@ -143,9 +142,9 @@ type ShippingSource = {
 };
 
 /**
- * The delivery cost an order charged, in the basis the shopper should see. The order's
- * `shippingGross` is what was charged: 0 when a free-delivery threshold or coupon applied,
- * even though the chosen rate still lists its regular price.
+ * 订单收取的配送费用，按买家应看到的计税基准呈现。订单的
+ * `shippingGross` 即为实际收取金额：当达到免运费门槛或应用优惠券时为 0，
+ * 即使所选运费费率仍标明其常规价格。
  */
 export function orderDisplayShipping(order: ShippingSource, taxBehavior: TaxBehavior): bigint {
 	const { shipping, shippingGross } = order;

@@ -8,13 +8,13 @@ test("formatMoney formats standard 2-decimal currencies", () => {
 });
 
 test("formatMoney handles zero-decimal currencies (Stripe minor units)", () => {
-	// 1999 minor units of JPY is ¥1,999 — not ¥19.99.
+	// JPY 的 1999 次要货币单位是 ¥1,999 —— 而非 ¥19.99。
 	expect(formatMoney({ amount: "1999", currency: "JPY", locale: "en-US" })).toBe("¥1,999");
 	expect(formatMoney({ amount: "500", currency: "KRW", locale: "en-US" })).toBe("₩500");
 });
 
 test("formatMoney handles three-decimal currencies", () => {
-	// 1999 minor units of KWD is 1.999 dinar.
+	// KWD 的 1999 次要货币单位是 1.999 第纳尔（dinar）。
 	expect(formatMoney({ amount: "1999", currency: "KWD", locale: "en-US" })).toContain("1.999");
 	expect(formatMoney({ amount: "1500", currency: "BHD", locale: "en-US" })).toContain("1.500");
 });

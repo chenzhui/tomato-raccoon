@@ -43,12 +43,12 @@ export async function ProductCard({
 		? formatMoney({ amount: listing.compareAt, currency, locale })
 		: null;
 
-	// Quick-add buys once, so it's only offered where a one-time purchase is allowed.
+	// 快速添加是单次购买操作，因此仅在允许一次性购买的商品上提供。
 	const oneTimeAllowed = !("subscriptionMode" in product) || product.subscriptionMode === "optional";
 	const singleVariant =
 		oneTimeAllowed && variants?.length === 1 && variants[0]?.stock !== 0 ? variants[0] : null;
 
-	// A single-variant card deep-links to that variant; a bare link would show the product's default.
+	// 单变体卡片会深度链接到该变体；若是普通链接则会展示商品的默认状态。
 	const onlyVariant = variants?.length === 1 ? variants[0] : null;
 	const variantSearch = (() => {
 		if (!onlyVariant || !("combinations" in onlyVariant) || onlyVariant.combinations.length === 0) {

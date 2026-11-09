@@ -6,7 +6,7 @@ export async function GET() {
 	const me = await meGetCached();
 	const faviconUrl = getStoreFaviconUrl(me.store.settings) ?? "/logo.svg";
 
-	// Same 64px optimizer URL as the <link rel="icon"> in app/layout.tsx: a few KB from
-	// this origin instead of a redirect out to the blob host.
+	// 与 app/layout.tsx 中的 <link rel="icon"> 采用相同的 64px 优化器 URL：
+	// 直接从本站同源获取仅几 KB 的体积，而不是外部重定向到 blob 主机。
 	redirect(getImageProps({ src: faviconUrl, width: 64, height: 64, alt: "" }).props.src);
 }

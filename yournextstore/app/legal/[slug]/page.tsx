@@ -31,12 +31,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 	};
 }
 
-// Every known address prerenders in full; one added later renders on its first visit (lib/catalog-paths.ts).
+// 所有已知地址都完整预渲染；后续新增的地址在首次访问时渲染（参见 lib/catalog-paths.ts）。
 export const generateStaticParams = () =>
 	slugParams(getAllLegalPages(), (page) => page.path.split("/").filter(Boolean).at(-1) ?? "");
 
-// The SDK throws on a 404. Without the null, the `!page` branches never run and an
-// unknown slug answers 200 with the error page.
+// SDK 在 404 时会抛出异常。如果不捕获并转为 null，!page 分支将永远
+// 不会执行，未知的 slug 会带着错误页面返回 200 状态码。
 const getLegalPage = async (slug: string) => {
 	"use cache";
 	cacheLife("hours");
@@ -44,11 +44,11 @@ const getLegalPage = async (slug: string) => {
 	return error ? null : page;
 };
 
-// An address added after the build renders in full on its first request before anything is sent, so a missing one
-// answers 404 with the not-found page inside the layout, not a 200 behind an already-sent shell (AGENTS.md).
+// 在构建后新增的地址会在首次请求时完整渲染后再发送内容，因此不存在的页面
+// 会在布局内返回 404 状态码及未找到页面，而不是在已发送的外壳后返回 200 响应（参见 AGENTS.md）。
 export const ensureStatic = "navigation";
 
-// Listed addresses prerender in full: the boundary resolves at build time, so no fallback ever shows.
+// 已列出的地址完整预渲染：边界在构建时解析，因此绝不显示 fallback。
 export default function LegalPage(props: Parameters<typeof LegalPageContent>[0]) {
 	return (
 		<Suspense fallback={null}>

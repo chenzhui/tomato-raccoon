@@ -24,7 +24,7 @@ export function RestockNotify({
 	productName: string;
 }) {
 	const [state, action, isPending] = useActionState(subscribeToRestock, null);
-	// Deliberately absent from the submit button's `disabled` below — the alert is not a newsletter.
+	// 特意不将其加入下方提交按钮的 disabled 校验中 —— 到货提醒不同于邮件订阅。
 	const [marketingConsent, setMarketingConsent] = useState(false);
 
 	return (

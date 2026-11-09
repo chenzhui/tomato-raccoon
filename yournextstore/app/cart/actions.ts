@@ -8,15 +8,15 @@ import { getStoreConfig } from "@/lib/store-config";
 
 export async function addToCart(variantId: string, quantity = 1, subscriptionPlanId?: string | null) {
 	const [cartCookie, { language }] = await Promise.all([getCartCookieJson(), getStoreConfig()]);
-	// Which language version the shopper is on: the platform keeps it on the cart so checkout,
-	// the order and its emails speak it. Omitted when the store never set a default language.
+	// 顾客当前所处的语言版本：平台会将其记录在购物车上，以便结账流程、
+	// 订单详情及其邮件通知都使用对应语言。若店铺从未设置默认语言则忽略。
 	const locale = language ?? undefined;
 
-	// The yns_cart cookie can point at a cartId that no longer exists server-side
-	// (expired, store re-seeded, old session). cartUpsert then throws "Cart not found";
-	// retry once with a FRESH cart so the add always lands. No revalidatePath — the
-	// client syncs from this action's returned cart (cartGet hits a read replica and
-	// can return the pre-write cart, dropping the just-added line).
+	// yns_cart cookie 记录的 cartId 可能在服务端已失效
+	// （已过期、店铺重新初始化、旧会话等）。此时 cartUpsert 会抛出 "Cart not found"；
+	// 尝试以全新购物车（FRESH cart）重试一次，确保加入购物车操作始终成功。此处不调用 revalidatePath ——
+	// 客户端直接依据本 action 返回的购物车数据进行同步（调用 cartGet 可能会命中读副本，
+	// 从而返回写入前的旧购物车状态，导致刚添加的商品项丢失）。
 	let [error, cart] = await try_(
 		commerce.cartUpsert({ cartId: cartCookie?.id, variantId, quantity, subscriptionPlanId, locale }),
 	);
@@ -61,8 +61,8 @@ export async function addBundleToCart(
 	);
 
 	if (error) {
-		// The SDK throws on a 4xx; surface a readable message. Precise per-group validation
-		// is handled client-side in the bundle builder — this is the server backstop.
+		// SDK 在 4xx 错误时会抛出异常；此处提取出可读的错误消息。更精细的分组校验
+		// 已在捆绑包构建器客户端处理 —— 这里作为服务端的兜底保障。
 		console.error("cart: addBundleToCart failed", { bundleId, error });
 		const message = error instanceof Error ? error.message : "Could not add bundle to cart";
 		return { success: false as const, error: message };
@@ -79,7 +79,7 @@ export async function addBundleToCart(
 	return { success: true as const, cart };
 }
 
-// Set the absolute quantity of one line: a variant on a plan, or the one-time line when there is no plan.
+// 设置某个商品行项目的绝对数量：某订阅方案下的变体，或无订阅方案时的单次购买项。
 export async function setCartQuantity(
 	variantId: string,
 	quantity: number,
@@ -91,7 +91,7 @@ export async function setCartQuantity(
 		return { success: false, cart: null };
 	}
 
-	// mode "set" replaces the line quantity atomically; 0 removes the item
+	// mode 为 "set" 时会以原子操作覆盖该行项目的数量；传入 0 则删除该项
 	const [error, cart] = await try_(
 		commerce.cartUpsert({
 			cartId: cartCookie.id,
@@ -128,7 +128,7 @@ export async function applyDiscountCode(rawCode: string, itemCount: number) {
 		return { success: true as const, cart };
 	}
 
-	// The SDK only passes on "Coupon cannot be applied", so read the coupon to say why.
+	// SDK 仅返回宽泛的 "Coupon cannot be applied"，因此读取优惠券详情以说明具体原因。
 	const [couponError, coupon] = await try_(commerce.couponGet({ idOrCode: code }));
 	if (couponError) {
 		console.error("cart: applyDiscountCode failed", { cartId: cartCookie.id, error, couponError });
@@ -148,7 +148,7 @@ export async function removeDiscountCode() {
 		console.error("cart: removeDiscountCode failed", { cartId: cartCookie.id, error });
 		return { success: false as const, error: REMOVE_CODE_FAILED };
 	}
-	// The remove endpoint answers `{ ok }`; the drawer needs the re-priced cart.
+	// 移除优惠券的接口仅返回 `{ ok }`；但购物车侧边栏抽屉需要重新计价后的最新购物车。
 	const [, cart] = await try_(commerce.cartGet({ cartId: cartCookie.id }));
 	return { success: true as const, cart };
 }

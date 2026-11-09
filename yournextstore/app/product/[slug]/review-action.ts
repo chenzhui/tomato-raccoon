@@ -37,8 +37,8 @@ export async function submitReview(_prev: ReviewState, formData: FormData): Prom
 		return { success: false, message: "", error: "Please select a rating." };
 	}
 
-	// The platform takes the reviewer's email from the order the token names, and refuses a
-	// token whose order no longer counts as a purchase or was already reviewed.
+	// 平台会根据 token 关联的订单提取评价者的邮箱，并拒绝
+	// 订单不再算作有效购买或已经被评价过的 token。
 	const [error] = await try_(
 		commerce.productReviewCreate(
 			{ idOrSlug: product },
