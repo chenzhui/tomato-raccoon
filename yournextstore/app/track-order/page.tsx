@@ -1,55 +1,51 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import {
 	Search,
 	Truck,
 	CheckCircle2,
-	Clock,
-	PackageCheck,
+	AlertCircle,
 	ArrowLeft,
 	ExternalLink,
-	AlertCircle,
-	Sparkles,
 	ShieldCheck,
 } from "lucide-react";
 
-interface TrackResult {
+type TrackingResult = {
 	orderNumber: string;
 	customerName: string;
-	trackingNumber: string;
+	status: "in_transit" | "delivered" | "processing";
 	carrier: string;
-	status: "processing" | "crafted" | "in_transit" | "delivered";
+	trackingNumber: string;
 	carrierUrl: string;
 	estimatedDelivery: string;
-	createdAt: string;
-	items: Array<{
+	timeline: {
+		title: string;
+		time: string;
+		description: string;
+		completed: boolean;
+		current?: boolean;
+	}[];
+	items: {
 		name: string;
 		quantity: number;
-		image: string;
-	}>;
-	timeline: Array<{
-		title: string;
-		description: string;
-		time: string;
-		completed: boolean;
-		current: boolean;
-	}>;
-}
+		image?: string;
+	}[];
+};
 
 export default function TrackOrderPage() {
 	const [orderNumber, setOrderNumber] = useState("");
 	const [email, setEmail] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
-	const [result, setResult] = useState<TrackResult | null>(null);
+	const [result, setResult] = useState<TrackingResult | null>(null);
 
 	const handleSearch = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!orderNumber.trim()) {
-			setError("Please enter your Order Number (e.g., AI-678413)");
+			setError("Please enter a valid order number (e.g. AI-678413 or ORD-1001)");
 			return;
 		}
 
@@ -57,41 +53,45 @@ export default function TrackOrderPage() {
 		setError(null);
 
 		try {
-			const res = await fetch(`/api/orders/track?orderNumber=${encodeURIComponent(orderNumber.trim())}&email=${encodeURIComponent(email.trim())}`);
+			const res = await fetch("/api/orders/track", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ orderNumber: orderNumber.trim(), email: email.trim() }),
+			});
+
 			const data = await res.json();
-			if (data.success && data.order) {
-				setResult(data.order);
-			} else {
-				throw new Error(data.message || "Order not found. Please verify your order number.");
+			if (!res.ok) {
+				throw new Error(data.message || "Order not found");
 			}
+
+			setResult(data.data);
 		} catch (err: any) {
-			setError(err.message || "Unable to fetch order status. Please check your order number.");
-			setResult(null);
+			setError(err.message || "Failed to locate order. Please verify your order number.");
 		} finally {
 			setLoading(false);
 		}
 	};
 
 	return (
-		<div className="min-h-screen bg-[#07090f] text-slate-200 py-12 px-4 sm:px-6 lg:px-8">
+		<div className="min-h-screen bg-white text-neutral-900 py-12 px-4 sm:px-6 lg:px-8">
 			<div className="max-w-4xl mx-auto space-y-8">
 				{/* 页面头部区域 */}
 				<div>
 					<Link
 						href="/"
-						className="inline-flex items-center gap-2 text-sm text-cyan-400 hover:text-cyan-300 transition-colors mb-6"
+						className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-black transition-colors mb-6"
 					>
 						<ArrowLeft className="w-4 h-4" />
 						Back to Store
 					</Link>
-					<div className="flex items-center gap-2 text-xs font-mono text-cyan-400 mb-2">
-						<Truck className="w-4 h-4" />
+					<div className="flex items-center gap-2 text-xs font-mono text-neutral-500 mb-2">
+						<Truck className="w-4 h-4 text-neutral-700" />
 						<span>Live Logistics Tracker</span>
 					</div>
-					<h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+					<h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-900">
 						Track Your Package
 					</h1>
-					<p className="mt-2 text-sm sm:text-base text-slate-400">
+					<p className="mt-2 text-sm sm:text-base text-neutral-500">
 						Enter your order number to track custom handcrafting and USPS express transit in real time.
 					</p>
 				</div>
@@ -99,23 +99,23 @@ export default function TrackOrderPage() {
 				{/* 订单查询搜索表单 */}
 				<form
 					onSubmit={handleSearch}
-					className="p-6 rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl space-y-4"
+					className="p-6 rounded-3xl border border-neutral-200/80 bg-[#F5F5F7] space-y-4"
 				>
 					<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 						<div>
-							<label className="block text-xs font-medium text-slate-300 mb-1.5">
-								Order Number <span className="text-cyan-400">*</span>
+							<label className="block text-xs font-medium text-neutral-700 mb-1.5">
+								Order Number <span className="text-red-500">*</span>
 							</label>
 							<input
 								type="text"
 								placeholder="e.g. AI-678413"
 								value={orderNumber}
 								onChange={(e) => setOrderNumber(e.target.value)}
-								className="w-full px-4 py-2.5 rounded-xl border border-slate-700 bg-slate-950 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-400"
+								className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 text-sm focus:outline-none focus:border-black"
 							/>
 						</div>
 						<div>
-							<label className="block text-xs font-medium text-slate-300 mb-1.5">
+							<label className="block text-xs font-medium text-neutral-700 mb-1.5">
 								Order Email (Optional verification)
 							</label>
 							<input
@@ -123,14 +123,14 @@ export default function TrackOrderPage() {
 								placeholder="developer@example.com"
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
-								className="w-full px-4 py-2.5 rounded-xl border border-slate-700 bg-slate-950 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-400"
+								className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 text-sm focus:outline-none focus:border-black"
 							/>
 						</div>
 					</div>
 
 					{error && (
-						<div className="p-3.5 rounded-xl bg-red-950/60 border border-red-500/40 text-red-300 text-xs flex items-center gap-2">
-							<AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
+						<div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
+							<AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
 							<span>{error}</span>
 						</div>
 					)}
@@ -139,7 +139,7 @@ export default function TrackOrderPage() {
 						<button
 							type="submit"
 							disabled={loading}
-							className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm shadow-[0_0_15px_rgba(0,242,254,0.3)] transition-all cursor-pointer disabled:opacity-50"
+							className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-black hover:bg-neutral-800 text-white font-medium text-sm transition-all cursor-pointer disabled:opacity-50"
 						>
 							<Search className="w-4 h-4" />
 							{loading ? "Searching..." : "Track Package"}
@@ -149,13 +149,13 @@ export default function TrackOrderPage() {
 
 				{/* 查询结果展示卡片 */}
 				{result && (
-					<div className="p-6 sm:p-8 rounded-2xl border border-cyan-500/30 bg-[#090d16] shadow-2xl space-y-8 animate-in fade-in duration-300">
+					<div className="p-6 sm:p-8 rounded-3xl border border-neutral-200/80 bg-white shadow-xs space-y-8 animate-in fade-in duration-300">
 						{/* 订单概览头部信息 */}
-						<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-slate-800">
+						<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-neutral-200">
 							<div>
 								<div className="flex items-center gap-2">
-									<span className="text-xl font-bold text-white font-mono">{result.orderNumber}</span>
-									<span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-950 border border-emerald-500/50 text-emerald-400">
+									<span className="text-xl font-semibold text-neutral-900 font-mono">{result.orderNumber}</span>
+									<span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 border border-emerald-200 text-emerald-700">
 										{result.status === "in_transit"
 											? "In Transit"
 											: result.status === "delivered"
@@ -163,20 +163,20 @@ export default function TrackOrderPage() {
 												: "Processing / Crafting"}
 									</span>
 								</div>
-								<p className="text-xs text-slate-400 mt-1">Recipient: {result.customerName}</p>
+								<p className="text-xs text-neutral-500 mt-1">Recipient: {result.customerName}</p>
 							</div>
 
 							<div className="sm:text-right">
-								<p className="text-xs text-slate-400">USPS / YunExpress Tracking Number</p>
+								<p className="text-xs text-neutral-500">USPS / YunExpress Tracking Number</p>
 								<div className="flex items-center sm:justify-end gap-2 mt-1">
-									<span className="font-mono text-cyan-300 font-bold text-sm">
+									<span className="font-mono text-neutral-900 font-semibold text-sm">
 										{result.trackingNumber}
 									</span>
 									<a
 										href={result.carrierUrl}
 										target="_blank"
 										rel="noreferrer"
-										className="text-xs text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1"
+										className="text-xs text-blue-600 hover:text-blue-700 inline-flex items-center gap-1 font-medium"
 									>
 										Track on USPS <ExternalLink className="w-3 h-3" />
 									</a>
@@ -186,39 +186,39 @@ export default function TrackOrderPage() {
 
 						{/* 物流节点进度条可视化 */}
 						<div className="space-y-4">
-							<h3 className="text-sm font-semibold text-white uppercase tracking-wider">
+							<h3 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider">
 								Shipment Milestone Timeline
 							</h3>
-							<div className="relative pl-6 space-y-6 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-800">
+							<div className="relative pl-6 space-y-6 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-neutral-200">
 								{result.timeline.map((step, idx) => (
 									<div key={idx} className="relative">
 										<div
 											className={`absolute -left-6 top-1 w-4 h-4 rounded-full border-2 flex items-center justify-center ${
 												step.completed
-													? "bg-cyan-500 border-cyan-400 text-slate-950"
+													? "bg-black border-black text-white"
 													: step.current
-														? "bg-slate-950 border-cyan-400 ring-4 ring-cyan-500/20"
-														: "bg-slate-900 border-slate-700"
+														? "bg-white border-blue-600 ring-4 ring-blue-50"
+														: "bg-white border-neutral-300"
 											}`}
 										>
-											{step.completed && <CheckCircle2 className="w-3 h-3 text-slate-950" />}
+											{step.completed && <CheckCircle2 className="w-3 h-3 text-white" />}
 										</div>
 										<div className="space-y-0.5">
 											<div className="flex items-center gap-2">
 												<span
-													className={`text-sm font-semibold ${
+													className={`text-sm font-medium ${
 														step.current
-															? "text-cyan-300"
+															? "text-blue-600 font-semibold"
 															: step.completed
-																? "text-white"
-																: "text-slate-500"
+																? "text-neutral-900"
+																: "text-neutral-400"
 													}`}
 												>
 													{step.title}
 												</span>
-												<span className="text-[11px] font-mono text-slate-500">{step.time}</span>
+												<span className="text-[11px] font-mono text-neutral-400">{step.time}</span>
 											</div>
-											<p className="text-xs text-slate-400 leading-relaxed">{step.description}</p>
+											<p className="text-xs text-neutral-500 leading-relaxed">{step.description}</p>
 										</div>
 									</div>
 								))}
@@ -226,17 +226,17 @@ export default function TrackOrderPage() {
 						</div>
 
 						{/* 包裹内商品清单 */}
-						<div className="pt-6 border-t border-slate-800 space-y-3">
-							<h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+						<div className="pt-6 border-t border-neutral-200 space-y-3">
+							<h4 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider">
 								Package Contents
 							</h4>
 							<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 								{result.items.map((item, idx) => (
 									<div
 										key={idx}
-										className="flex items-center gap-3 p-3 rounded-xl bg-slate-950 border border-slate-800"
+										className="flex items-center gap-3 p-3 rounded-2xl bg-[#F5F5F7] border border-neutral-200/60"
 									>
-										<div className="relative w-12 h-12 rounded-lg bg-slate-900 border border-slate-800 shrink-0 overflow-hidden">
+										<div className="relative w-12 h-12 rounded-xl bg-white border border-neutral-200 shrink-0 overflow-hidden">
 											<Image
 												src={item.image || "/images/characters/whale-chan-full.png"}
 												alt={item.name}
@@ -245,8 +245,8 @@ export default function TrackOrderPage() {
 											/>
 										</div>
 										<div className="min-w-0">
-											<p className="text-xs font-medium text-white truncate">{item.name}</p>
-											<p className="text-[11px] font-mono text-slate-400">Qty: {item.quantity}</p>
+											<p className="text-xs font-medium text-neutral-900 truncate">{item.name}</p>
+											<p className="text-[11px] font-mono text-neutral-500">Qty: {item.quantity}</p>
 										</div>
 									</div>
 								))}
@@ -254,14 +254,14 @@ export default function TrackOrderPage() {
 						</div>
 
 						{/* 售后极客换新入口引导 */}
-						<div className="p-4 rounded-xl bg-slate-950 border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-							<div className="flex items-center gap-2 text-slate-300">
-								<ShieldCheck className="w-4 h-4 text-cyan-400 shrink-0" />
+						<div className="p-4 rounded-2xl bg-[#F5F5F7] border border-neutral-200/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+							<div className="flex items-center gap-2 text-neutral-700">
+								<ShieldCheck className="w-4 h-4 text-neutral-900 shrink-0" />
 								<span>Issue with your delivery or standee arrived cracked?</span>
 							</div>
 							<Link
 								href={`/returns?orderNumber=${encodeURIComponent(result.orderNumber)}`}
-								className="text-cyan-400 hover:text-cyan-300 font-semibold underline underline-offset-4"
+								className="text-blue-600 hover:text-blue-700 font-medium underline underline-offset-4"
 							>
 								Submit Free Replacement Request →
 							</Link>

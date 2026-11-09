@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { About } from "@/components/sections/about";
 import { Hero } from "@/components/sections/hero";
-import { Newsletter } from "@/components/sections/newsletter";
 import { ProductGrid } from "@/components/sections/product-grid";
 
 export const metadata: Metadata = {
@@ -16,7 +15,6 @@ export default function Home() {
 			    在已缓存数据外包裹边界仍会先输出骨架屏，稍后才在 HTML 中发送内容。 */}
 			<ProductGrid title="Featured Products" limit={6} />
 			<About />
-			<Newsletter />
 		</>
 	);
 }

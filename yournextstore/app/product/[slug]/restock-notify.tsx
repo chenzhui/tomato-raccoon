@@ -3,7 +3,6 @@
 import { BellRing } from "lucide-react";
 import { useActionState, useState } from "react";
 import { subscribeToRestock } from "@/app/product/[slug]/restock-action";
-import { NewsletterConsent } from "@/components/newsletter-consent";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -55,7 +54,6 @@ export function RestockNotify({
 							<Label htmlFor="restock-email">Email</Label>
 							<Input id="restock-email" name="email" type="email" required placeholder="your@email.com" />
 						</div>
-						<NewsletterConsent checked={marketingConsent} onCheckedChange={setMarketingConsent} />
 						{state?.error && <p className="text-sm text-destructive">{state.error}</p>}
 						<Button type="submit" disabled={isPending} className="h-11 w-full rounded-full">
 							{isPending ? "Submitting..." : "Notify me"}

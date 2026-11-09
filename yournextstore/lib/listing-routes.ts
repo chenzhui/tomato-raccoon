@@ -27,11 +27,8 @@ const LISTINGS = [
 	{ source: "/category/:path*", destination: "/category-filtered/:path*", params: CATEGORY_LISTING_PARAMS },
 ];
 
-/** 每个参数生成一条重写规则：重写规则的 `has` 条件必须全部匹配，而此处只要满足任意一个参数即可。 */
-export const listingRewrites = () =>
-	LISTINGS.flatMap(({ source, destination, params }) =>
-		params.map((key) => ({ source, destination, has: [{ type: "query" as const, key }] })),
-	);
+/** 精简架构：移除了内部冗余的 filtered 重写路由，直接在主路由展示商品 */
+export const listingRewrites = () => [];
 
 /** 仅从查询中提取列表相关参数，排除其他内容：跟踪参数（如 utm_*、gclid）不会进入链接和缓存键中。 */
 export const activeParams = (

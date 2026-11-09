@@ -13,13 +13,9 @@ import { CartSidebar } from "@/app/cart/cart-sidebar";
 import { CartButton } from "@/app/cart-button";
 import { Footer } from "@/app/footer";
 import { Navbar, type NavLink } from "@/app/navbar";
-import { CookieConsent } from "@/components/cookie-consent";
 import { ErrorOverlayRemover, NavigationReporter } from "@/components/devtools";
-import { NewsletterDialog } from "@/components/newsletter-dialog";
 import { SearchInput } from "@/components/search/search-input";
-import { StoreChatSection } from "@/components/store-chat/store-chat-section";
 import { StoreConfigProvider } from "@/components/store-config-provider";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { Toaster } from "@/components/ui/sonner";
 import { commerce, getCanonicalUrl, getStoreFaviconUrl, meGetCached } from "@/lib/commerce";
 import { StoreJsonLd } from "@/lib/json-ld";
@@ -134,18 +130,18 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 	return (
 		<StoreConfigProvider value={storeConfig}>
 			<CartProvider>
-				<div className="flex min-h-screen flex-col bg-black text-white">
-					{/* 苹果风格极简悬浮毛玻璃顶栏 */}
-					<header className="sticky top-0 z-50 border-b border-white/[0.08] bg-black/85 backdrop-blur-md">
+				<div className="flex min-h-screen flex-col bg-white text-neutral-900">
+					{/* 苹果风格极简悬浮毛玻璃顶栏（纯净白底高透） */}
+					<header className="sticky top-0 z-50 border-b border-neutral-200/80 bg-white/85 backdrop-blur-md">
 						<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 							<div className="relative flex items-center justify-between h-12 sm:h-14">
 								<div className="flex items-center gap-3">
-									<Link href="/" className="inline-flex items-center gap-2.5 text-sm font-semibold tracking-tight text-white hover:opacity-80 transition-opacity">
-										<span className="w-6 h-6 rounded-md bg-white text-black flex items-center justify-center text-[10px] font-black tracking-tighter shadow-sm">
+									<Link href="/" className="inline-flex items-center gap-2.5 text-sm font-semibold tracking-tight text-neutral-900 hover:opacity-80 transition-opacity">
+										<span className="w-6 h-6 rounded-md bg-black text-white flex items-center justify-center text-[10px] font-black tracking-tighter shadow-sm">
 											AI
 										</span>
-										<span className="text-white text-sm font-medium tracking-tight">
-											AI-Chan <span className="text-neutral-400 font-normal text-xs ml-0.5">Studio</span>
+										<span className="text-neutral-900 text-sm font-semibold tracking-tight">
+											AI-Chan <span className="text-neutral-500 font-normal text-xs ml-0.5">Studio</span>
 										</span>
 									</Link>
 									<Navbar links={links} />
@@ -154,7 +150,6 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 									<Suspense>
 										<SearchInput />
 									</Suspense>
-									<ThemeToggle />
 									{/* 使用原生 <a> 标签：/account 是反向代理区域 —— 客户端软导航会触发 500 错误（参见 AGENTS.md）。
 									    特意保持静态：在此读取会话（session）会将页头移出预渲染外壳。
 									    访客进入登录流程，已登录顾客直达控制面板。 */}
@@ -164,7 +159,7 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 												? `/account?lang=${encodeURIComponent(storeConfig.language)}`
 												: "/account"
 										}
-										className="p-1.5 rounded-full hover:bg-white/10 text-neutral-400 hover:text-white transition-colors"
+										className="p-1.5 rounded-full hover:bg-neutral-100 text-neutral-600 hover:text-black transition-colors"
 										aria-label="Account"
 									>
 										<UserRound className="w-4 h-4" />
@@ -178,11 +173,6 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 					<Footer />
 				</div>
 				<CartSidebar />
-				{/* 特意放置在 CartProvider 内部：聊天界面的加入购物车功能需要使用购物车上下文（cart context）。
-			    同时渲染 "Made with YNS" 徽章，使徽章和启动器共享同一个固定停靠栏。 */}
-				<Suspense>
-					<StoreChatSection />
-				</Suspense>
 			</CartProvider>
 		</StoreConfigProvider>
 	);
@@ -192,14 +182,6 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 async function getHtmlLang(): Promise<string> {
 	const { locale } = await getStoreConfig();
 	return locale.split("-")[0] || "en";
-}
-
-async function NewsletterPopupSection() {
-	const me = await meGetCached();
-	if (!me.store.settings?.enabledTools?.newsletterPopup) {
-		return null;
-	}
-	return <NewsletterDialog settings={me.store.settings?.newsletterPopup} />;
 }
 
 export default async function RootLayout({
@@ -215,18 +197,11 @@ export default async function RootLayout({
 		// suppressHydrationWarning：next-themes 在水合前就会在 <html> 上设置主题类名。
 		<html lang={lang} suppressHydrationWarning>
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-				{/* 请勿删除 / 调整顺序：GDPR 和 GTM 同意模式 v2 必需组件。必须保留在 <body> 顶部。 */}
-				<Suspense>
-					<CookieConsent />
-				</Suspense>
 				<Suspense>
 					<StoreJsonLd />
 				</Suspense>
-				<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+				<ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light" enableSystem={false} disableTransitionOnChange>
 					<CartProviderWrapper>{children}</CartProviderWrapper>
-					<Suspense>
-						<NewsletterPopupSection />
-					</Suspense>
 					<Toaster richColors position="top-center" />
 				</ThemeProvider>
 				{env === "development" && (

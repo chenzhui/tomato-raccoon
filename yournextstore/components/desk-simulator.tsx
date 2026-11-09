@@ -380,7 +380,7 @@ export function DeskSimulator() {
 			{/* 角色切换托盘（底部控制器） */}
 			<div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
 				<div className="flex flex-wrap items-center gap-2">
-					<span className="text-xs font-mono text-slate-400 mr-1 hidden sm:inline">Waifu Pool:</span>
+					<span className="text-xs font-mono text-neutral-500 mr-1 hidden sm:inline">Waifu Roster:</span>
 					{AI_CHARACTERS.map((char) => {
 						const isOnDesk = activeCharacters.includes(char.key);
 						const isSelected = selectedKey === char.key;
@@ -389,16 +389,16 @@ export function DeskSimulator() {
 							<button
 								key={char.key}
 								onClick={() => handleCharacterSelect(char)}
-								className={`group relative flex items-center gap-2 pl-1.5 pr-3 py-1 rounded-full border transition-all text-xs font-medium ${
+								className={`group relative flex items-center gap-2 pl-1.5 pr-3 py-1 rounded-full border transition-all text-xs font-medium cursor-pointer ${
 									isSelected
-										? "border-cyan-400 bg-cyan-950/70 text-white shadow-[0_0_12px_rgba(0,242,254,0.35)]"
+										? "border-black bg-white ring-1 ring-black text-black shadow-xs font-semibold"
 										: isOnDesk
-											? "border-slate-700 bg-slate-900/80 text-slate-300 hover:border-slate-600 hover:text-white"
-											: "border-slate-800 bg-slate-950/50 text-slate-500 hover:border-slate-700"
+											? "border-neutral-300 bg-white text-neutral-800 hover:border-black"
+											: "border-neutral-200 bg-neutral-100 text-neutral-500 hover:border-neutral-300 hover:text-neutral-700"
 								}`}
 							>
 								{/* 迷你头像 */}
-								<div className="relative w-6 h-6 rounded-full overflow-hidden border border-slate-700">
+								<div className="relative w-6 h-6 rounded-full overflow-hidden border border-neutral-200 shrink-0">
 									<Image src={char.badgeImage} alt={char.name} fill sizes="24px" className="object-cover" />
 								</div>
 								<span>{char.name}</span>
@@ -409,8 +409,8 @@ export function DeskSimulator() {
 									title={isOnDesk ? "Remove from Desk" : "Place on Desk"}
 									className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] transition-colors ${
 										isOnDesk
-											? "bg-cyan-500 text-slate-950"
-											: "bg-slate-800 text-slate-500 hover:bg-slate-700"
+											? "bg-black text-white"
+											: "bg-neutral-200 text-neutral-600 hover:bg-neutral-300"
 									}`}
 								>
 									{isOnDesk ? "✓" : "+"}
@@ -424,27 +424,27 @@ export function DeskSimulator() {
 				<button
 					onClick={handleAddBundleToCart}
 					disabled={isAddingToCart}
-					className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-linear-to-r from-cyan-500 via-blue-600 to-violet-600 text-white font-semibold text-sm shadow-[0_0_25px_rgba(0,242,254,0.4)] hover:shadow-[0_0_35px_rgba(0,242,254,0.6)] hover:brightness-110 active:scale-95 transition-all"
+					className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full bg-black hover:bg-neutral-800 text-white font-medium text-sm shadow-sm active:scale-95 transition-all cursor-pointer"
 				>
 					{addedSuccess ? (
 						<>
-							<Check className="w-4 h-4 text-emerald-300" />
+							<Check className="w-4 h-4 text-emerald-400" />
 							<span>Added Bundle to Cart!</span>
 						</>
 					) : (
 						<>
-							<Flame className="w-4 h-4 text-amber-300 animate-bounce" />
+							<Flame className="w-4 h-4 text-amber-400" />
 							<span>Get Full Desk Bundle - $59.99</span>
-							<span className="text-xs px-2 py-0.5 rounded-full bg-white/20 font-mono">SAVE 30%</span>
+							<span className="text-[10px] px-2 py-0.5 rounded-full bg-white/20 font-mono">SAVE 30%</span>
 						</>
 					)}
 				</button>
 			</div>
 
 			{/* 信任保障栏 */}
-			<div className="mt-4 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400">
+			<div className="mt-6 pt-4 border-t border-neutral-200/80 flex flex-wrap items-center justify-between gap-3 text-xs text-neutral-500">
 				<div className="flex items-center gap-2">
-					<ShieldCheck className="w-4 h-4 text-cyan-400" />
+					<ShieldCheck className="w-4 h-4 text-neutral-700" />
 					<span>Diamond Polished 15cm Dual-Sided Acrylic · Scratch-Free Film</span>
 				</div>
 				<div className="flex items-center gap-4">

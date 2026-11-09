@@ -11,7 +11,6 @@ import { ProductFeatures } from "@/app/product/[slug]/product-features";
 import { ProductReviews } from "@/app/product/[slug]/product-reviews";
 import { RelatedProducts } from "@/app/product/[slug]/related-products";
 import { sortVariantsByOptions } from "@/app/product/[slug]/variant-order";
-import { TiptapRenderer } from "@/components/tiptap-renderer";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -247,8 +246,12 @@ async function ProductPageContent({ params }: { params: Promise<{ slug: string }
 			{product.content && (
 				<section className="mt-16 border-t border-border pt-12">
 					<h2 className="mb-6 text-2xl font-medium tracking-tight">Product details</h2>
-					<div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground tiptap-content">
-						<TiptapRenderer content={product.content} />
+					<div className="prose prose-sm max-w-none text-neutral-600">
+						{typeof product.content === "string" ? (
+							<div dangerouslySetInnerHTML={{ __html: product.content }} />
+						) : (
+							<p>{product.summary}</p>
+						)}
 					</div>
 				</section>
 			)}
