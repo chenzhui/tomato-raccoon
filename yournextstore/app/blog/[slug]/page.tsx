@@ -1,0 +1,173 @@
+import type { Metadata } from "next";
+import { cacheLife } from "next/cache";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import { try_ } from "safe-try";
+import { TiptapRenderer } from "@/components/tiptap-renderer";
+import {
+	Breadcrumb,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbList,
+	BreadcrumbPage,
+	BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { getAllPosts, slugParams } from "@/lib/catalog-paths";
+import { commerce, getCanonicalUrl } from "@/lib/commerce";
+import { formatDate } from "@/lib/dates";
+import { buildBlogPostingJsonLd, JsonLdScript } from "@/lib/json-ld";
+import { isStoreToolEnabled } from "@/lib/store-tools";
+import { YNSMedia } from "@/lib/yns-media";
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+	"use cache";
+	cacheLife("minutes");
+	const { slug } = await params;
+	const post = await getBlogPostData(slug);
+
+	if (!post?.active) {
+		return { title: "Post Not Found", robots: { index: false, follow: true } };
+	}
+
+	const seoTitle = post.seo?.title || post.title;
+	const seoDescription = post.seo?.description || undefined;
+	const canonical = post.seo?.canonical || `/blog/${post.slug}`;
+
+	return {
+		title: seoTitle,
+		description: seoDescription,
+		alternates: { canonical },
+		openGraph: {
+			type: "article",
+			title: seoTitle,
+			description: seoDescription,
+			url: canonical,
+			publishedTime: post.publishedAt ?? post.createdAt,
+			images: post.image ? [{ url: post.image, alt: post.title }] : undefined,
+		},
+		twitter: {
+			card: post.image ? "summary_large_image" : "summary",
+			title: seoTitle,
+			description: seoDescription,
+			images: post.image ? [post.image] : undefined,
+		},
+	};
+}
+
+// Every known address prerenders in full; one added later renders on its first visit (lib/catalog-paths.ts).
+export const generateStaticParams = () => slugParams(getAllPosts(), (post) => post.slug);
+
+// The SDK throws on a 404 despite its `| null` type. Without the null, the `!post`
+// branches never run and an unknown slug answers 200 with the error page.
+const getBlogPostData = async (slug: string) => {
+	"use cache";
+	cacheLife("minutes");
+
+	if (!(await isStoreToolEnabled("blog"))) {
+		return null;
+	}
+	const [error, post] = await try_(commerce.postGet({ idOrSlug: slug }));
+	return error ? null : post;
+};
+
+// An address added after the build renders in full on its first request before anything is sent, so a missing one
+// answers 404 with the not-found page inside the layout, not a 200 behind an already-sent shell (AGENTS.md).
+export const ensureStatic = "navigation";
+
+// Listed addresses prerender in full: the boundary resolves at build time, so no fallback ever shows.
+export default function BlogPostPage(props: Parameters<typeof BlogPostPageContent>[0]) {
+	return (
+		<Suspense fallback={null}>
+			<BlogPostPageContent {...props} />
+		</Suspense>
+	);
+}
+
+async function BlogPostPageContent({ params }: { params: Promise<{ slug: string }> }) {
+	const { slug } = await params;
+	const post = await getBlogPostData(slug);
+
+	if (!post?.active) {
+		notFound();
+	}
+
+	const baseUrl = getCanonicalUrl();
+	const publishedAt = post.publishedAt ?? post.createdAt;
+	const articleJsonLd = await buildBlogPostingJsonLd(post);
+
+	const breadcrumbJsonLd = {
+		"@context": "https://schema.org",
+		"@type": "BreadcrumbList",
+		itemListElement: [
+			{ "@type": "ListItem", position: 1, name: "Home", item: baseUrl || undefined },
+			{ "@type": "ListItem", position: 2, name: "Blog", item: `${baseUrl}/blog` },
+			{ "@type": "ListItem", position: 3, name: post.title },
+		],
+	};
+
+	return (
+		<article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+			<JsonLdScript data={articleJsonLd} />
+			<JsonLdScript data={breadcrumbJsonLd} />
+
+			{/* Header */}
+			<div className="mb-8">
+				<Breadcrumb>
+					<BreadcrumbList>
+						<BreadcrumbItem>
+							<BreadcrumbLink render={<Link href="/" />}>Home</BreadcrumbLink>
+						</BreadcrumbItem>
+						<BreadcrumbSeparator />
+						<BreadcrumbItem>
+							<BreadcrumbLink render={<Link href="/blog" />}>Blog</BreadcrumbLink>
+						</BreadcrumbItem>
+						<BreadcrumbSeparator />
+						<BreadcrumbItem>
+							<BreadcrumbPage className="line-clamp-1">{post.title}</BreadcrumbPage>
+						</BreadcrumbItem>
+					</BreadcrumbList>
+				</Breadcrumb>
+				<div className="mt-6 flex items-center gap-3 text-sm text-muted-foreground">
+					{post.tag && (
+						<span className="rounded-full bg-secondary px-3 py-1 font-medium text-foreground">
+							{post.tag}
+						</span>
+					)}
+					<time dateTime={publishedAt}>{formatDate(publishedAt)}</time>
+				</div>
+				<h1 className="mt-4 text-4xl font-medium tracking-tight text-balance">{post.title}</h1>
+			</div>
+
+			{/* Cover image */}
+			{post.image && (
+				<div className="relative aspect-[3/2] bg-secondary rounded-2xl overflow-hidden mb-10">
+					<YNSMedia
+						src={post.image}
+						alt={post.title}
+						fill
+						priority
+						fetchPriority="high"
+						sizes="(max-width: 768px) 100vw, 768px"
+						className="object-cover"
+					/>
+				</div>
+			)}
+
+			{/* Content */}
+			<div className="prose prose-sm dark:prose-invert max-w-none tiptap-content">
+				<TiptapRenderer content={post.content} />
+			</div>
+
+			{/* Footer nav */}
+			<div className="mt-16 border-t border-border pt-8">
+				<Link
+					href="/blog"
+					className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+				>
+					← Back to blog
+				</Link>
+			</div>
+		</article>
+	);
+}

@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "ssh-mcp-4_4": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@fangjunjie/ssh-mcp-server",
+        "--config-file",
+        "C:/All/Me/2027/work/Shopify/.agents/ssh_servers.json"
+      ],
+      "startup_timeout_sec": 60.0
+    }
+  }
+}
