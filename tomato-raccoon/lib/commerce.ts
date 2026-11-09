@@ -514,13 +514,13 @@ export async function getStoreSeo() {
 	"use cache";
 	cacheLife("hours");
 	return {
-		storeName: "AI-Chan Geek Merch",
-		storeDescription: "Stop Coding Alone. Bring Your Favorite LLM Waifu to Your Desk.",
+		storeName: "Tomato Raccoon Supply Co.",
+		storeDescription: "Grow Tomatoes, Not Data Centers. Handcrafted goods defending Virginia farmland & clean aquifers.",
 	};
 }
 
 export function getStoreFaviconUrl(_settings: any) {
-	return "/images/characters/whale-chan-badge.png";
+	return "/images/raccoon-tomato.svg";
 }
 
 export function getCanonicalUrl(): string {
@@ -529,7 +529,7 @@ export function getCanonicalUrl(): string {
 
 export const getSubdomainPublicUrl = async () => {
 	return {
-		subdomain: "aichan",
+		subdomain: "tomato-raccoon",
 		publicUrl: "http://localhost:3000",
 	};
 };

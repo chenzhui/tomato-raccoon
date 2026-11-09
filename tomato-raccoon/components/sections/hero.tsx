@@ -59,7 +59,7 @@ export function Hero() {
 						{/* 左侧：官方木刻版画大勋章 */}
 						<div className="relative aspect-square w-full max-w-[280px] mx-auto flex items-center justify-center">
 							<Image
-								src="/images/mascot-badge.svg"
+								src="/images/logo-1-raccoon-slogan.svg"
 								alt="Official Grow Tomatoes, Not Data Centers Badge"
 								fill
 								priority

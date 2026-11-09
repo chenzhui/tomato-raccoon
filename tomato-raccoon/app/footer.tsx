@@ -1,4 +1,5 @@
 import { cacheLife } from "next/cache";
+import Image from "next/image";
 import Link from "next/link";
 import { PaymentMethods } from "@/components/payment-methods";
 import { FooterNewsletter } from "@/components/footer-newsletter";
@@ -42,8 +43,14 @@ export async function Footer() {
 					{/* 第 1 列：品牌介绍 */}
 					<div className="space-y-4">
 						<Link href="/" className="inline-flex items-center gap-2.5 text-sm font-serif font-bold text-[#1E3F20] tracking-tight">
-							<span className="w-6 h-6 rounded-full bg-[#1E3F20] text-[#FAF7F0] flex items-center justify-center text-xs">
-								🦝
+							<span className="w-8 h-8 rounded-full bg-[#FAF7F0] border border-[#D9CDB8] flex items-center justify-center p-0.5 shadow-xs shrink-0 overflow-hidden">
+								<Image
+									src="/images/raccoon-tomato.svg"
+									alt="Tomato Raccoon"
+									width={32}
+									height={32}
+									className="w-full h-full object-contain"
+								/>
 							</span>
 							<span className="text-base font-serif font-black">Tomato Raccoon Co.</span>
 						</Link>

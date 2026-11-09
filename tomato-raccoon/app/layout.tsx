@@ -3,7 +3,7 @@ import "@/app/globals.css";
 import type { Metadata } from "next";
 import { cacheLife } from "next/cache";
 import { Geist, Geist_Mono } from "next/font/google";
-import { getImageProps } from "next/image";
+import Image, { getImageProps } from "next/image";
 import Link from "next/link";
 import { ThemeProvider } from "next-themes";
 import { Suspense } from "react";
@@ -133,8 +133,15 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 							<div className="relative flex items-center justify-between h-14 sm:h-16">
 								<div className="flex items-center gap-4">
 									<Link href="/" className="inline-flex items-center gap-2.5 text-sm font-serif font-bold tracking-tight text-[#1E3F20] hover:opacity-85 transition-opacity">
-										<span className="w-8 h-8 rounded-full bg-[#1E3F20] text-[#FAF7F0] flex items-center justify-center text-base shadow-xs">
-											🦝
+										<span className="w-9 h-9 rounded-full bg-[#FAF7F0] border border-[#D9CDB8] flex items-center justify-center p-0.5 shadow-xs shrink-0 overflow-hidden">
+											<Image
+												src="/images/raccoon-tomato.svg"
+												alt="Tomato Raccoon"
+												width={36}
+												height={36}
+												className="w-full h-full object-contain"
+												priority
+											/>
 										</span>
 										<span className="text-[#1E3F20] text-base sm:text-lg font-serif font-black tracking-tight">
 											Tomato Raccoon <span className="text-[#D93829] font-semibold text-xs ml-0.5">Supply Co.</span>
