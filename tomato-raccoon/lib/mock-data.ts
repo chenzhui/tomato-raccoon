@@ -58,63 +58,7 @@ export const MOVEMENT_REVIEWS: ProductReview[] = [
 
 export function getMockProducts() {
 	return [
-		// 1. 全套运动大礼包 (The Ultimate Grassroots Movement Super-Pack)
-		{
-			id: "prod-movement-bundle",
-			slug: "ultimate-grassroots-movement-bundle",
-			name: "🔥 The Ultimate Grassroots Movement Super-Pack (All 5 Essentials)",
-			description:
-				"The complete community defense bundle. Includes The Farm Defender Plush Raccoon ($38.99), 12oz Heavy-Duty Organic Cotton Market Tote ($24.99), Comfort Colors Vintage Wash Tee ($32.99), Lawn Yard Sign with metal H-stake ($22.99), and 3-Pack Weatherproof Vinyl Stickers ($12.99). Total individual value $132.95. Unlocks Free Priority Express Shipping.",
-			tagline: "Plush + Tote + Tee + Yard Sign + 3 Stickers (Save $43)",
-			images: [
-				"/images/products/organic-canvas-tote.svg",
-				"/images/products/raccoon-plush.svg",
-				"/images/products/vinyl-stickers.svg",
-				"/images/products/yard-sign.svg",
-				"/images/products/vintage-tee.svg",
-			],
-			category: "Bundles",
-			variants: [
-				{
-					id: "var-bundle-all",
-					name: "Complete 5-Piece Movement Super-Pack",
-					price: "8999",
-					originalPrice: "13295",
-					stock: 18,
-					images: ["/images/products/organic-canvas-tote.svg"],
-					combinations: [],
-				},
-			],
-		},
-
-		// 2. 农夫市集特惠套装 (The Farmers Market Bundle)
-		{
-			id: "prod-farmers-market-bundle",
-			slug: "the-farmers-market-bundle",
-			name: "🌿 The Farmers' Market Bundle (Canvas Tote + 3-Pack Stickers)",
-			description:
-				"The essential farmers market advocate pair. Includes our Heavy-Duty 12oz Organic Cotton Canvas Market Tote ($24.99) plus the Weatherproof Vinyl Sticker 3-Pack ($12.99). Total individual value $37.98.",
-			tagline: "Organic Tote + 3 Stickers (Save $8)",
-			images: [
-				"/images/products/organic-canvas-tote.svg",
-				"/images/products/vinyl-stickers.svg",
-				"/images/raccoon-tomato.svg",
-			],
-			category: "Bundles",
-			variants: [
-				{
-					id: "var-bundle-market",
-					name: "Farmers Market Tote + 3-Pack Stickers Set",
-					price: "2999",
-					originalPrice: "3798",
-					stock: 40,
-					images: ["/images/products/organic-canvas-tote.svg"],
-					combinations: [],
-				},
-			],
-		},
-
-		// 3. 农场守护者毛绒浣熊 (The Farm Defender Plushie - 单品原价立住逼格)
+		// 1. 农场守护者毛绒浣熊 (The Farm Defender Plushie)
 		{
 			id: "prod-raccoon-plush",
 			slug: "the-farm-defender-raccoon-plush",
@@ -136,7 +80,7 @@ export function getMockProducts() {
 			],
 		},
 
-		// 4. 12盎司重磅有机棉帆布袋 (Heavy-Duty Organic Cotton Tote - 故意卡在 $24.99 逼单凑满 $35)
+		// 2. 12盎司重磅有机棉帆布袋 (Heavy-Duty Organic Cotton Tote)
 		{
 			id: "prod-canvas-tote",
 			slug: "heavy-duty-organic-market-tote",
@@ -158,47 +102,29 @@ export function getMockProducts() {
 			],
 		},
 
-		// 5. 防水黑胶车贴与水壶贴纸 (Weatherproof Vinyl Stickers - 3档多件装打折套路)
+		// 3. 防水黑胶车贴与水壶贴纸 (Weatherproof Vinyl Stickers - 3-Pack)
 		{
 			id: "prod-bumper-stickers",
 			slug: "weatherproof-vinyl-bumper-sticker-pack",
-			name: "Weatherproof Outdoor Vinyl Bumper & Flask Stickers",
+			name: "Weatherproof Outdoor Vinyl Bumper & Flask Stickers (3-Pack)",
 			description:
 				"Engineered to brave heavy highway rain, blazing summer sun, and dishwasher cycles. Die-cut on thick 6-mil outdoor vinyl with UV-matte laminate coating. Features the Official Hanover Tomato Raccoon Badge, Oval Bumper Decal, and Water Over Watts emblem. Perfect for trucks, Subarus, Yeti tumblers, and laptops.",
-			tagline: "UV-Resistant Die-Cut Vinyl • Multi-Pack Options",
+			tagline: "UV-Resistant Die-Cut Vinyl • Pack of 3",
 			images: ["/images/products/vinyl-stickers.svg", "/images/raccoon-tomato.svg"],
 			category: "Stickers",
 			variants: [
 				{
 					id: "var-stickers-3pk",
-					name: "🔥 3-Pack (Share with Neighbors / 邻里分享装)",
+					name: "3-Pack Die-Cut Weatherproof Stickers",
 					price: "1299",
-					originalPrice: "1797",
 					stock: 120,
-					images: ["/images/products/vinyl-stickers.svg"],
-					combinations: [],
-				},
-				{
-					id: "var-stickers-1pk",
-					name: "1 Sticker (Just for Me / 单张自用)",
-					price: "599",
-					stock: 200,
-					images: ["/images/products/vinyl-stickers.svg"],
-					combinations: [],
-				},
-				{
-					id: "var-stickers-10pk",
-					name: "10-Pack (Community Activist Pack / 社区抗议小队装 • Save 50% + Free Shipping)",
-					price: "2999",
-					originalPrice: "5990",
-					stock: 60,
 					images: ["/images/products/vinyl-stickers.svg"],
 					combinations: [],
 				},
 			],
 		},
 
-		// 6. 经典庭院草坪抗议插牌 (Official Lawn Yard Sign - 单块与整街多件装)
+		// 4. 经典庭院草坪抗议插牌 (Official Lawn Yard Sign)
 		{
 			id: "prod-yard-sign",
 			slug: "official-lawn-yard-sign-with-metal-stake",
@@ -211,25 +137,16 @@ export function getMockProducts() {
 			variants: [
 				{
 					id: "var-yard-sign-1",
-					name: "1 Sign + Metal H-Stake (My Lawn / 单块装)",
+					name: "1 Sign + Metal H-Stake",
 					price: "2299",
 					stock: 45,
-					images: ["/images/products/yard-sign.svg"],
-					combinations: [],
-				},
-				{
-					id: "var-yard-sign-3pk",
-					name: "🔥 3-Pack (Protect Our Street / 整街守护装 • Save $19 + Free Shipping)",
-					price: "4999",
-					originalPrice: "6897",
-					stock: 25,
 					images: ["/images/products/yard-sign.svg"],
 					combinations: [],
 				},
 			],
 		},
 
-		// 7. Comfort Colors 美式水洗复古 T 恤 (故意标 $32.99 离 $35 免邮只差 $2.01)
+		// 5. Comfort Colors 美式水洗复古 T 恤 (Comfort Colors Heritage Tee)
 		{
 			id: "prod-vintage-tee",
 			slug: "comfort-colors-vintage-garment-dyed-tee",
@@ -275,7 +192,7 @@ export function getMockProducts() {
 			],
 		},
 
-		// 8. 复古水洗做旧棒球帽 (Unstructured Dad Hat - 标价 $26.99)
+		// 6. 复古水洗做旧棒球帽 (Unstructured Dad Hat)
 		{
 			id: "prod-dad-hat",
 			slug: "unstructured-vintage-washed-dad-hat",

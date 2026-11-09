@@ -34,7 +34,6 @@ export const MOVEMENT_CATEGORIES = [
 	{ key: "Stickers", label: "Bumper Stickers", sub: "防水车贴", emoji: "🏷️" },
 	{ key: "Signs", label: "Lawn Yard Signs", sub: "草坪插牌", emoji: "🪧" },
 	{ key: "Apparel", label: "Heritage Apparel", sub: "水洗服饰", emoji: "👕" },
-	{ key: "Bundles", label: "Movement Super-Packs", sub: "大礼包", emoji: "🎁" },
 ] as const;
 
 type SortOption = "featured" | "price-asc" | "price-desc" | "name";

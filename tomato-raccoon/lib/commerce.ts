@@ -49,7 +49,6 @@ const mockCategories = [
 	{ id: "cat-stickers", slug: "stickers", name: "Vinyl Stickers", description: "Weatherproof UV-laminated die-cut bumper & bottle stickers", parentId: null },
 	{ id: "cat-signs", slug: "signs", name: "Lawn Yard Signs", description: "Double-sided weatherproof corrugated yard signs with metal H-stake", parentId: null },
 	{ id: "cat-apparel", slug: "apparel", name: "Vintage Apparel", description: "Comfort Colors garment-dyed shirts & washed dad hats", parentId: null },
-	{ id: "cat-bundles", slug: "bundles", name: "Movement Bundles", description: "Complete movement kits with free priority shipping", parentId: null },
 ];
 
 const mockCollections = [

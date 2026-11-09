@@ -70,11 +70,6 @@ export function CartSidebar() {
 								style={{ width: `${progressPercent}%` }}
 							/>
 						</div>
-						{remainingForFreeShipping > 0n && (
-							<p className="mt-1.5 text-[11px] text-[#7C5335]">
-								💡 Tip: Add the <strong>3-Pack Stickers ($12.99)</strong> to waive the $4.99 shipping fee!
-							</p>
-						)}
 					</div>
 				)}
 
