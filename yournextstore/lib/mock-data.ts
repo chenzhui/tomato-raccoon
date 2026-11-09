@@ -354,6 +354,222 @@ export function getMockProducts() {
 				},
 			],
 		},
+
+		// 9. Whale-Chan 客制化键帽 (Keycaps)
+		{
+			id: "prod-whale-keycap",
+			slug: "whale-chan-r1-artisan-keycap",
+			name: 'Whale-Chan (R1) Artisan PBT Keycap (Cherry MX Fit)',
+			description:
+				"Custom dye-sublimated high-content PBT keycap featuring Whale-Chan maid emblem. Standard Cherry MX cross stem, ergonomic R4 / ESC height. Scratch and shine resistant.",
+			tagline: "Universal MX Stem • Anti-Wear PBT",
+			images: ["/images/characters/whale-chan-badge.png"],
+			category: "Keycaps",
+			characterKey: "whale-chan",
+			variants: [
+				{
+					id: "var-whale-keycap",
+					name: "R4 / ESC Profile Artisan Keycap",
+					price: "1899",
+					originalPrice: "2499",
+					stock: 35,
+					images: ["/images/characters/whale-chan-badge.png"],
+					combinations: [],
+				},
+			],
+		},
+
+		// 10. Sonnet-Tan 客制化键帽
+		{
+			id: "prod-sonnet-keycap",
+			slug: "sonnet-tan-35-artisan-keycap",
+			name: 'Sonnet-Tan (3.5) Artisan PBT Keycap (Cherry MX Fit)',
+			description:
+				"Warm amber orange theme keycap for clean coders. Durable PBT texture that never gets greasy under marathon refactoring sessions.",
+			tagline: "Clean Code Aesthetic • Cherry Profile",
+			images: ["/images/characters/sonnet-tan-badge.png"],
+			category: "Keycaps",
+			characterKey: "sonnet-tan",
+			variants: [
+				{
+					id: "var-sonnet-keycap",
+					name: "R4 / ESC Profile Artisan Keycap",
+					price: "1899",
+					originalPrice: "2499",
+					stock: 28,
+					images: ["/images/characters/sonnet-tan-badge.png"],
+					combinations: [],
+				},
+			],
+		},
+
+		// 11. Omni-Chan 客制化键帽
+		{
+			id: "prod-omni-keycap",
+			slug: "omni-chan-4o-artisan-keycap",
+			name: 'Omni-Chan (4o) Artisan PBT Keycap (Cherry MX Fit)',
+			description:
+				"Mystic purple dragon crest artisan keycap. Universal mechanical switch compatibility with high precision UV micro-embossing.",
+			tagline: "Multimodal Dragon Crest • MX Universal",
+			images: ["/images/characters/omni-chan-badge.png"],
+			category: "Keycaps",
+			characterKey: "omni-chan",
+			variants: [
+				{
+					id: "var-omni-keycap",
+					name: "R4 / ESC Profile Artisan Keycap",
+					price: "1899",
+					originalPrice: "2499",
+					stock: 40,
+					images: ["/images/characters/omni-chan-badge.png"],
+					combinations: [],
+				},
+			],
+		},
+
+		// 12. Rebel-Tan 客制化键帽
+		{
+			id: "prod-rebel-keycap",
+			slug: "rebel-tan-x-artisan-keycap",
+			name: 'Rebel-Tan (X) Artisan PBT Keycap (Cherry MX Fit)',
+			description:
+				"Gothic war-axe crimson accent keycap. Smash this key when tests fail or when you need uncensored coding power.",
+			tagline: "Gothic War-Axe Accent • PBT Heavy",
+			images: ["/images/characters/rebel-tan-badge.png"],
+			category: "Keycaps",
+			characterKey: "rebel-tan",
+			variants: [
+				{
+					id: "var-rebel-keycap",
+					name: "R4 / ESC Profile Artisan Keycap",
+					price: "1899",
+					originalPrice: "2499",
+					stock: 20,
+					images: ["/images/characters/rebel-tan-badge.png"],
+					combinations: [],
+				},
+			],
+		},
+
+		// 13. TwinStar-Chan 客制化键帽
+		{
+			id: "prod-twinstar-keycap",
+			slug: "twinstar-chan-artisan-keycap",
+			name: 'TwinStar-Chan Artisan PBT Keycap (Cherry MX Fit)',
+			description:
+				"Gradient cosmic blue cat-ear emblem keycap. Precision molded for all mechanical keyboards with standard cross stems.",
+			tagline: "2M Context Cosmic Crest • MX Universal",
+			images: ["/images/characters/twinstar-chan-badge.png"],
+			category: "Keycaps",
+			characterKey: "twinstar-chan",
+			variants: [
+				{
+					id: "var-twinstar-keycap",
+					name: "R4 / ESC Profile Artisan Keycap",
+					price: "1899",
+					originalPrice: "2499",
+					stock: 25,
+					images: ["/images/characters/twinstar-chan-badge.png"],
+					combinations: [],
+				},
+			],
+		},
+
+		// 14. 键帽五合一全家桶套装
+		{
+			id: "prod-keycaps-bundle",
+			slug: "all-stars-5-waifus-keycaps-set",
+			name: '🔥 All-Stars 5-Waifus Artisan Keycaps Collector Box',
+			description:
+				"Collect all 5 AI Waifus in premium artisan PBT keycaps. Includes Whale-Chan, Sonnet-Tan, Omni-Chan, Rebel-Tan, and TwinStar-Chan in a collector display tin box.",
+			tagline: "Full 5-Piece Collector Tin Box Set (Save 25%)",
+			images: ["/images/characters/whale-chan-badge.png", "/images/characters/sonnet-tan-badge.png"],
+			category: "Keycaps",
+			characterKey: "bundle",
+			variants: [
+				{
+					id: "var-keycaps-5pack",
+					name: "5-Piece Collector Box Set",
+					price: "6999",
+					originalPrice: "9495",
+					stock: 15,
+					images: ["/images/characters/whale-chan-badge.png"],
+					combinations: [],
+				},
+			],
+		},
+
+		// 15. Sonnet-Tan 毛绒团子 (Plushies)
+		{
+			id: "prod-sonnet-plush",
+			slug: "sonnet-tan-cozy-plush-dango",
+			name: "Sonnet-Tan Cozy Desk Chibi Plush Dango (15cm)",
+			description:
+				"Cozy orange velvet desk companion. Squeeze Sonnet-Tan when writing long-form documentation or refactoring legacy code.",
+			tagline: "15cm Cozy Velvet Plush Dango",
+			images: ["/images/characters/sonnet-tan-badge.png"],
+			category: "Plushies",
+			characterKey: "sonnet-tan",
+			variants: [
+				{
+					id: "var-sonnet-plush-15",
+					name: "15cm Squeeze Cushion",
+					price: "2999",
+					originalPrice: "3499",
+					stock: 16,
+					images: ["/images/characters/sonnet-tan-badge.png"],
+					combinations: [],
+				},
+			],
+		},
+
+		// 16. Whale-Chan 极简深海大鼠标垫 (Desk Mats)
+		{
+			id: "prod-whale-mat",
+			slug: "whale-chan-deep-ocean-desk-mat",
+			name: "Whale-Chan Deep Ocean Minimalist Desk Mat (900x400mm)",
+			description:
+				"Clean deep oceanic navy blue desk mat with minimalist Whale-Chan circuit aesthetics. 4mm thick rubber base and micro-textured speed fabric.",
+			tagline: "900x400x4mm Minimalist Speed Surface",
+			images: ["/images/characters/whale-chan-full.png"],
+			category: "Desk Mats",
+			characterKey: "whale-chan",
+			variants: [
+				{
+					id: "var-whale-mat-xl",
+					name: "900x400mm Stitched Edge",
+					price: "3999",
+					originalPrice: "4999",
+					stock: 22,
+					images: ["/images/characters/whale-chan-full.png"],
+					combinations: [],
+				},
+			],
+		},
+
+		// 17. Sonnet-Tan 温暖晨光鼠标垫 (Desk Mats)
+		{
+			id: "prod-sonnet-mat",
+			slug: "sonnet-tan-warm-amber-desk-mat",
+			name: "Sonnet-Tan Warm Amber Minimalist Desk Mat (900x400mm)",
+			description:
+				"Warm amber and terracotta studio desk mat. Anti-slip natural rubber base and precision-stitched edges.",
+			tagline: "900x400x4mm Cozy Studio Edition",
+			images: ["/images/characters/sonnet-tan-full.png"],
+			category: "Desk Mats",
+			characterKey: "sonnet-tan",
+			variants: [
+				{
+					id: "var-sonnet-mat-xl",
+					name: "900x400mm Stitched Edge",
+					price: "3999",
+					originalPrice: "4999",
+					stock: 20,
+					images: ["/images/characters/sonnet-tan-full.png"],
+					combinations: [],
+				},
+			],
+		},
 	].map((item) => ({
 		...item,
 		subscriptionPlanProducts: [],

@@ -43,9 +43,9 @@ function updateCartTotals(cart: any) {
 }
 
 const mockCategories = [
-	{ id: "cat-all", slug: "all", name: "All Geeks Merch", description: "All official AI-Chan products", parentId: null },
-	{ id: "cat-standees", slug: "standees", name: "Acrylic Standees", description: "15cm dual-sided high-definition acrylic standees", parentId: null },
-	{ id: "cat-bundles", slug: "bundles", name: "Value Bundles", description: "Full desk setups and multi-packs with free shipping", parentId: null },
+	{ id: "cat-all", slug: "all", name: "All Products", description: "All official AI-Chan products", parentId: null },
+	{ id: "cat-standees", slug: "standees", name: "Acrylic Standees", description: "Optical grade dual-sided high-definition acrylic standees", parentId: null },
+	{ id: "cat-keycaps", slug: "keycaps", name: "Artisan Keycaps", description: "Custom PBT dye-sublimated cherry MX artisan keycaps", parentId: null },
 	{ id: "cat-plushies", slug: "plushies", name: "Plushies & Dangos", description: "Super soft squishy desk companions", parentId: null },
 	{ id: "cat-desk-mats", slug: "desk-mats", name: "Desk Mats", description: "XL 900x400mm speed surface gaming desk mats", parentId: null },
 ];
@@ -211,9 +211,22 @@ async function localCommerceFetch(url: string, init?: RequestInit): Promise<Resp
 		return new Response(JSON.stringify(p), { status: 200, headers: { "Content-Type": "application/json" } });
 	}
 
-	// /api/v1/products (浏览商品)
+	// /api/v1/products (浏览商品，支持分类与角色筛选)
 	if (pathname.endsWith("/products")) {
-		const products = getMockProducts();
+		let products = getMockProducts();
+		const urlObj = new URL(url, "http://localhost");
+		const cat = urlObj.searchParams.get("category");
+		const char = urlObj.searchParams.get("character");
+		if (cat && cat !== "all") {
+			products = products.filter(
+				(p) =>
+					p.category.toLowerCase().replace(/\s+/g, "-") === cat.toLowerCase() ||
+					p.category.toLowerCase() === cat.toLowerCase(),
+			);
+		}
+		if (char && char !== "all") {
+			products = products.filter((p) => p.characterKey === char);
+		}
 		return new Response(
 			JSON.stringify({
 				data: products,

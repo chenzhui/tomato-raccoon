@@ -239,6 +239,22 @@ async function ProductPageContent({ params }: { params: Promise<{ slug: string }
 							plans={plans}
 						/>
 					)}
+
+					{/* 购买信任与安心售后微徽章 (Trust Badges) */}
+					<div className="pt-4 border-t border-neutral-100 space-y-2.5 text-xs text-neutral-500 font-normal">
+						<div className="flex items-center gap-2.5">
+							<span className="w-5 h-5 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-800 shrink-0 text-xs">🚚</span>
+							<span><strong className="text-neutral-800 font-medium">Tracked Express:</strong> 7-12 business days priority transit via USPS.</span>
+						</div>
+						<div className="flex items-center gap-2.5">
+							<span className="w-5 h-5 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-800 shrink-0 text-xs">🛡️</span>
+							<span><strong className="text-neutral-800 font-medium">30-Day Defect Guarantee:</strong> Transit crack or defect? Instant free replacement.</span>
+						</div>
+						<div className="flex items-center gap-2.5">
+							<span className="w-5 h-5 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-800 shrink-0 text-xs">🔒</span>
+							<span><strong className="text-neutral-800 font-medium">Safe Checkout:</strong> 256-bit encrypted checkout with Apple Pay & Stripe.</span>
+						</div>
+					</div>
 				</div>
 			</div>
 
@@ -259,8 +275,16 @@ async function ProductPageContent({ params }: { params: Promise<{ slug: string }
 			{/* 商品评价区域 */}
 			{reviews && <ProductReviews reviews={reviews} productId={product.id} />}
 
-			{/* 商品特色区域（下方全宽展示） */}
-			<ProductFeatures />
+			{/* 商品特色区域（下方全宽展示，自适应品类工艺） */}
+			<ProductFeatures
+				category={
+					product.category && typeof product.category === "object"
+						? product.category.name
+						: typeof product.category === "string"
+							? product.category
+							: "Standees"
+				}
+			/>
 
 			{/* 推荐关联商品 */}
 			<RelatedProducts productId={product.id} />
