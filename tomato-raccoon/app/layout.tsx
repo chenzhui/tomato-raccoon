@@ -105,9 +105,9 @@ async function getNavLinks(): Promise<NavLink[]> {
 	// 顶部美式复古草根运动导航
 	return [
 		{ href: "/", label: "Home" },
-		{ href: "/products", label: "Shop All Goods" },
-		{ href: "/about", label: "The Movement" },
-		{ href: "/support", label: "Support & FAQ" },
+		{ href: "/products", label: "Products" },
+		{ href: "/about", label: "About" },
+		{ href: "/support", label: "Support" },
 	];
 }
 
