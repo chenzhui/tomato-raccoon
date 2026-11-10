@@ -33,9 +33,9 @@ export async function GET(req: Request) {
 				customer_email: email || "customer@example.com",
 				items: [
 					{
-						name: "🔥 The Ultimate Desk Waifu Bundle (All 5 Standees Set)",
+						name: "Comfort Colors Vintage Garment-Dyed Tee",
 						quantity: 1,
-						images: ["/images/characters/whale-chan-full.png"],
+						images: ["/logo.svg"],
 					},
 				],
 				shipping_status: "in_transit",
@@ -51,20 +51,20 @@ export async function GET(req: Request) {
 			orderNumber: orderRow.order_number,
 			customerName: orderRow.customer_name,
 			trackingNumber,
-			carrier: "USPS Direct Air Courier (YunExpress)",
+			carrier: "USPS Ground (Printify Fulfillment)",
 			status: orderRow.shipping_status || "in_transit",
 			carrierUrl: `https://tools.usps.com/go/TrackConfirmAction?tLabels=${trackingNumber}`,
-			estimatedDelivery: "7-10 Business Days",
+			estimatedDelivery: "3-7 Business Days",
 			createdAt: orderRow.created_at,
 			items: items.map((it: any) => ({
-				name: it.name || "AI-Chan Standee",
+				name: it.name || "Tomato Raccoon Protest Gear",
 				quantity: it.quantity || 1,
-				image: it.images?.[0] || "/images/characters/whale-chan-full.png",
+				image: it.images?.[0] || "/logo.svg",
 			})),
 			timeline: [
 				{
 					title: "Order Placed & Confirmed",
-					description: "Payment verified. Work order dispatched to diamond laser precision workshop.",
+					description: "Payment verified. Order queued for Printify print-on-demand fulfillment.",
 					time: "Day 1",
 					completed: true,
 					current: false,

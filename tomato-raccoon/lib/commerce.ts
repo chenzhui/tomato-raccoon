@@ -439,15 +439,15 @@ export const commerce = Object.assign(client, {
 							id: it.id || `item-${Math.random()}`,
 							quantity: it.quantity || 1,
 							productVariant: {
-								id: it.variantId || "var-bundle-5",
-								name: it.name || "AI-Chan Merch",
-								price: String(it.price || 5999),
-								images: it.images || ["/images/characters/whale-chan-full.png"],
+								id: it.variantId || "var-tee-1",
+								name: it.name || "Comfort Colors Vintage Garment-Dyed Tee",
+								price: String(it.price || 3200),
+								images: it.images || ["/logo.svg"],
 								product: {
 									id: "prod-1",
-									name: it.name || "AI-Chan Merch",
-									slug: "ultimate-waifu-desk-bundle",
-									images: it.images || ["/images/characters/whale-chan-full.png"],
+									name: it.name || "Comfort Colors Vintage Garment-Dyed Tee",
+									slug: "comfort-colors-vintage-garment-dyed-tee",
+									images: it.images || ["/logo.svg"],
 								},
 							},
 						})),
@@ -458,7 +458,7 @@ export const commerce = Object.assign(client, {
 			// 降级回退
 		}
 
-		const num = `AI-${Math.floor(100000 + Math.random() * 900000)}`;
+		const num = `TR-${Math.floor(100000 + Math.random() * 900000)}`;
 		return {
 			id,
 			lookup: num,
@@ -466,33 +466,33 @@ export const commerce = Object.assign(client, {
 			status: "paid",
 			createdAt: new Date().toISOString(),
 			orderData: {
-				customer: { email: "geek.coder@example.com", name: "Silicon Valley Hacker" },
+				customer: { email: "supporter@example.com", name: "Virginia Resident" },
 				shippingAddress: {
-					name: "Silicon Valley Hacker",
-					address1: "420 Hacker Way, Suite 101",
-					city: "San Francisco",
-					state: "CA",
-					postalCode: "94107",
+					name: "Virginia Resident",
+					address1: "7400 Hanover Green Dr",
+					city: "Mechanicsville",
+					state: "VA",
+					postalCode: "23111",
 					country: "United States",
 				},
-				shipping: { name: "USPS Express Direct (7-12 Days)", amount: 0 },
-				subtotal: 5999,
-				total: 5999,
+				shipping: { name: "USPS Ground (3-5 Days)", amount: 0 },
+				subtotal: 3200,
+				total: 3200,
 				totalTax: 0,
 				lineItems: [
 					{
-						id: "line-bundle-demo",
+						id: "line-item-demo",
 						quantity: 1,
 						productVariant: {
-							id: "var-bundle-5",
-							name: "🔥 The Ultimate Desk Waifu Bundle (All 5 Standees Set)",
-							price: "5999",
-							images: ["/images/characters/whale-chan-full.png"],
+							id: "var-tee-1",
+							name: "Comfort Colors Vintage Garment-Dyed Tee",
+							price: "3200",
+							images: ["/logo.svg"],
 							product: {
-								id: "prod-bundle-desk",
-								name: "🔥 The Ultimate Desk Waifu Bundle (All 5 Standees Set)",
-								slug: "ultimate-waifu-desk-bundle",
-								images: ["/images/characters/whale-chan-full.png"],
+								id: "prod-comfort-colors-tee",
+								name: "Comfort Colors Vintage Garment-Dyed Tee",
+								slug: "comfort-colors-vintage-garment-dyed-tee",
+								images: ["/logo.svg"],
 							},
 						},
 					},

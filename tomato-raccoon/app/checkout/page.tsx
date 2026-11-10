@@ -88,11 +88,11 @@ export default function CheckoutPage() {
 								}))
 							: [
 									{
-										variantId: "var-bundle-5",
-										name: "The Ultimate Desk Waifu Bundle (All 5 Standees Set)",
+										variantId: "var-tee-1",
+										name: "Comfort Colors Vintage Garment-Dyed Tee",
 										quantity: 1,
-										price: "5999",
-										images: ["/images/characters/whale-chan-full.png"],
+										price: "3200",
+										images: ["/logo.svg"],
 									},
 								],
 					subtotal: subtotalCents,
@@ -337,7 +337,7 @@ export default function CheckoutPage() {
 										<div key={item.productVariant.id || idx} className="flex items-center gap-3">
 											<div className="relative w-14 h-14 rounded-xl bg-white border border-neutral-200 overflow-hidden shrink-0">
 												<Image
-													src={item.productVariant.images[0] || "/images/characters/whale-chan-full.png"}
+													src={item.productVariant.images[0] || "/logo.svg"}
 													alt={item.productVariant.product.name}
 													fill
 													className="object-contain p-1"
@@ -358,8 +358,8 @@ export default function CheckoutPage() {
 									<div className="flex items-center gap-3">
 										<div className="relative w-14 h-14 rounded-xl bg-white border border-neutral-200 overflow-hidden shrink-0">
 											<Image
-												src="/images/characters/whale-chan-full.png"
-												alt="Ultimate Waifu Bundle"
+												src="/logo.svg"
+												alt="Protest Apparel"
 												fill
 												className="object-contain p-1"
 											/>
