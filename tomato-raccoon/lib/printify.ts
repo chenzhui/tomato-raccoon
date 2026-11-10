@@ -19,6 +19,7 @@ export interface PrintifyAddress {
 }
 
 export interface PrintifyLineItem {
+	product_id?: string;
 	print_provider_id?: number;
 	blueprint_id?: number;
 	variant_id: number;

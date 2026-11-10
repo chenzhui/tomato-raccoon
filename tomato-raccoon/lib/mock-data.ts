@@ -28,7 +28,7 @@ export const MOVEMENT_REVIEWS: ProductReview[] = [
 		location: "Richmond, VA",
 		rating: 5,
 		comment:
-			"Carried 30 pounds of heirloom tomatoes, sweet corn, and sourdough in this organic canvas tote last Saturday. The webbed handles didn't stretch at all. Plus, three different vendors complimented the raccoon!",
+			"Wore the Comfort Colors tee to the farmer's market and everyone was pointing and cheering! High quality fabric, soft feel, and stands up for clean water over data centers.",
 		verifiedPurchase: true,
 		date: "1 week ago",
 	},
@@ -39,7 +39,7 @@ export const MOVEMENT_REVIEWS: ProductReview[] = [
 		location: "Loudoun County, VA",
 		rating: 5,
 		comment:
-			"Our county is getting paved over by data centers at an alarming speed. This little plush raccoon holding his tomato has become our unofficial household mascot. Incredibly soft and well-made.",
+			"Our county is getting paved over by data centers at an alarming speed. This heavyweight hoodie and the lawn sign have become our town hall uniform. Incredibly warm and meaningful.",
 		verifiedPurchase: true,
 		date: "2 weeks ago",
 	},
@@ -50,7 +50,7 @@ export const MOVEMENT_REVIEWS: ProductReview[] = [
 		location: "Shenandoah Valley, VA",
 		rating: 5,
 		comment:
-			"Slapped the bumper sticker on my tailgate and the Hydroflask sticker on my water bottle. Hand-washed through dozens of cycles, not a single peeling edge. Water over watts forever.",
+			"Slapped the bumper sticker on my tailgate and the kiss-cut sticker on my Hydroflask. Hand-washed through dozens of cycles, not a single peeling edge. Water over watts forever.",
 		verifiedPurchase: true,
 		date: "3 weeks ago",
 	},
@@ -58,204 +58,434 @@ export const MOVEMENT_REVIEWS: ProductReview[] = [
 
 export function getMockProducts() {
 	return [
-		// 1. 农场守护者毛绒浣熊 (The Farm Defender Plushie)
+		// 1. Comfort Colors 美式水洗复古 T 恤 (Comfort Colors Heritage Tee)
+		// Printify Product ID: 6af1e37a0d44c7beaa022065
 		{
-			id: "prod-raccoon-plush",
-			slug: "the-farm-defender-raccoon-plush",
-			name: "The Farm Defender Raccoon Plushie (with Heirloom Tomato)",
-			description:
-				"Meet the official defender of local farmland. Hugging a plump, bright red heirloom tomato with both paws, this 12-inch ultra-soft plushie stands for clean groundwater, open soil, and local harvests over massive server campuses. Features a vintage straw hat, embroidered Hanover leaf paw tag, and baby-safe crystal velvet fur.",
-			tagline: "12\" Ultra-Soft Squeezable Grassroots Mascot",
-			images: ["/images/products/raccoon-plush.svg", "/images/raccoon-tomato.svg"],
-			category: "Plushies",
-			variants: [
-				{
-					id: "var-plush-defender",
-					name: "12\" Huggable Mascot Plush",
-					price: "3899",
-					stock: 35,
-					images: ["/images/products/raccoon-plush.svg"],
-					combinations: [],
-				},
-			],
-		},
-
-		// 2. 12盎司重磅有机棉帆布袋 (Heavy-Duty Organic Cotton Tote)
-		{
-			id: "prod-canvas-tote",
-			slug: "heavy-duty-organic-market-tote",
-			name: "Heavy-Duty 12oz Organic Cotton Canvas Market Tote",
-			description:
-				"The ultimate farmers market and grocery staple. Crafted from 100% GOTS-certified organic unbleached natural duck canvas. Features double-reinforced spruce green webbing handles designed to carry 40+ lbs of fresh tomatoes, vegetables, and sourdough bread without strain. Screen-printed with water-based non-toxic inks in Virginia.",
-			tagline: "Farmers Market Essential • 100% Organic Cotton",
-			images: ["/images/products/organic-canvas-tote.svg", "/images/raccoon-tomato.svg"],
-			category: "Totes",
-			variants: [
-				{
-					id: "var-tote-natural",
-					name: "Spruce Green Handles / Natural Canvas",
-					price: "2499",
-					stock: 50,
-					images: ["/images/products/organic-canvas-tote.svg"],
-					combinations: [],
-				},
-			],
-		},
-
-		// 3. 防水黑胶车贴与水壶贴纸 (Weatherproof Vinyl Stickers - 3-Pack)
-		{
-			id: "prod-bumper-stickers",
-			slug: "weatherproof-vinyl-bumper-sticker-pack",
-			name: "Weatherproof Outdoor Vinyl Bumper & Flask Stickers (3-Pack)",
-			description:
-				"Engineered to brave heavy highway rain, blazing summer sun, and dishwasher cycles. Die-cut on thick 6-mil outdoor vinyl with UV-matte laminate coating. Features the Official Hanover Tomato Raccoon Badge, Oval Bumper Decal, and Water Over Watts emblem. Perfect for trucks, Subarus, Yeti tumblers, and laptops.",
-			tagline: "UV-Resistant Die-Cut Vinyl • Pack of 3",
-			images: ["/images/products/vinyl-stickers.svg", "/images/raccoon-tomato.svg"],
-			category: "Stickers",
-			variants: [
-				{
-					id: "var-stickers-3pk",
-					name: "3-Pack Die-Cut Weatherproof Stickers",
-					price: "1299",
-					stock: 120,
-					images: ["/images/products/vinyl-stickers.svg"],
-					combinations: [],
-				},
-			],
-		},
-
-		// 4. 经典庭院草坪抗议插牌 (Official Lawn Yard Sign)
-		{
-			id: "prod-yard-sign",
-			slug: "official-lawn-yard-sign-with-metal-stake",
-			name: "Official \"Grow Tomatoes, Not Data Centers\" Lawn Yard Sign",
-			description:
-				"The sign that sparked the grassroots revolution across Hanover County, Virginia. 24\"x18\" double-sided fade-resistant screen print on durable 4mm fluted corrugated plastic. Includes a heavy-duty galvanized steel H-frame ground stake. Stand up for local groundwater and agricultural land right from your front lawn.",
-			tagline: "Double-Sided 24\"x18\" Coroplast + Metal H-Stake",
-			images: ["/images/products/yard-sign.svg", "/images/raccoon-tomato.svg"],
-			category: "Signs",
-			variants: [
-				{
-					id: "var-yard-sign-1",
-					name: "1 Sign + Metal H-Stake",
-					price: "2299",
-					stock: 45,
-					images: ["/images/products/yard-sign.svg"],
-					combinations: [],
-				},
-			],
-		},
-
-		// 5. Comfort Colors 美式水洗复古 T 恤 (Comfort Colors Heritage Tee)
-		{
-			id: "prod-vintage-tee",
+			id: "6af1e37a0d44c7beaa022065",
+			legacyId: "prod-vintage-tee",
+			printifyProductId: "6af1e37a0d44c7beaa022065",
 			slug: "comfort-colors-vintage-garment-dyed-tee",
-			name: "Comfort Colors® 1717 Vintage Wash Heritage Tee",
+			name: "Comfort Colors® 1717 Unisex Garment-Dyed T-Shirt",
 			description:
-				"The gold standard in American vintage heavyweight t-shirts. 100% ring-spun cotton (6.1 oz) garment-dyed in rich Spruce Forest Green for that authentically broken-in, relaxed feel from day one. Soft-hand screen-printed woodcut illustration that softens with every wash.",
-			tagline: "100% Cotton • Garment-Dyed Spruce Green",
-			images: ["/images/products/comfort-colors-preview.png", "/images/products/vintage-tee.svg", "/images/grow-tomatoes-transparent.png"],
+				"The gold standard in American vintage heavyweight t-shirts. 100% ring-spun cotton (6.1 oz) garment-dyed in clean crisp white featuring the official 'Grow Tomatoes, Not Data Centers' linocut artwork. Pre-shrunk, soft-washed, with double-needle stitched neckline and hem for enduring comfort at rallies, town halls, and farm markets.",
+			tagline: "100% Ring-Spun Cotton • Vintage Wash • Relaxed Fit",
+			images: [
+				"https://images-api.printify.com/mockup/6af1e37a0d44c7beaa022065/73207/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front",
+				"https://images-api.printify.com/mockup/6af1e37a0d44c7beaa022065/73207/98446/unisex-garment-dyed-t-shirt.jpg?camera_label=back",
+				"https://images-api.printify.com/mockup/6af1e37a0d44c7beaa022065/73207/100629/unisex-garment-dyed-t-shirt.jpg?camera_label=folded",
+				"https://images-api.printify.com/mockup/6af1e37a0d44c7beaa022065/73207/110132/unisex-garment-dyed-t-shirt.jpg?camera_label=size-chart",
+			],
 			category: "Apparel",
 			variants: [
 				{
-					id: "var-tee-m",
-					name: "Medium / Spruce Forest Green",
-					price: "3299",
-					stock: 25,
-					images: ["/images/products/comfort-colors-preview.png"],
-					combinations: [],
+					id: "73199",
+					printifyVariantId: 73199,
+					name: "Small / White",
+					price: "3200",
+					stock: 50,
+					images: ["https://images-api.printify.com/mockup/6af1e37a0d44c7beaa022065/73207/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front"],
+					combinations: [
+						{
+							variantValue: {
+								id: "size-s",
+								value: "S",
+								colorValue: null,
+								variantType: { id: "type-size", type: "string" as const, label: "Size" },
+							},
+						},
+					],
 				},
 				{
-					id: "var-tee-l",
-					name: "Large / Spruce Forest Green",
-					price: "3299",
+					id: "73203",
+					printifyVariantId: 73203,
+					name: "Medium / White",
+					price: "3200",
+					stock: 50,
+					images: ["https://images-api.printify.com/mockup/6af1e37a0d44c7beaa022065/73207/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front"],
+					combinations: [
+						{
+							variantValue: {
+								id: "size-m",
+								value: "M",
+								colorValue: null,
+								variantType: { id: "type-size", type: "string" as const, label: "Size" },
+							},
+						},
+					],
+				},
+				{
+					id: "73207",
+					printifyVariantId: 73207,
+					name: "Large / White",
+					price: "3200",
+					stock: 50,
+					images: ["https://images-api.printify.com/mockup/6af1e37a0d44c7beaa022065/73207/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front"],
+					combinations: [
+						{
+							variantValue: {
+								id: "size-l",
+								value: "L",
+								colorValue: null,
+								variantType: { id: "type-size", type: "string" as const, label: "Size" },
+							},
+						},
+					],
+				},
+				{
+					id: "73211",
+					printifyVariantId: 73211,
+					name: "XL / White",
+					price: "3200",
+					stock: 50,
+					images: ["https://images-api.printify.com/mockup/6af1e37a0d44c7beaa022065/73207/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front"],
+					combinations: [
+						{
+							variantValue: {
+								id: "size-xl",
+								value: "XL",
+								colorValue: null,
+								variantType: { id: "type-size", type: "string" as const, label: "Size" },
+							},
+						},
+					],
+				},
+				{
+					id: "73215",
+					printifyVariantId: 73215,
+					name: "2XL / White",
+					price: "3400",
 					stock: 30,
-					images: ["/images/products/comfort-colors-preview.png"],
-					combinations: [],
+					images: ["https://images-api.printify.com/mockup/6af1e37a0d44c7beaa022065/73207/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front"],
+					combinations: [
+						{
+							variantValue: {
+								id: "size-2xl",
+								value: "2XL",
+								colorValue: null,
+								variantType: { id: "type-size", type: "string" as const, label: "Size" },
+							},
+						},
+					],
 				},
 				{
-					id: "var-tee-xl",
-					name: "XL / Spruce Forest Green",
-					price: "3299",
-					stock: 28,
-					images: ["/images/products/comfort-colors-preview.png"],
-					combinations: [],
+					id: "79169",
+					printifyVariantId: 79169,
+					name: "3XL / White",
+					price: "3600",
+					stock: 20,
+					images: ["https://images-api.printify.com/mockup/6af1e37a0d44c7beaa022065/73207/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front"],
+					combinations: [
+						{
+							variantValue: {
+								id: "size-3xl",
+								value: "3XL",
+								colorValue: null,
+								variantType: { id: "type-size", type: "string" as const, label: "Size" },
+							},
+						},
+					],
 				},
 				{
-					id: "var-tee-2xl",
-					name: "2XL / Spruce Forest Green",
-					price: "3499",
+					id: "101476",
+					printifyVariantId: 101476,
+					name: "4XL / White",
+					price: "3800",
 					stock: 15,
-					images: ["/images/products/comfort-colors-preview.png"],
-					combinations: [],
+					images: ["https://images-api.printify.com/mockup/6af1e37a0d44c7beaa022065/73207/98445/unisex-garment-dyed-t-shirt.jpg?camera_label=front"],
+					combinations: [
+						{
+							variantValue: {
+								id: "size-4xl",
+								value: "4XL",
+								colorValue: null,
+								variantType: { id: "type-size", type: "string" as const, label: "Size" },
+							},
+						},
+					],
 				},
 			],
 		},
 
-		// 7. 经典抗议加厚连帽卫衣 (Gildan 18500 Protest Hoodie)
+		// 2. 经典抗议加厚连帽卫衣 (Gildan 18500 Protest Hoodie)
+		// Printify Product ID: 6af1e5c85225a301c209b517
 		{
-			id: "prod-hoodie",
+			id: "6af1e5c85225a301c209b517",
+			legacyId: "prod-hoodie",
+			printifyProductId: "6af1e5c85225a301c209b517",
 			slug: "gildan-heavy-blend-protest-hoodie",
 			name: "Gildan 18500 Official \"Grow Tomatoes, Not Data Centers\" Heavyweight Hoodie",
 			description:
-				"The official heavy-duty protest hoodie for chilly morning rallies, town hall hearings, and open-field standoffs. Crafted from 50% US cotton and 50% polyester (8.0 oz/yd²) with a double-lined hood, color-matched drawcord, and deep front pouch pocket. High-density screen-printed with the Tomato Raccoon defender linocut that never cracks or peels.",
+				"The official heavyweight protest hoodie for crisp Virginia mornings and outdoor rallies. Crafted from a durable 50/50 polyester and cotton blend (8.0 oz/yd²) that delivers plush warmth and zero scratchiness. Features a double-lined drawstring hood, kangaroo front pouch pocket, and high-definition screen printing of the Tomato Raccoon defender emblem.",
 			tagline: "8.0 oz Heavyweight Fleece • Kangaroo Pouch • Double-Lined Hood",
-			images: ["/images/grow-tomatoes-transparent.png", "/images/products/comfort-colors-preview.png"],
+			images: [
+				"https://images-api.printify.com/mockup/6af1e5c85225a301c209b517/32912/98424/unisex-heavy-blend-hooded-sweatshirt.jpg?camera_label=front",
+				"https://images-api.printify.com/mockup/6af1e5c85225a301c209b517/32912/98425/unisex-heavy-blend-hooded-sweatshirt.jpg?camera_label=back",
+				"https://images-api.printify.com/mockup/6af1e5c85225a301c209b517/32912/98432/unisex-heavy-blend-hooded-sweatshirt.jpg?camera_label=folded",
+				"https://images-api.printify.com/mockup/6af1e5c85225a301c209b517/32912/110151/unisex-heavy-blend-hooded-sweatshirt.jpg?camera_label=size-chart",
+			],
 			category: "Apparel",
 			variants: [
 				{
-					id: "var-hoodie-m",
-					name: "Medium / Forest Green",
-					price: "4899",
-					stock: 20,
-					images: ["/images/grow-tomatoes-transparent.png"],
-					combinations: [],
+					id: "32910",
+					printifyVariantId: 32910,
+					name: "Small / White",
+					price: "4800",
+					stock: 40,
+					images: ["https://images-api.printify.com/mockup/6af1e5c85225a301c209b517/32912/98424/unisex-heavy-blend-hooded-sweatshirt.jpg?camera_label=front"],
+					combinations: [
+						{
+							variantValue: {
+								id: "size-hoodie-s",
+								value: "S",
+								colorValue: null,
+								variantType: { id: "type-size", type: "string" as const, label: "Size" },
+							},
+						},
+					],
 				},
 				{
-					id: "var-hoodie-l",
-					name: "Large / Forest Green",
-					price: "4899",
+					id: "32911",
+					printifyVariantId: 32911,
+					name: "Medium / White",
+					price: "4800",
+					stock: 40,
+					images: ["https://images-api.printify.com/mockup/6af1e5c85225a301c209b517/32912/98424/unisex-heavy-blend-hooded-sweatshirt.jpg?camera_label=front"],
+					combinations: [
+						{
+							variantValue: {
+								id: "size-hoodie-m",
+								value: "M",
+								colorValue: null,
+								variantType: { id: "type-size", type: "string" as const, label: "Size" },
+							},
+						},
+					],
+				},
+				{
+					id: "32912",
+					printifyVariantId: 32912,
+					name: "Large / White",
+					price: "4800",
+					stock: 40,
+					images: ["https://images-api.printify.com/mockup/6af1e5c85225a301c209b517/32912/98424/unisex-heavy-blend-hooded-sweatshirt.jpg?camera_label=front"],
+					combinations: [
+						{
+							variantValue: {
+								id: "size-hoodie-l",
+								value: "L",
+								colorValue: null,
+								variantType: { id: "type-size", type: "string" as const, label: "Size" },
+							},
+						},
+					],
+				},
+				{
+					id: "32913",
+					printifyVariantId: 32913,
+					name: "XL / White",
+					price: "4800",
+					stock: 40,
+					images: ["https://images-api.printify.com/mockup/6af1e5c85225a301c209b517/32912/98424/unisex-heavy-blend-hooded-sweatshirt.jpg?camera_label=front"],
+					combinations: [
+						{
+							variantValue: {
+								id: "size-hoodie-xl",
+								value: "XL",
+								colorValue: null,
+								variantType: { id: "type-size", type: "string" as const, label: "Size" },
+							},
+						},
+					],
+				},
+				{
+					id: "32914",
+					printifyVariantId: 32914,
+					name: "2XL / White",
+					price: "5200",
 					stock: 25,
-					images: ["/images/grow-tomatoes-transparent.png"],
-					combinations: [],
+					images: ["https://images-api.printify.com/mockup/6af1e5c85225a301c209b517/32912/98424/unisex-heavy-blend-hooded-sweatshirt.jpg?camera_label=front"],
+					combinations: [
+						{
+							variantValue: {
+								id: "size-hoodie-2xl",
+								value: "2XL",
+								colorValue: null,
+								variantType: { id: "type-size", type: "string" as const, label: "Size" },
+							},
+						},
+					],
 				},
 				{
-					id: "var-hoodie-xl",
-					name: "XL / Forest Green",
-					price: "4899",
+					id: "32915",
+					printifyVariantId: 32915,
+					name: "3XL / White",
+					price: "5400",
 					stock: 20,
-					images: ["/images/grow-tomatoes-transparent.png"],
-					combinations: [],
+					images: ["https://images-api.printify.com/mockup/6af1e5c85225a301c209b517/32912/98424/unisex-heavy-blend-hooded-sweatshirt.jpg?camera_label=front"],
+					combinations: [
+						{
+							variantValue: {
+								id: "size-hoodie-3xl",
+								value: "3XL",
+								colorValue: null,
+								variantType: { id: "type-size", type: "string" as const, label: "Size" },
+							},
+						},
+					],
 				},
 				{
-					id: "var-hoodie-2xl",
-					name: "2XL / Forest Green",
-					price: "5299",
-					stock: 12,
-					images: ["/images/grow-tomatoes-transparent.png"],
-					combinations: [],
+					id: "32916",
+					printifyVariantId: 32916,
+					name: "4XL / White",
+					price: "5600",
+					stock: 15,
+					images: ["https://images-api.printify.com/mockup/6af1e5c85225a301c209b517/32912/98424/unisex-heavy-blend-hooded-sweatshirt.jpg?camera_label=front"],
+					combinations: [
+						{
+							variantValue: {
+								id: "size-hoodie-4xl",
+								value: "4XL",
+								colorValue: null,
+								variantType: { id: "type-size", type: "string" as const, label: "Size" },
+							},
+						},
+					],
+				},
+				{
+					id: "32917",
+					printifyVariantId: 32917,
+					name: "5XL / White",
+					price: "5800",
+					stock: 10,
+					images: ["https://images-api.printify.com/mockup/6af1e5c85225a301c209b517/32912/98424/unisex-heavy-blend-hooded-sweatshirt.jpg?camera_label=front"],
+					combinations: [
+						{
+							variantValue: {
+								id: "size-hoodie-5xl",
+								value: "5XL",
+								colorValue: null,
+								variantType: { id: "type-size", type: "string" as const, label: "Size" },
+							},
+						},
+					],
 				},
 			],
 		},
 
-		// 6. 复古水洗做旧棒球帽 (Unstructured Dad Hat)
+		// 3. 经典庭院草坪抗议插牌 (Official Lawn Yard Sign)
+		// Printify Product ID: 6af1eb2dd339bef3b00c5a47
 		{
-			id: "prod-dad-hat",
-			slug: "unstructured-vintage-washed-dad-hat",
-			name: "Unstructured Washed Cotton Dad Hat (Embroidered)",
+			id: "6af1eb2dd339bef3b00c5a47",
+			legacyId: "prod-yard-sign",
+			printifyProductId: "6af1eb2dd339bef3b00c5a47",
+			slug: "official-lawn-yard-sign-with-metal-stake",
+			name: "Official \"Grow Tomatoes, Not Data Centers\" Lawn Yard Sign",
 			description:
-				"Classic low-profile 6-panel cap crafted from 100% bio-washed cotton chino twill. Direct high-density embroidery of the Tomato Raccoon emblem. Pre-curved visor, self-fabric strap with antique brass tri-glide buckle closure. Breathable, durable, and comfortable for all-day farm and market wear.",
-			tagline: "Low-Profile 6-Panel • Antique Brass Buckle",
-			images: ["/images/products/dad-hat.svg", "/images/raccoon-tomato.svg"],
-			category: "Apparel",
+				"The iconic yard sign that sparked community conversations across Hanover County, Virginia. Double-sided high-contrast print on durable 4mm fluted corrugated plastic. Includes heavy-duty galvanized metal H-stake for easy front yard installation. UV-resistant inks stand strong through heavy thunderstorms, road dust, and blazing summer sun.",
+			tagline: "Double-Sided 18\"x12\" Coroplast • Weatherproof H-Stake",
+			images: [
+				"https://images-api.printify.com/mockup/6af1eb2dd339bef3b00c5a47/92131/64793/plastic-yard-sign.jpg?camera_label=front",
+				"https://images-api.printify.com/mockup/6af1eb2dd339bef3b00c5a47/92131/69652/plastic-yard-sign.jpg?camera_label=front-with-stand",
+				"https://images-api.printify.com/mockup/6af1eb2dd339bef3b00c5a47/92131/69658/plastic-yard-sign.jpg?camera_label=full-size",
+				"https://images-api.printify.com/mockup/6af1eb2dd339bef3b00c5a47/92131/69667/plastic-yard-sign.jpg?camera_label=close-up",
+			],
+			category: "Signs",
 			variants: [
 				{
-					id: "var-hat-spruce",
-					name: "One Size / Washed Forest Green",
-					price: "2699",
-					stock: 35,
-					images: ["/images/products/dad-hat.svg"],
-					combinations: [],
+					id: "92131",
+					printifyVariantId: 92131,
+					name: "18″ x 12″ (Horizontal) + Stake",
+					price: "2800",
+					stock: 75,
+					images: ["https://images-api.printify.com/mockup/6af1eb2dd339bef3b00c5a47/92131/64793/plastic-yard-sign.jpg?camera_label=front"],
+					combinations: [
+						{
+							variantValue: {
+								id: "dim-sign-18x12",
+								value: "18″ x 12″",
+								colorValue: null,
+								variantType: { id: "type-size", type: "string" as const, label: "Size" },
+							},
+						},
+					],
+				},
+			],
+		},
+
+		// 4. 防水黑胶车贴与水壶贴纸 (Weatherproof Vinyl Stickers)
+		// Printify Product ID: 6af1eb4dab0419501e05b289
+		{
+			id: "6af1eb4dab0419501e05b289",
+			legacyId: "prod-bumper-stickers",
+			printifyProductId: "6af1eb4dab0419501e05b289",
+			slug: "weatherproof-vinyl-bumper-sticker-pack",
+			name: "Weatherproof Outdoor Vinyl Bumper Stickers (11\" × 3\")",
+			description:
+				"Engineered to brave heavy highway rain, blazing summer sun, and automatic car washes. Thick outdoor-grade vinyl with premium UV-resistant laminate coating. Features bold 'Grow Tomatoes, Not Data Centers' lettering and the Tomato Raccoon emblem. Perfect for car bumpers, pickup tailgates, RVs, and trailer panels.",
+			tagline: "Heavy-Duty UV-Resistant Vinyl • 11\" x 3\" Bumper Decal",
+			images: [
+				"https://images-api.printify.com/mockup/6af1eb4dab0419501e05b289/71930/12828/bumper-stickers.jpg?camera_label=front",
+				"https://images-api.printify.com/mockup/6af1eb4dab0419501e05b289/71930/12819/bumper-stickers.jpg?camera_label=context",
+				"https://images-api.printify.com/mockup/6af1eb4dab0419501e05b289/71930/12808/bumper-stickers.jpg?camera_label=context-2",
+			],
+			category: "Stickers",
+			variants: [
+				{
+					id: "71930",
+					printifyVariantId: 71930,
+					name: "11\" × 3\" / Rectangle / White",
+					price: "1200",
+					stock: 150,
+					images: ["https://images-api.printify.com/mockup/6af1eb4dab0419501e05b289/71930/12828/bumper-stickers.jpg?camera_label=front"],
+					combinations: [
+						{
+							variantValue: {
+								id: "dim-sticker-11x3",
+								value: "11″ x 3″",
+								colorValue: null,
+								variantType: { id: "type-size", type: "string" as const, label: "Size" },
+							},
+						},
+					],
+				},
+			],
+		},
+
+		// 5. 模切高光水壶防水贴纸 (Tomato Defender Kiss-Cut Die-Cut Vinyl Stickers)
+		// Printify Product ID: 6af1e70011c6bff63904cffc
+		{
+			id: "6af1e70011c6bff63904cffc",
+			legacyId: "prod-kiss-cut-sticker",
+			printifyProductId: "6af1e70011c6bff63904cffc",
+			slug: "kiss-cut-sticker-tomato-defender",
+			name: "Tomato Defender Die-Cut High-Gloss Vinyl Sticker (3\" × 3\")",
+			description:
+				"Precision kiss-cut die-cut vinyl sticker showcasing our beloved farm defender raccoon clutching his ripe heirloom tomato. Peel-and-stick backing makes application effortless on Hydroflasks, Yeti mugs, laptops, iPad covers, and notebooks. Water-resistant, scratch-resistant, and dishwasher-durable.",
+			tagline: "Ultra-Durable Kiss-Cut Vinyl • Scratch & Water Resistant",
+			images: [
+				"https://images-api.printify.com/mockup/6af1e70011c6bff63904cffc/45750/16655/kiss-cut-stickers.jpg?camera_label=front",
+				"https://images-api.printify.com/mockup/6af1e70011c6bff63904cffc/45750/2176/kiss-cut-stickers.jpg?camera_label=context-1",
+				"https://images-api.printify.com/mockup/6af1e70011c6bff63904cffc/45750/20546/kiss-cut-stickers.jpg?camera_label=context-2",
+			],
+			category: "Stickers",
+			variants: [
+				{
+					id: "45750",
+					printifyVariantId: 45750,
+					name: "3\" × 3\" / White",
+					price: "800",
+					stock: 200,
+					images: ["https://images-api.printify.com/mockup/6af1e70011c6bff63904cffc/45750/16655/kiss-cut-stickers.jpg?camera_label=front"],
+					combinations: [
+						{
+							variantValue: {
+								id: "dim-sticker-3x3",
+								value: "3″ x 3″",
+								colorValue: null,
+								variantType: { id: "type-size", type: "string" as const, label: "Size" },
+							},
+						},
+					],
 				},
 			],
 		},
@@ -272,7 +502,7 @@ export function getMockProducts() {
 		variants: item.variants.map((v) => ({
 			...v,
 			sku: v.id,
-			combinations: [],
+			combinations: v.combinations || [],
 			omnibusPrice: null,
 		})),
 	}));

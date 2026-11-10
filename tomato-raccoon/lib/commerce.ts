@@ -44,11 +44,9 @@ function updateCartTotals(cart: any) {
 
 const mockCategories = [
 	{ id: "cat-all", slug: "all", name: "All Goods", description: "All official Tomato Raccoon movement goods", parentId: null },
-	{ id: "cat-plushies", slug: "plushies", name: "Plush Mascots", description: "Huggable farm defender raccoon plushies", parentId: null },
-	{ id: "cat-totes", slug: "totes", name: "Market Totes", description: "12oz heavy organic cotton canvas grocery totes", parentId: null },
-	{ id: "cat-stickers", slug: "stickers", name: "Vinyl Stickers", description: "Weatherproof UV-laminated die-cut bumper & bottle stickers", parentId: null },
+	{ id: "cat-apparel", slug: "apparel", name: "Vintage Apparel", description: "Comfort Colors garment-dyed shirts & heavyweight hoodies", parentId: null },
 	{ id: "cat-signs", slug: "signs", name: "Lawn Yard Signs", description: "Double-sided weatherproof corrugated yard signs with metal H-stake", parentId: null },
-	{ id: "cat-apparel", slug: "apparel", name: "Vintage Apparel", description: "Comfort Colors garment-dyed shirts & washed dad hats", parentId: null },
+	{ id: "cat-stickers", slug: "stickers", name: "Vinyl Stickers", description: "Weatherproof UV-laminated die-cut bumper & kiss-cut stickers", parentId: null },
 ];
 
 const mockCollections = [
@@ -205,7 +203,7 @@ async function localCommerceFetch(url: string, init?: RequestInit): Promise<Resp
 	if (pathname.includes("/products/")) {
 		const slugOrId = decodeURIComponent(pathname.split("/products/")[1]?.split("?")[0] || "");
 		const products = getMockProducts();
-		const p = products.find((item) => item.slug === slugOrId || item.id === slugOrId);
+		const p = products.find((item) => item.slug === slugOrId || item.id === slugOrId || (item as any).legacyId === slugOrId);
 		if (!p) {
 			return new Response(JSON.stringify({ message: "Product not found" }), { status: 404 });
 		}

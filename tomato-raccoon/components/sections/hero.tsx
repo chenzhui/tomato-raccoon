@@ -29,7 +29,7 @@ export function Hero() {
 					</p>
 
 					<p className="text-xs sm:text-sm font-medium text-[#7C5335] mb-8 tracking-wide">
-						Handcrafted yard signs, organic heavy-duty totes, weatherproof vinyl stickers &amp; squeezable mascot plushies.
+						Handcrafted lawn yard signs, heavyweight protest hoodies, weatherproof vinyl stickers &amp; vintage garment-dyed tees.
 					</p>
 
 					{/* 暖调复古按钮组 */}
@@ -68,26 +68,26 @@ export function Hero() {
 							/>
 						</div>
 
-						{/* 右侧：守护者小浣熊公仔速览卡 */}
+						{/* 右侧：守护者核心复古 T 恤速览卡 */}
 						<div className="space-y-4 text-left">
 							<div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#D93829]/10 text-[#D93829] text-[11px] font-bold uppercase tracking-wider">
-								★ Most Loved Plushie
+								★ Flagship Protest Apparel
 							</div>
 							<h3 className="text-2xl font-bold text-[#1E1D1B]">
-								"The Farm Defender" Plush Raccoon
+								Comfort Colors® 1717 Vintage Tee
 							</h3>
 							<p className="text-xs sm:text-sm text-[#524B42] leading-relaxed">
-								Clutching a ripe heirloom tomato with both soft paws. Huggable, squeezable, and crafted from baby-soft velvet to remind everyone what truly matters: local soil and clean water.
+								100% ring-spun cotton garment-dyed tee featuring the iconic Tomato Raccoon defender print. Ultra-comfortable, broken-in feel to rally for clean water and local soil.
 							</p>
 							<div className="pt-2 flex items-baseline gap-3">
-								<span className="text-2xl font-bold text-[#1E3F20]">$38.99</span>
+								<span className="text-2xl font-bold text-[#1E3F20]">$32.00</span>
 								<span className="text-xs font-semibold text-[#1E3F20] bg-[#E8F0E7] px-2.5 py-0.5 rounded-full">In Stock · Ready to Ship</span>
 							</div>
 							<Link
-								href="/product/the-farm-defender-raccoon-plush"
+								href="/product/comfort-colors-vintage-garment-dyed-tee"
 								className="inline-flex items-center gap-1.5 text-xs font-bold text-[#D93829] hover:underline"
 							>
-								<span>Adopt your farm defender</span>
+								<span>Get your protest tee</span>
 								<ArrowRight className="w-3.5 h-3.5" />
 							</Link>
 						</div>

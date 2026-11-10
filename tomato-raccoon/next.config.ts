@@ -29,6 +29,8 @@ const nextConfig: NextConfig = {
 			{ protocol: "https", hostname: "**.yns.store" },
 			{ protocol: "https", hostname: "yns.cx" },
 			{ protocol: "https", hostname: "**.yns.cx" },
+			{ protocol: "https", hostname: "images-api.printify.com" },
+			{ protocol: "https", hostname: "**.printify.com" },
 		],
 	},
 	// 带有筛选、排序和分页的列表在其独立的路由上按请求渲染，因此默认视图可以保持静态（lib/listing-routes.ts）。

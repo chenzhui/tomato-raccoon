@@ -51,7 +51,7 @@ export async function ProductsView({
 					All Movement Goods
 				</h1>
 				<p className="mt-2 text-sm sm:text-base text-[#524B42] font-normal">
-					Handcrafted yard signs, organic market totes, weatherproof vinyl stickers &amp; plushies defending Virginia farmland.
+					Handcrafted yard signs, heavyweight hoodies, weatherproof vinyl stickers &amp; vintage tees defending Virginia farmland.
 				</p>
 			</div>
 

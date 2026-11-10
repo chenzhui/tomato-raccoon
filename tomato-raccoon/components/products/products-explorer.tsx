@@ -29,11 +29,9 @@ export type ExplorerProduct = {
 // 运动周边品类列表定义
 export const MOVEMENT_CATEGORIES = [
 	{ key: "all", label: "All Movement Gear", emoji: "🌱" },
-	{ key: "Plushies", label: "Plush Defenders", sub: "玩偶", emoji: "🦝" },
-	{ key: "Totes", label: "12oz Market Totes", sub: "帆布袋", emoji: "👜" },
-	{ key: "Stickers", label: "Bumper Stickers", sub: "防水车贴", emoji: "🏷️" },
-	{ key: "Signs", label: "Lawn Yard Signs", sub: "草坪插牌", emoji: "🪧" },
-	{ key: "Apparel", label: "Heritage Apparel", sub: "水洗服饰", emoji: "👕" },
+	{ key: "Apparel", label: "Heritage Apparel", sub: "水洗T恤与加厚卫衣", emoji: "👕" },
+	{ key: "Signs", label: "Lawn Yard Signs", sub: "庭院草坪插牌", emoji: "🪧" },
+	{ key: "Stickers", label: "Vinyl Stickers", sub: "防水车贴与模切贴", emoji: "🏷️" },
 ] as const;
 
 type SortOption = "featured" | "price-asc" | "price-desc" | "name";

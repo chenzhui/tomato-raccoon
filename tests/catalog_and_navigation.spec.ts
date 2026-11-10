@@ -7,7 +7,7 @@ test.describe('全站商品目录、品牌叙事与合规页面完整性 E2E 验
     { slug: 'gildan-heavy-blend-protest-hoodie', title: 'Gildan 18500' },
     { slug: 'official-lawn-yard-sign-with-metal-stake', title: 'Yard Sign' },
     { slug: 'weatherproof-vinyl-bumper-sticker-pack', title: 'Bumper Sticker' },
-    { slug: 'the-farm-defender-raccoon-plush', title: 'Plush' },
+    { slug: 'kiss-cut-sticker-tomato-defender', title: 'Kiss-Cut Sticker' },
   ];
 
   for (const item of coreProducts) {

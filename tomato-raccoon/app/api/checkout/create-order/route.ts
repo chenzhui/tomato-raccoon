@@ -39,7 +39,8 @@ export async function POST(req: Request) {
 						zip: shippingAddress.zip || "23219",
 					},
 					line_items: items.map((it: any) => ({
-						variant_id: it.printifyVariantId || 43210,
+						product_id: it.printifyProductId || "6af1e37a0d44c7beaa022065",
+						variant_id: it.printifyVariantId || 73203,
 						quantity: it.quantity || 1,
 					})),
 				});
