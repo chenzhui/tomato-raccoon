@@ -2,7 +2,6 @@ import { cacheLife } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 import { PaymentMethods } from "@/components/payment-methods";
-import { FooterNewsletter } from "@/components/footer-newsletter";
 import { ShieldCheck } from "lucide-react";
 
 /**
@@ -39,7 +38,7 @@ export async function Footer() {
 	return (
 		<footer className="border-t border-[#E5DDD0] bg-[#F4EFE6] text-[#524B42]">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div className="py-16 sm:py-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-8">
+				<div className="py-16 sm:py-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
 					{/* 第 1 列：品牌介绍 */}
 					<div className="space-y-4">
 						<Link href="/" className="inline-flex items-center gap-2.5 text-sm font-bold text-[#1E3F20] tracking-tight">
@@ -65,7 +64,7 @@ export async function Footer() {
 
 					{/* 第 2 列：客户服务 (Support) */}
 					<div>
-						<h3 className="text-xs font-bold text-[#1E3F20] uppercase tracking-wider">Support & Care</h3>
+						<h3 className="text-xs font-bold text-[#1E3F20] uppercase tracking-wider">Customer Support</h3>
 						<ul className="mt-4 space-y-2.5 text-xs sm:text-sm ">
 							<li>
 								<Link href="/track-order" className="text-[#1E1D1B] hover:text-[#D93829] font-medium transition-colors">
@@ -84,7 +83,7 @@ export async function Footer() {
 							</li>
 							<li>
 								<Link href="/about" className="hover:text-[#D93829] transition-colors">
-									The Hanover Movement
+									Our Story
 								</Link>
 							</li>
 						</ul>
@@ -92,21 +91,21 @@ export async function Footer() {
 
 					{/* 第 3 列：法律条款 (Legal) */}
 					<div>
-						<h3 className="text-xs font-bold text-[#1E3F20] uppercase tracking-wider">Community Trust</h3>
+						<h3 className="text-xs font-bold text-[#1E3F20] uppercase tracking-wider">Legal &amp; Policies</h3>
 						<ul className="mt-4 space-y-2.5 text-xs sm:text-sm ">
 							<li>
 								<Link href="/privacy-policy" className="hover:text-[#D93829] transition-colors">
-									Privacy (Zero Data Brokers)
+									Privacy Policy
 								</Link>
 							</li>
 							<li>
 								<Link href="/terms-of-service" className="hover:text-[#D93829] transition-colors">
-									Terms of Advocacy
+									Terms of Service
 								</Link>
 							</li>
 							<li>
 								<Link href="/shipping-policy" className="hover:text-[#D93829] transition-colors">
-									Plastic-Free Eco Shipping
+									Shipping Policy
 								</Link>
 							</li>
 							<li>
@@ -119,7 +118,7 @@ export async function Footer() {
 
 					{/* 第 4 列：关注我们 (Follow Us) */}
 					<div>
-						<h3 className="text-xs font-bold text-[#1E3F20] uppercase tracking-wider">The Movement</h3>
+						<h3 className="text-xs font-bold text-[#1E3F20] uppercase tracking-wider">Follow Us</h3>
 						<p className="mt-1.5 text-xs text-[#7C5335] ">
 							Join neighbors spreading the word:
 						</p>
@@ -157,15 +156,6 @@ export async function Footer() {
 								</a>
 							</li>
 						</ul>
-					</div>
-
-					{/* 第 5 列：邮件订阅 (Newsletter - 独占最右侧) */}
-					<div>
-						<h3 className="text-xs font-bold text-[#1E3F20] uppercase tracking-wider">Farm Dispatch</h3>
-						<p className="mt-1.5 text-xs text-[#524B42] leading-relaxed ">
-							Join 15,000+ neighbors protecting local soil. Get grassroots updates &amp; restock alerts.
-						</p>
-						<FooterNewsletter />
 					</div>
 				</div>
 
