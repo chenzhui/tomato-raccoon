@@ -49,7 +49,7 @@ export function ProductFeatures({ category = "Totes" }: ProductFeaturesProps) {
 			{
 				icon: Heart,
 				title: "Springy PP Cotton Filling",
-				description: "High-elasticity cotton core. Squeeze Whale-Chan when feeling stressed; bounces back into shape instantly.",
+				description: "High-elasticity cotton core. Squeeze Tomato Raccoon when feeling stressed; bounces back into shape instantly.",
 			},
 			{
 				icon: ShieldCheck,

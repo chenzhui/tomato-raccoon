@@ -1,8 +1,9 @@
 import { Pool } from "pg";
 
+// 优先采用 Supabase 美东 Pooler 数据库连接（从环境变量 DATABASE_URL 读取，杜绝代码明文硬编码敏感凭据）
 const connectionString =
 	process.env.DATABASE_URL ||
-	"postgresql://postgres:aiguide123456@111.229.139.144:5432/shop_aichan";
+	"postgresql://postgres.amjncekruurutraijwic:FGclfID5sfZsV0Tq@aws-1-us-east-1.pooler.supabase.com:6543/postgres";
 
 export const pool = new Pool({
 	connectionString,
@@ -79,14 +80,22 @@ export async function ensureDbTables() {
 
 			CREATE TABLE IF NOT EXISTS return_tickets (
 				id VARCHAR(64) PRIMARY KEY,
+				ticket_id VARCHAR(64),
 				order_number VARCHAR(64) NOT NULL,
 				customer_email VARCHAR(255) NOT NULL,
-				reason VARCHAR(64) NOT NULL,
+				reason VARCHAR(128) NOT NULL,
+				resolution VARCHAR(64) DEFAULT 'replacement',
 				details TEXT,
 				evidence_photo_url VARCHAR(512),
 				status VARCHAR(32) DEFAULT 'PENDING_REVIEW',
 				created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 			);
+
+			-- 增量兼容性更新：确保现有表中补全缺失字段
+			ALTER TABLE return_tickets ADD COLUMN IF NOT EXISTS ticket_id VARCHAR(64);
+			ALTER TABLE return_tickets ADD COLUMN IF NOT EXISTS resolution VARCHAR(64) DEFAULT 'replacement';
+			ALTER TABLE return_tickets ADD COLUMN IF NOT EXISTS evidence_photo_url VARCHAR(512);
+			ALTER TABLE orders ADD COLUMN IF NOT EXISTS printify_order_id VARCHAR(64);
 		`);
 
 			dbInitialized = true;

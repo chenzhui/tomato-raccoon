@@ -190,24 +190,28 @@ const OrderDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
 			</div>
 
 			{/* 配送地址 */}
-			{shippingAddress && (
-				<div className="border border-border rounded-lg overflow-hidden mt-6">
-					<div className="bg-secondary/50 px-6 py-4 border-b border-border">
-						<h2 className="font-medium">Shipping Address</h2>
+			{shippingAddress && (() => {
+				const addr = shippingAddress as any;
+				const cust = customer as any;
+				const displayName = addr.name || cust?.name || cust?.user?.name;
+				const line1 = addr.line1 || addr.address1;
+				const line2 = addr.line2 || addr.address2;
+				const postal = addr.postalCode || addr.zip;
+				return (
+					<div className="border border-border rounded-lg overflow-hidden mt-6">
+						<div className="bg-secondary/50 px-6 py-4 border-b border-border">
+							<h2 className="font-medium">Shipping Address</h2>
+						</div>
+						<div className="px-6 py-4 text-sm text-muted-foreground">
+							{displayName && <p className="text-foreground font-medium">{displayName}</p>}
+							{line1 && <p>{line1}</p>}
+							{line2 && <p>{line2}</p>}
+							<p>{[addr.city, addr.state, postal].filter(Boolean).join(", ")}</p>
+							{addr.country && <p>{addr.country}</p>}
+						</div>
 					</div>
-					<div className="px-6 py-4 text-sm text-muted-foreground">
-						{shippingAddress.name && <p className="text-foreground font-medium">{shippingAddress.name}</p>}
-						{shippingAddress.line1 && <p>{shippingAddress.line1}</p>}
-						{shippingAddress.line2 && <p>{shippingAddress.line2}</p>}
-						<p>
-							{[shippingAddress.city, shippingAddress.state, shippingAddress.postalCode]
-								.filter(Boolean)
-								.join(", ")}
-						</p>
-						{shippingAddress.country && <p>{shippingAddress.country}</p>}
-					</div>
-				</div>
-			)}
+				);
+			})()}
 
 			{/* 继续购物按钮 */}
 			<div className="mt-8 text-center">

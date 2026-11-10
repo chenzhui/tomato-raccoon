@@ -45,7 +45,7 @@ export default function TrackOrderPage() {
 	const handleSearch = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!orderNumber.trim()) {
-			setError("Please enter a valid order number (e.g. AI-678413 or ORD-1001)");
+			setError("Please enter a valid order number (e.g. TR-123456)");
 			return;
 		}
 
@@ -64,7 +64,7 @@ export default function TrackOrderPage() {
 				throw new Error(data.message || "Order not found");
 			}
 
-			setResult(data.data);
+			setResult(data.order || data.data);
 		} catch (err: any) {
 			setError(err.message || "Failed to locate order. Please verify your order number.");
 		} finally {

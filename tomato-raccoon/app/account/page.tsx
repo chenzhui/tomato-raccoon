@@ -35,8 +35,9 @@ export default function AccountPage() {
 				body: JSON.stringify({ email: email.trim(), orderNumber: "" }),
 			});
 			const data = await res.json();
-			if (res.ok && data.data) {
-				setOrders([data.data]);
+			const targetOrder = data.order || data.data;
+			if (res.ok && targetOrder) {
+				setOrders([targetOrder]);
 			} else {
 				setOrders([]);
 			}

@@ -281,7 +281,7 @@ async function ProductPageContent({ params }: { params: Promise<{ slug: string }
 						? product.category.name
 						: typeof product.category === "string"
 							? product.category
-							: "Standees"
+							: "Apparel"
 				}
 			/>
 

@@ -29,9 +29,9 @@ export type ExplorerProduct = {
 // 运动周边品类列表定义
 export const MOVEMENT_CATEGORIES = [
 	{ key: "all", label: "All Movement Gear", emoji: "🌱" },
-	{ key: "Apparel", label: "Heritage Apparel", sub: "水洗T恤与加厚卫衣", emoji: "👕" },
-	{ key: "Signs", label: "Lawn Yard Signs", sub: "庭院草坪插牌", emoji: "🪧" },
-	{ key: "Stickers", label: "Vinyl Stickers", sub: "防水车贴与模切贴", emoji: "🏷️" },
+	{ key: "Apparel", label: "Heritage Apparel", sub: "Tees & Hoodies", emoji: "👕" },
+	{ key: "Signs", label: "Lawn Yard Signs", sub: "Yard Signs", emoji: "🪧" },
+	{ key: "Stickers", label: "Vinyl Stickers", sub: "Vinyl Decals", emoji: "🏷️" },
 ] as const;
 
 type SortOption = "featured" | "price-asc" | "price-desc" | "name";
@@ -89,7 +89,7 @@ export function ProductsExplorer({
 			<div className="p-4 sm:p-5 rounded-3xl bg-[#F4EFE6] border border-[#D9CDB8] shadow-2xs">
 				<div className="flex items-center justify-between mb-3 px-1">
 					<span className="text-[11px] font-bold uppercase tracking-wider text-[#7C5335]">
-						Select Movement Category (选择周边品类)
+						Select Movement Category
 					</span>
 					{selectedCategory !== "all" && (
 						<button
@@ -156,10 +156,10 @@ export function ProductsExplorer({
 						aria-label="Sort products"
 						className="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-[#F4EFE6] border border-[#D9CDB8] text-[#1E1D1B] focus:outline-none focus:ring-1 focus:ring-[#1E3F20] cursor-pointer"
 					>
-						<option value="featured">Movement Priority (精选推荐)</option>
-						<option value="price-asc">Price: Low to High (价格从低到高)</option>
-						<option value="price-desc">Price: High to Low (价格从高到低)</option>
-						<option value="name">Name: A–Z (按名称排序)</option>
+						<option value="featured">Movement Priority (Featured)</option>
+						<option value="price-asc">Price: Low to High</option>
+						<option value="price-desc">Price: High to Low</option>
+						<option value="name">Name: A–Z</option>
 					</select>
 				</div>
 			</div>

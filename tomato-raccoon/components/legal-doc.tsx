@@ -77,21 +77,21 @@ export function LegalDoc({ slug }: { slug: string }) {
 		<div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
 			<Link
 				href="/"
-				className="inline-flex items-center gap-2 text-sm text-cyan-400 hover:text-cyan-300 transition-colors mb-8"
+				className="inline-flex items-center gap-2 text-sm text-[#1E3F20] hover:text-[#D93829] transition-colors mb-8 font-medium"
 			>
 				<ArrowLeft className="w-4 h-4" />
 				Back to Store
 			</Link>
 
-			<div className="rounded-2xl border border-slate-800 bg-[#0a0d16] p-6 sm:p-12 shadow-xl">
-				<div className="flex items-center gap-2 text-xs font-mono text-cyan-400 mb-2">
-					<ShieldCheck className="w-4 h-4" />
+			<div className="rounded-3xl border border-[#D9CDB8] bg-[#FDFBF7] p-6 sm:p-12 shadow-sm">
+				<div className="flex items-center gap-2 text-xs font-mono text-[#1E3F20] mb-2 font-bold">
+					<ShieldCheck className="w-4 h-4 text-[#D93829]" />
 					<span>Verified Legal Compliance</span>
 				</div>
-				<h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-8 border-b border-slate-800 pb-4">
+				<h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1E3F20] mb-8 border-b border-[#E5DDD0] pb-4">
 					{doc.title}
 				</h1>
-				<div className="prose prose-invert prose-slate max-w-none space-y-4 text-slate-300 leading-relaxed whitespace-pre-line text-sm sm:text-base">
+				<div className="max-w-none space-y-4 text-[#524B42] leading-relaxed whitespace-pre-line text-sm sm:text-base">
 					{doc.body}
 				</div>
 			</div>

@@ -43,10 +43,10 @@ function updateCartTotals(cart: any) {
 }
 
 const mockCategories = [
-	{ id: "cat-all", slug: "all", name: "All Goods", description: "All official Tomato Raccoon movement goods", parentId: null },
-	{ id: "cat-apparel", slug: "apparel", name: "Vintage Apparel", description: "Comfort Colors garment-dyed shirts & heavyweight hoodies", parentId: null },
-	{ id: "cat-signs", slug: "signs", name: "Lawn Yard Signs", description: "Double-sided weatherproof corrugated yard signs with metal H-stake", parentId: null },
-	{ id: "cat-stickers", slug: "stickers", name: "Vinyl Stickers", description: "Weatherproof UV-laminated die-cut bumper & kiss-cut stickers", parentId: null },
+	{ id: "cat-all", slug: "all", name: "All Goods", description: "All official Tomato Raccoon movement goods", parentId: null, active: true },
+	{ id: "cat-apparel", slug: "apparel", name: "Vintage Apparel", description: "Comfort Colors garment-dyed shirts & heavyweight hoodies", parentId: null, active: true },
+	{ id: "cat-signs", slug: "signs", name: "Lawn Yard Signs", description: "Double-sided weatherproof corrugated yard signs with metal H-stake", parentId: null, active: true },
+	{ id: "cat-stickers", slug: "stickers", name: "Vinyl Stickers", description: "Weatherproof UV-laminated die-cut bumper & kiss-cut stickers", parentId: null, active: true },
 ];
 
 const mockCollections = [
@@ -210,7 +210,7 @@ async function localCommerceFetch(url: string, init?: RequestInit): Promise<Resp
 		return new Response(JSON.stringify(p), { status: 200, headers: { "Content-Type": "application/json" } });
 	}
 
-	// /api/v1/products (浏览商品，支持分类与角色筛选)
+	// /api/v1/products (浏览商品，支持分类与关键词搜索及分页)
 	if (pathname.endsWith("/products")) {
 		let products = getMockProducts();
 		const urlObj = new URL(url, "http://localhost");
@@ -222,10 +222,24 @@ async function localCommerceFetch(url: string, init?: RequestInit): Promise<Resp
 					p.category.toLowerCase() === cat.toLowerCase(),
 			);
 		}
+		const query = urlObj.searchParams.get("query")?.trim().toLowerCase();
+		if (query) {
+			products = products.filter(
+				(p) =>
+					p.name.toLowerCase().includes(query) ||
+					p.description.toLowerCase().includes(query) ||
+					(p.tagline && p.tagline.toLowerCase().includes(query)),
+			);
+		}
+		const total = products.length;
+		const offset = Number.parseInt(urlObj.searchParams.get("offset") || "0", 10) || 0;
+		const limit = Number.parseInt(urlObj.searchParams.get("limit") || "100", 10) || 100;
+		const paginated = products.slice(offset, offset + limit);
+
 		return new Response(
 			JSON.stringify({
-				data: products,
-				meta: { count: products.length, total: products.length },
+				data: paginated,
+				meta: { count: total, total },
 			}),
 			{ status: 200, headers: { "Content-Type": "application/json" } },
 		);
@@ -291,7 +305,8 @@ async function localCommerceFetch(url: string, init?: RequestInit): Promise<Resp
 
 	// 购物车操作
 	if (pathname.includes("/cart")) {
-		const cart = getOrCreateCart("default");
+		const cartId = pathname.split("/cart/")[1]?.split("?")[0] || "default";
+		const cart = getOrCreateCart(cartId);
 		return new Response(JSON.stringify(cart), { status: 200, headers: { "Content-Type": "application/json" } });
 	}
 
@@ -317,6 +332,45 @@ const client = Commerce({
 });
 
 export const commerce = Object.assign(client, {
+	async cartGet({ cartId }: { cartId: string }) {
+		if (!cartId) return null;
+		// 1. 优先从内存状态获取
+		let cart = cartMemoryStore.get(cartId);
+		if (cart && cart.lineItems.length > 0) return cart;
+
+		// 2. 尝试从数据库持久化恢复会话
+		try {
+			const res = await pool.query("SELECT items FROM cart_sessions WHERE id = $1 LIMIT 1", [cartId]);
+			if (res.rows.length > 0) {
+				const items = typeof res.rows[0].items === "string" ? JSON.parse(res.rows[0].items) : res.rows[0].items;
+				cart = {
+					id: cartId,
+					lineItems: Array.isArray(items) ? items : [],
+					subtotal: 0,
+					subtotalNet: 0,
+					subtotalGross: 0,
+					total: 0,
+					currency: "USD",
+					totalQuantity: 0,
+				};
+				updateCartTotals(cart);
+				cartMemoryStore.set(cartId, cart);
+				return cart;
+			}
+		} catch (e) {
+			// 数据库异常静默忽略
+		}
+
+		return cart || null;
+	},
+
+	async cartClear({ cartId }: { cartId: string }) {
+		if (!cartId) return;
+		cartMemoryStore.delete(cartId);
+		try {
+			await pool.query("DELETE FROM cart_sessions WHERE id = $1", [cartId]);
+		} catch (e) {}
+	},
 	async cartUpsert({
 		cartId,
 		variantId,

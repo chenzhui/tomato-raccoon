@@ -24,6 +24,7 @@ export default function ReturnsPage() {
 	});
 
 	const [submitting, setSubmitting] = useState(false);
+	const [error, setError] = useState<string | null>(null);
 	const [successTicket, setSuccessTicket] = useState<{
 		ticketId: string;
 		orderNumber: string;
@@ -44,6 +45,7 @@ export default function ReturnsPage() {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setSubmitting(true);
+		setError(null);
 
 		try {
 			const res = await fetch("/api/returns/submit", {
@@ -63,12 +65,8 @@ export default function ReturnsPage() {
 				throw new Error(data.message || "Failed to submit request");
 			}
 		} catch (err: any) {
-			// 兜底成功确认状态
-			setSuccessTicket({
-				ticketId: `RMA-${Math.floor(100000 + Math.random() * 900000)}`,
-				orderNumber: formData.orderNumber,
-				resolution: formData.resolution,
-			});
+			console.error("Return ticket submit error:", err);
+			setError(err.message || "Failed to submit claim. Please verify your order number and try again.");
 		} finally {
 			setSubmitting(false);
 		}
@@ -144,6 +142,12 @@ export default function ReturnsPage() {
 						onSubmit={handleSubmit}
 						className="p-6 sm:p-8 rounded-3xl border border-neutral-200/80 bg-[#F5F5F7] space-y-6"
 					>
+						{error && (
+							<div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
+								<AlertCircle className="w-4 h-4 shrink-0" />
+								<span>{error}</span>
+							</div>
+						)}
 						<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 							<div>
 								<label className="block text-xs font-medium text-neutral-700 mb-1.5">

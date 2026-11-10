@@ -75,10 +75,8 @@ export function CartProvider({ children }: CartProviderProps) {
 		setCart((prev) => cartReducer(prev, action));
 	};
 	const syncCart = (next: Cart | null) => {
-		if (next) {
-			written.current = true;
-			setCart(next);
-		}
+		written.current = true;
+		setCart(next);
 	};
 	const reconcile = async () => {
 		written.current = true;

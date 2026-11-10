@@ -12,39 +12,32 @@ export async function POST(req: Request) {
 		const reason = body.reason || "damaged_in_transit";
 		const resolution = body.resolution || "replacement";
 		const details = body.details || "";
+		// 支持凭证照片（若为 base64 则保留截断或占位，若为 URL 则完整存储）
+		const photoRaw = body.photo || body.evidencePhotoUrl || "";
+		const evidencePhotoUrl =
+			photoRaw.startsWith("http")
+				? photoRaw
+				: photoRaw.length > 500
+					? photoRaw.slice(0, 500)
+					: photoRaw || null;
 
-		// 确保 PostgreSQL 中存在售后工单退换货表（return_tickets）
-		try {
-			await pool.query(`
-				CREATE TABLE IF NOT EXISTS return_tickets (
-					id VARCHAR(64) PRIMARY KEY,
-					ticket_id VARCHAR(64) UNIQUE NOT NULL,
-					order_number VARCHAR(64) NOT NULL,
-					customer_email VARCHAR(255) NOT NULL,
-					reason VARCHAR(128) NOT NULL,
-					resolution VARCHAR(64) NOT NULL,
-					details TEXT,
-					status VARCHAR(32) DEFAULT 'open',
-					created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-				);
-			`);
-
-			await pool.query(
-				`INSERT INTO return_tickets (
-					id, order_number, customer_email, reason, details, status
-				) VALUES ($1, $2, $3, $4, $5, 'pending_review')`,
-				[
-					ticketId,
-					orderNumber,
-					email,
-					reason,
-					details || resolution,
-				],
-			);
-			console.log(`[Database] Logged after-sales ticket ${ticketId} in PostgreSQL!`);
-		} catch (dbErr) {
-			console.error("[Database] Error writing to return_tickets:", dbErr);
-		}
+		// 确保在 PostgreSQL 中持久化售后工单退换货记录（return_tickets）
+		await pool.query(
+			`INSERT INTO return_tickets (
+				id, ticket_id, order_number, customer_email, reason, resolution, details, evidence_photo_url, status
+			) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'pending_review')`,
+			[
+				`ret-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+				ticketId,
+				orderNumber,
+				email,
+				reason,
+				resolution,
+				details || resolution,
+				evidencePhotoUrl,
+			],
+		);
+		console.log(`[Database] Logged after-sales ticket ${ticketId} in PostgreSQL!`);
 
 		return NextResponse.json({
 			success: true,

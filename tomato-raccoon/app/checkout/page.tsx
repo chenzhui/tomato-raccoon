@@ -63,18 +63,27 @@ export default function CheckoutPage() {
 		setError(null);
 
 		try {
+			const customerFullName = `${formData.firstName} ${formData.lastName}`.trim() || "Valued Supporter";
 			const res = await fetch("/api/checkout/create-order", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
+					customer: {
+						email: formData.email,
+						name: customerFullName,
+					},
 					email: formData.email,
-					customerName: `${formData.firstName} ${formData.lastName}`.trim(),
+					customerName: customerFullName,
 					shippingAddress: {
+						name: customerFullName,
 						address1: formData.address1,
 						address2: formData.address2,
+						line1: formData.address1,
+						line2: formData.address2,
 						city: formData.city,
 						state: formData.state,
 						postalCode: formData.postalCode,
+						zip: formData.postalCode,
 						country: formData.country,
 					},
 					items:
@@ -88,11 +97,11 @@ export default function CheckoutPage() {
 								}))
 							: [
 									{
-										variantId: "var-tee-1",
-										name: "Comfort Colors Vintage Garment-Dyed Tee",
+										variantId: "73203",
+										name: "Comfort Colors® 1717 Unisex Garment-Dyed T-Shirt",
 										quantity: 1,
 										price: "3200",
-										images: ["/logo.svg"],
+										images: ["/images/products/vintage-tee.svg"],
 									},
 								],
 					subtotal: subtotalCents,
@@ -105,13 +114,11 @@ export default function CheckoutPage() {
 				syncCart(null);
 				router.push(`/order/success/${data.orderNumber}`);
 			} else {
-				throw new Error(data.message || "Order processing failed");
+				throw new Error(data.message || data.error || "Order processing failed");
 			}
 		} catch (err: any) {
-			// 兜底模拟订单号
-			const fallbackOrderNumber = `AI-${Math.floor(100000 + Math.random() * 900000)}`;
-			syncCart(null);
-			router.push(`/order/success/${fallbackOrderNumber}`);
+			console.error("Order submit failed:", err);
+			setError(err.message || "Payment or order processing failed. Please check your card and address.");
 		} finally {
 			setSubmitting(false);
 		}
