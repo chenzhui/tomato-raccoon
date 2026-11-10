@@ -11,6 +11,22 @@
         "C:/All/Me/2027/work/Shopify/.agents/ssh_servers.json"
       ],
       "startup_timeout_sec": 60.0
+    },
+    "playwright": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@playwright/mcp@0.0.50",
+        "--browser",
+        "chrome",
+        "--proxy-server",
+        "http://127.0.0.1:7897",
+        "--user-data-dir",
+        "C:/All/Me/2027/work/Shopify/.playwright-chrome-profile"
+      ],
+      "startup_timeout_sec": 60.0
     }
   }
 }

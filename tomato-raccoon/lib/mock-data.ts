@@ -154,7 +154,7 @@ export function getMockProducts() {
 			description:
 				"The gold standard in American vintage heavyweight t-shirts. 100% ring-spun cotton (6.1 oz) garment-dyed in rich Spruce Forest Green for that authentically broken-in, relaxed feel from day one. Soft-hand screen-printed woodcut illustration that softens with every wash.",
 			tagline: "100% Cotton • Garment-Dyed Spruce Green",
-			images: ["/images/products/vintage-tee.svg", "/images/raccoon-tomato.svg"],
+			images: ["/images/products/comfort-colors-preview.png", "/images/products/vintage-tee.svg", "/images/grow-tomatoes-transparent.png"],
 			category: "Apparel",
 			variants: [
 				{
@@ -162,7 +162,7 @@ export function getMockProducts() {
 					name: "Medium / Spruce Forest Green",
 					price: "3299",
 					stock: 25,
-					images: ["/images/products/vintage-tee.svg"],
+					images: ["/images/products/comfort-colors-preview.png"],
 					combinations: [],
 				},
 				{
@@ -170,7 +170,7 @@ export function getMockProducts() {
 					name: "Large / Spruce Forest Green",
 					price: "3299",
 					stock: 30,
-					images: ["/images/products/vintage-tee.svg"],
+					images: ["/images/products/comfort-colors-preview.png"],
 					combinations: [],
 				},
 				{
@@ -178,7 +178,7 @@ export function getMockProducts() {
 					name: "XL / Spruce Forest Green",
 					price: "3299",
 					stock: 28,
-					images: ["/images/products/vintage-tee.svg"],
+					images: ["/images/products/comfort-colors-preview.png"],
 					combinations: [],
 				},
 				{
@@ -186,7 +186,53 @@ export function getMockProducts() {
 					name: "2XL / Spruce Forest Green",
 					price: "3499",
 					stock: 15,
-					images: ["/images/products/vintage-tee.svg"],
+					images: ["/images/products/comfort-colors-preview.png"],
+					combinations: [],
+				},
+			],
+		},
+
+		// 7. 经典抗议加厚连帽卫衣 (Gildan 18500 Protest Hoodie)
+		{
+			id: "prod-hoodie",
+			slug: "gildan-heavy-blend-protest-hoodie",
+			name: "Gildan 18500 Official \"Grow Tomatoes, Not Data Centers\" Heavyweight Hoodie",
+			description:
+				"The official heavy-duty protest hoodie for chilly morning rallies, town hall hearings, and open-field standoffs. Crafted from 50% US cotton and 50% polyester (8.0 oz/yd²) with a double-lined hood, color-matched drawcord, and deep front pouch pocket. High-density screen-printed with the Tomato Raccoon defender linocut that never cracks or peels.",
+			tagline: "8.0 oz Heavyweight Fleece • Kangaroo Pouch • Double-Lined Hood",
+			images: ["/images/grow-tomatoes-transparent.png", "/images/products/comfort-colors-preview.png"],
+			category: "Apparel",
+			variants: [
+				{
+					id: "var-hoodie-m",
+					name: "Medium / Forest Green",
+					price: "4899",
+					stock: 20,
+					images: ["/images/grow-tomatoes-transparent.png"],
+					combinations: [],
+				},
+				{
+					id: "var-hoodie-l",
+					name: "Large / Forest Green",
+					price: "4899",
+					stock: 25,
+					images: ["/images/grow-tomatoes-transparent.png"],
+					combinations: [],
+				},
+				{
+					id: "var-hoodie-xl",
+					name: "XL / Forest Green",
+					price: "4899",
+					stock: 20,
+					images: ["/images/grow-tomatoes-transparent.png"],
+					combinations: [],
+				},
+				{
+					id: "var-hoodie-2xl",
+					name: "2XL / Forest Green",
+					price: "5299",
+					stock: 12,
+					images: ["/images/grow-tomatoes-transparent.png"],
 					combinations: [],
 				},
 			],
