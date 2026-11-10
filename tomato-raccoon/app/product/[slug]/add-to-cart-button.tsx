@@ -17,7 +17,6 @@ import { formatMoney } from "@/lib/money";
 import { displayPrice, priceRange, type TaxBehavior } from "@/lib/pricing";
 import { trackAddToCart } from "@/lib/track";
 import { cn } from "@/lib/utils";
-import { UrgencyBadge, VolumeUpsellSelector } from "@/components/urgency-badge";
 
 // 下方每个净额价格都对应一个含税毛额；顾客看到哪一个由店铺的
 // `taxBehavior` 决定（参见 lib/pricing.ts）。保留毛额为可选字段，以便兼容仅返回净额的旧版 API 负载。
@@ -245,32 +244,14 @@ export function AddToCartButton({
 				)}
 
 				{/* SKU 与库存可用性 */}
-				{(selectedVariant?.sku || stockStatus) && (
+				{selectedVariant?.sku && (
 					<div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
-						{stockStatus && (
-							<span
-								className={cn(
-									"inline-flex items-center gap-1.5 font-medium",
-									stockStatus.tone === "out" && "text-destructive",
-									stockStatus.tone === "low" && "text-amber-700 dark:text-amber-500",
-									stockStatus.tone === "in" && "text-green-700 dark:text-green-500",
-								)}
-							>
-								<span className="h-1.5 w-1.5 rounded-full bg-current" aria-hidden />
-								{stockStatus.label}
-							</span>
-						)}
-						{selectedVariant?.sku && (
-							<span className="text-muted-foreground">
-								SKU: <span className="font-medium text-foreground">{selectedVariant.sku}</span>
-							</span>
-						)}
+						<span className="text-muted-foreground">
+							SKU: <span className="font-medium text-foreground">{selectedVariant.sku}</span>
+						</span>
 					</div>
 				)}
 			</div>
-
-			<UrgencyBadge stock={selectedVariant?.stock ?? 4} />
-			<VolumeUpsellSelector />
 
 			{variants.length > 1 && <VariantSelector variants={variants} />}
 
