@@ -3,12 +3,12 @@ import { cookies } from "next/headers";
 export const CART_COOKIE = "yns_cart";
 export type CartCookieJson = { id: string };
 
-// 由 set 和 clear 共享：分区 Cookie 只能由携带相同 Partitioned/SameSite/Secure/Path 属性的 Set-Cookie 标头移除。
+// 由 set 和 clear 共享：分区 Cookie 只能由携带相同属性的 Set-Cookie 标头移除。本地非 HTTPS 开发环境下 secure 必须为 false，避免浏览器拒绝写入。
+const isProd = process.env.NODE_ENV === "production";
 const CART_COOKIE_OPTIONS = {
 	httpOnly: true,
-	secure: true,
-	sameSite: "none",
-	partitioned: true,
+	secure: isProd,
+	sameSite: (isProd ? "none" : "lax") as "none" | "lax",
 	path: "/",
 } as const;
 

@@ -77,6 +77,11 @@ export function CartProvider({ children }: CartProviderProps) {
 	const syncCart = (next: Cart | null) => {
 		written.current = true;
 		setCart(next);
+		if (!next && typeof window !== "undefined") {
+			try {
+				localStorage.removeItem("tr_cart_backup");
+			} catch (e) {}
+		}
 	};
 	const reconcile = async () => {
 		written.current = true;
@@ -86,12 +91,36 @@ export function CartProvider({ children }: CartProviderProps) {
 			.catch(() => undefined);
 	};
 
+	// 客户端同步持久化至 localStorage，防止整页刷新或网络延迟造成购物车短暂为空
 	useEffect(() => {
-		// 每次页面完整加载仅读取一次；客户端软导航会保持本 Provider 持续挂载。
-		// 先完成的写入操作优先，加载失败时保持购物车为空，绝不产生未捕获的 rejection。
+		if (typeof window === "undefined") return;
+		try {
+			if (cart && cart.lineItems.length > 0) {
+				localStorage.setItem("tr_cart_backup", JSON.stringify(cart));
+			} else if (cart && cart.lineItems.length === 0) {
+				localStorage.removeItem("tr_cart_backup");
+			}
+		} catch (e) {}
+	}, [cart]);
+
+	useEffect(() => {
+		// 客户端首次挂载时优先从本地缓存秒级恢复
+		if (typeof window !== "undefined") {
+			try {
+				const cached = localStorage.getItem("tr_cart_backup");
+				if (cached) {
+					const parsed = JSON.parse(cached);
+					if (parsed && Array.isArray(parsed.lineItems) && parsed.lineItems.length > 0) {
+						setCart(parsed);
+					}
+				}
+			} catch (e) {}
+		}
+
+		// 随后异步向服务端对齐最新状态
 		void fetchCart()
 			.then((initial) => {
-				if (!written.current) {
+				if (!written.current && initial && initial.lineItems.length > 0) {
 					setCart(initial);
 				}
 			})

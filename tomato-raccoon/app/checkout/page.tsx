@@ -11,8 +11,10 @@ import {
 	ArrowLeft,
 	CreditCard,
 	AlertCircle,
+	ShoppingBag,
 } from "lucide-react";
 import { useCart } from "@/app/cart/cart-context";
+import { lineOptions } from "@/app/cart/cart-math";
 
 export default function CheckoutPage() {
 	const router = useRouter();
@@ -36,20 +38,15 @@ export default function CheckoutPage() {
 		cvc: "888",
 	});
 
-	// 计算金额总计
+	// 计算真实金额总计（次要货币单位，分）
 	let subtotalCents = 0;
 	for (const item of items) {
 		const price = Number.parseInt(item.productVariant.price, 10) || 0;
 		subtotalCents += price * item.quantity;
 	}
 
-	// 购物车为空时的默认兜底（例如直接访问结账页）
-	if (subtotalCents === 0 && items.length === 0) {
-		subtotalCents = 5999; // $59.99 典藏全套
-	}
-
 	const isFreeShipping = subtotalCents >= 5000;
-	const shippingCents = isFreeShipping ? 0 : 499;
+	const shippingCents = items.length === 0 ? 0 : isFreeShipping ? 0 : 499;
 	const totalCents = subtotalCents + shippingCents;
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -59,6 +56,11 @@ export default function CheckoutPage() {
 
 	const handleSubmitOrder = async (e: React.FormEvent) => {
 		e.preventDefault();
+		if (items.length === 0) {
+			setError("Your cart is empty. Please add items before placing an order.");
+			return;
+		}
+
 		setSubmitting(true);
 		setError(null);
 
@@ -86,24 +88,13 @@ export default function CheckoutPage() {
 						zip: formData.postalCode,
 						country: formData.country,
 					},
-					items:
-						items.length > 0
-							? items.map((i) => ({
-									variantId: i.productVariant.id,
-									name: i.productVariant.product.name,
-									quantity: i.quantity,
-									price: i.productVariant.price,
-									images: i.productVariant.images,
-								}))
-							: [
-									{
-										variantId: "73203",
-										name: "Comfort Colors® 1717 Unisex Garment-Dyed T-Shirt",
-										quantity: 1,
-										price: "3200",
-										images: ["/images/products/vintage-tee.svg"],
-									},
-								],
+					items: items.map((i) => ({
+						variantId: i.productVariant.id,
+						name: i.productVariant.product.name,
+						quantity: i.quantity,
+						price: i.productVariant.price,
+						images: i.productVariant.images,
+					})),
 					subtotal: subtotalCents,
 					total: totalCents,
 				}),
@@ -154,7 +145,7 @@ export default function CheckoutPage() {
 										type="email"
 										name="email"
 										required
-										placeholder="developer@terminal.com"
+										placeholder="supporter@virginiafarms.org"
 										value={formData.email}
 										onChange={handleInputChange}
 										className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-sm"
@@ -175,7 +166,7 @@ export default function CheckoutPage() {
 											type="text"
 											name="firstName"
 											required
-											placeholder="Ada"
+											placeholder="Sarah"
 											value={formData.firstName}
 											onChange={handleInputChange}
 											className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-sm"
@@ -187,7 +178,7 @@ export default function CheckoutPage() {
 											type="text"
 											name="lastName"
 											required
-											placeholder="Lovelace"
+											placeholder="Miller"
 											value={formData.lastName}
 											onChange={handleInputChange}
 											className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-sm"
@@ -201,7 +192,7 @@ export default function CheckoutPage() {
 										type="text"
 										name="address1"
 										required
-										placeholder="1 Infinite Loop"
+										placeholder="7400 Hanover Green Dr"
 										value={formData.address1}
 										onChange={handleInputChange}
 										className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-sm"
@@ -209,11 +200,11 @@ export default function CheckoutPage() {
 								</div>
 
 								<div>
-									<label className="block text-xs font-medium text-neutral-600 mb-1">Apt, Suite, Unit (Optional)</label>
+									<label className="block text-xs font-medium text-neutral-600 mb-1">Apartment, suite, unit (optional)</label>
 									<input
 										type="text"
 										name="address2"
-										placeholder="Apt 404"
+										placeholder="Apt 4B"
 										value={formData.address2}
 										onChange={handleInputChange}
 										className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-sm"
@@ -227,31 +218,31 @@ export default function CheckoutPage() {
 											type="text"
 											name="city"
 											required
-											placeholder="Cupertino"
+											placeholder="Mechanicsville"
 											value={formData.city}
 											onChange={handleInputChange}
 											className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-sm"
 										/>
 									</div>
 									<div>
-										<label className="block text-xs font-medium text-neutral-600 mb-1">State / Province</label>
+										<label className="block text-xs font-medium text-neutral-600 mb-1">State</label>
 										<input
 											type="text"
 											name="state"
 											required
-											placeholder="CA"
+											placeholder="VA"
 											value={formData.state}
 											onChange={handleInputChange}
 											className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-sm"
 										/>
 									</div>
 									<div>
-										<label className="block text-xs font-medium text-neutral-600 mb-1">Postal Code</label>
+										<label className="block text-xs font-medium text-neutral-600 mb-1">ZIP Code</label>
 										<input
 											type="text"
 											name="postalCode"
 											required
-											placeholder="95014"
+											placeholder="23111"
 											value={formData.postalCode}
 											onChange={handleInputChange}
 											className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-sm"
@@ -267,13 +258,9 @@ export default function CheckoutPage() {
 										onChange={handleInputChange}
 										className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 focus:outline-none focus:border-black text-sm"
 									>
-										<option value="United States">United States (USPS Air Express)</option>
-										<option value="Canada">Canada (Canada Post Expedited)</option>
+										<option value="United States">United States (USPS Ground 3-5 Days)</option>
+										<option value="Canada">Canada (Canada Post)</option>
 										<option value="United Kingdom">United Kingdom (Royal Mail)</option>
-										<option value="Germany">Germany (DHL Express)</option>
-										<option value="France">France (La Poste Direct)</option>
-										<option value="Japan">Japan (Japan Post / Sagawa)</option>
-										<option value="Australia">Australia (Australia Post)</option>
 									</select>
 								</div>
 							</div>
@@ -282,7 +269,7 @@ export default function CheckoutPage() {
 							<div className="p-6 rounded-3xl border border-neutral-200/80 bg-[#F5F5F7] space-y-4">
 								<h2 className="text-base font-semibold text-neutral-900 flex items-center justify-between">
 									<span>3. Payment Gateway</span>
-									<span className="text-xs font-normal text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">Stripe Sandbox / Test Active</span>
+									<span className="text-xs font-normal text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">256-Bit SSL Secured</span>
 								</h2>
 
 								<div className="p-4 rounded-2xl bg-white border border-neutral-200 space-y-3">
@@ -308,7 +295,7 @@ export default function CheckoutPage() {
 										/>
 									</div>
 									<p className="text-[11px] text-neutral-500 leading-tight">
-										✓ Your test order will immediately sync to PostgreSQL backend with tracking generation simulation.
+										✓ Your order will immediately sync to PostgreSQL backend with USPS express tracking generated.
 									</p>
 								</div>
 							</div>
@@ -322,10 +309,10 @@ export default function CheckoutPage() {
 
 							<button
 								type="submit"
-								disabled={submitting}
+								disabled={submitting || items.length === 0}
 								className="w-full py-3.5 px-8 rounded-full bg-black hover:bg-neutral-800 text-white font-semibold text-sm tracking-wide disabled:opacity-50 transition-all cursor-pointer shadow-sm"
 							>
-								{submitting ? "Processing Order..." : `Pay $${(totalCents / 100).toFixed(2)} — Complete Order`}
+								{submitting ? "Processing Order..." : items.length === 0 ? "Cart is Empty" : `Pay $${(totalCents / 100).toFixed(2)} — Complete Order`}
 							</button>
 						</form>
 					</div>
@@ -334,52 +321,57 @@ export default function CheckoutPage() {
 					<div className="lg:col-span-5 space-y-6">
 						<div className="p-6 rounded-3xl border border-neutral-200/80 bg-[#F5F5F7] sticky top-24 space-y-6">
 							<h3 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider pb-4 border-b border-neutral-200">
-								Order Summary
+								Order Summary ({items.length} {items.length === 1 ? "Item" : "Items"})
 							</h3>
 
 							{/* 商品清单 */}
 							<div className="space-y-4 max-h-80 overflow-y-auto pr-1">
 								{items.length > 0 ? (
-									items.map((item, idx) => (
-										<div key={item.productVariant.id || idx} className="flex items-center gap-3">
-											<div className="relative w-14 h-14 rounded-xl bg-white border border-neutral-200 overflow-hidden shrink-0">
-												<Image
-													src={item.productVariant.images[0] || "/logo.svg"}
-													alt={item.productVariant.product.name}
-													fill
-													className="object-contain p-1"
-												/>
-												<span className="absolute top-0 right-0 w-4 h-4 rounded-bl-md bg-black text-white text-[10px] font-bold flex items-center justify-center">
-													{item.quantity}
-												</span>
+									items.map((item, idx) => {
+										const optionsText = lineOptions(item);
+										const imageSrc = item.productVariant.images[0] || "/images/raccoon-tomato.svg";
+										return (
+											<div key={item.productVariant.id || idx} className="flex items-center gap-3">
+												<div className="relative w-14 h-14 rounded-xl bg-white border border-neutral-200 overflow-hidden shrink-0">
+													<Image
+														src={imageSrc}
+														alt={item.productVariant.product.name}
+														fill
+														className="object-contain p-1"
+													/>
+													<span className="absolute top-0 right-0 w-4 h-4 rounded-bl-md bg-black text-white text-[10px] font-bold flex items-center justify-center">
+														{item.quantity}
+													</span>
+												</div>
+												<div className="flex-1 min-w-0">
+													<p className="text-xs font-medium text-neutral-900 truncate">
+														{item.productVariant.product.name}
+													</p>
+													{optionsText && (
+														<p className="text-[11px] text-neutral-500 truncate">{optionsText}</p>
+													)}
+													<p className="text-[11px] font-mono text-neutral-600">
+														${(Number(item.productVariant.price) / 100).toFixed(2)} × {item.quantity}
+													</p>
+												</div>
 											</div>
-											<div className="flex-1 min-w-0">
-												<p className="text-xs font-medium text-neutral-900 truncate">{item.productVariant.product.name}</p>
-												<p className="text-[11px] font-mono text-neutral-600">
-													${(Number(item.productVariant.price) / 100).toFixed(2)}
-												</p>
-											</div>
-										</div>
-									))
+										);
+									})
 								) : (
-									<div className="flex items-center gap-3">
-										<div className="relative w-14 h-14 rounded-xl bg-white border border-neutral-200 overflow-hidden shrink-0">
-											<Image
-												src="/logo.svg"
-												alt="Protest Apparel"
-												fill
-												className="object-contain p-1"
-											/>
-											<span className="absolute top-0 right-0 w-4 h-4 rounded-bl-md bg-black text-white text-[10px] font-bold flex items-center justify-center">
-												1
-											</span>
+									<div className="py-8 text-center space-y-3">
+										<div className="w-12 h-12 rounded-full bg-neutral-200/70 flex items-center justify-center mx-auto text-neutral-500">
+											<ShoppingBag className="w-6 h-6" />
 										</div>
-										<div className="flex-1 min-w-0">
-											<p className="text-xs font-medium text-neutral-900 truncate">
-												The Ultimate Desk Waifu Bundle (5-Pack)
-											</p>
-											<p className="text-[11px] font-mono text-neutral-600">$59.99</p>
-										</div>
+										<p className="text-sm font-medium text-neutral-900">Your cart is empty</p>
+										<p className="text-xs text-neutral-500 max-w-xs mx-auto">
+											Please add items from our store before proceeding to checkout.
+										</p>
+										<Link
+											href="/products"
+											className="inline-block mt-2 px-5 py-2 rounded-full bg-black hover:bg-neutral-800 text-white text-xs font-semibold transition-colors"
+										>
+											Browse Movement Goods
+										</Link>
 									</div>
 								)}
 							</div>
@@ -393,10 +385,10 @@ export default function CheckoutPage() {
 								<div className="flex justify-between text-neutral-600">
 									<span className="flex items-center gap-1">
 										<Truck className="w-3.5 h-3.5 text-neutral-700" />
-										<span>YunExpress / USPS Air Express</span>
+										<span>USPS Ground Advantage (3-5 Days)</span>
 									</span>
 									<span className="font-mono text-emerald-700 font-semibold">
-										{isFreeShipping ? "FREE" : "$4.99"}
+										{items.length === 0 ? "$0.00" : isFreeShipping ? "FREE" : "$4.99"}
 									</span>
 								</div>
 								<div className="flex justify-between text-base font-semibold text-neutral-900 pt-3 border-t border-neutral-200">
@@ -408,10 +400,10 @@ export default function CheckoutPage() {
 							{/* 信任与保障承诺 */}
 							<div className="p-3.5 rounded-2xl bg-white border border-neutral-200 space-y-2 text-[11px] text-neutral-600">
 								<div className="flex items-center gap-2 text-neutral-900 font-medium">
-									<ShieldCheck className="w-4 h-4" />
-									<span>30-Day Money Back Guarantee</span>
+									<ShieldCheck className="w-4 h-4 text-[#D93829]" />
+									<span>30-Day Defend the Soil Guarantee</span>
 								</div>
-								<p>If items arrive damaged or defective, we provide an immediate 100% free reshipment or full refund.</p>
+								<p>If items arrive damaged or defective in transit, we provide an immediate 100% free reshipment or full refund.</p>
 							</div>
 						</div>
 					</div>
