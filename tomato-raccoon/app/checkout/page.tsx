@@ -1,414 +1,389 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-	ShieldCheck,
-	Lock,
-	Truck,
-	ArrowLeft,
-	CreditCard,
-	AlertCircle,
-	ShoppingBag,
-} from "lucide-react";
-import { useCart } from "@/app/cart/cart-context";
-import { lineOptions } from "@/app/cart/cart-math";
+import { useCart } from "@/lib/cart-store";
+import { formatPrice } from "@/lib/format";
+import { ShieldCheck, Truck, Lock, ArrowLeft, Loader2, ShoppingBag } from "lucide-react";
+import { toast } from "sonner";
 
 export default function CheckoutPage() {
-	const router = useRouter();
-	const { items, syncCart } = useCart();
-	const [submitting, setSubmitting] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+  const { items, subtotal, shipping, total, isMounted, clearCart } = useCart();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const [formData, setFormData] = useState({
-		email: "",
-		firstName: "",
-		lastName: "",
-		address1: "",
-		address2: "",
-		city: "",
-		state: "",
-		postalCode: "",
-		country: "United States",
-		paymentMethod: "card",
-		cardNumber: "4242 •••• •••• 4242",
-		expDate: "12/28",
-		cvc: "888",
-	});
+  // Form State
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    address1: "",
+    address2: "",
+    city: "Richmond",
+    region: "VA",
+    zip: "23219",
+  });
 
-	// 计算真实金额总计（次要货币单位，分）
-	let subtotalCents = 0;
-	for (const item of items) {
-		const price = Number.parseInt(item.productVariant.price, 10) || 0;
-		subtotalCents += price * item.quantity;
-	}
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-	const isFreeShipping = subtotalCents >= 5000;
-	const shippingCents = items.length === 0 ? 0 : isFreeShipping ? 0 : 499;
-	const totalCents = subtotalCents + shippingCents;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.email || !formData.address1 || !formData.firstName) {
+      toast.error("Please fill in all required shipping address fields.");
+      return;
+    }
 
-	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-		const { name, value } = e.target;
-		setFormData((prev) => ({ ...prev, [name]: value }));
-	};
+    setIsSubmitting(true);
 
-	const handleSubmitOrder = async (e: React.FormEvent) => {
-		e.preventDefault();
-		if (items.length === 0) {
-			setError("Your cart is empty. Please add items before placing an order.");
-			return;
-		}
+    try {
+      const res = await fetch("/api/checkout/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items,
+          shippingAddress: {
+            ...formData,
+            country: "US",
+          },
+          subtotal,
+          shipping,
+          total,
+        }),
+      });
 
-		setSubmitting(true);
-		setError(null);
+      const data = await res.json();
 
-		try {
-			const customerFullName = `${formData.firstName} ${formData.lastName}`.trim() || "Valued Supporter";
-			const res = await fetch("/api/checkout/create-order", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					customer: {
-						email: formData.email,
-						name: customerFullName,
-					},
-					email: formData.email,
-					customerName: customerFullName,
-					shippingAddress: {
-						name: customerFullName,
-						address1: formData.address1,
-						address2: formData.address2,
-						line1: formData.address1,
-						line2: formData.address2,
-						city: formData.city,
-						state: formData.state,
-						postalCode: formData.postalCode,
-						zip: formData.postalCode,
-						country: formData.country,
-					},
-					items: items.map((i) => ({
-						variantId: i.productVariant.id,
-						name: i.productVariant.product.name,
-						quantity: i.quantity,
-						price: i.productVariant.price,
-						images: i.productVariant.images,
-					})),
-					subtotal: subtotalCents,
-					total: totalCents,
-				}),
-			});
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || "Failed to create order");
+      }
 
-			const data = await res.json();
-			if (data.success && data.orderNumber) {
-				syncCart(null);
-				router.push(`/order/success/${data.orderNumber}`);
-			} else {
-				throw new Error(data.message || data.error || "Order processing failed");
-			}
-		} catch (err: any) {
-			console.error("Order submit failed:", err);
-			setError(err.message || "Payment or order processing failed. Please check your card and address.");
-		} finally {
-			setSubmitting(false);
-		}
-	};
+      toast.success("Order confirmed! Fulfilling with USPS Ground.");
+      clearCart();
+      router.push(`/order/success/${data.orderNumber}`);
+    } catch (err: any) {
+      toast.error(err.message || "Something went wrong during checkout. Please try again.");
+      setIsSubmitting(false);
+    }
+  };
 
-	return (
-		<div className="min-h-screen bg-white text-neutral-900 py-10 px-4 sm:px-6 lg:px-8">
-			<div className="max-w-6xl mx-auto">
-				{/* 页面头部 */}
-				<div className="flex items-center justify-between pb-8 mb-8 border-b border-neutral-200">
-					<Link href="/" className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-black transition-colors">
-						<ArrowLeft className="w-4 h-4" />
-						Return to Store
-					</Link>
-					<div className="flex items-center gap-2 text-xs font-mono text-neutral-500">
-						<Lock className="w-3.5 h-3.5 text-emerald-600" />
-						<span>256-Bit SSL Encrypted Checkout</span>
-					</div>
-				</div>
+  if (!isMounted) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-20 text-center">
+        <Loader2 className="w-8 h-8 animate-spin text-[#cf3c2a] mx-auto" />
+      </div>
+    );
+  }
 
-				<div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-					{/* 左侧：配送与支付表单 */}
-					<div className="lg:col-span-7 space-y-8">
-						<form onSubmit={handleSubmitOrder} className="space-y-8">
-							{/* 联系信息 */}
-							<div className="p-6 rounded-3xl border border-neutral-200/80 bg-[#F5F5F7] space-y-4">
-								<h2 className="text-base font-semibold text-neutral-900 flex items-center gap-2">
-									<span>1. Contact Information</span>
-								</h2>
-								<div>
-									<label className="block text-xs font-medium text-neutral-600 mb-1">Email Address (for USPS Tracking updates)</label>
-									<input
-										type="email"
-										name="email"
-										required
-										placeholder="supporter@virginiafarms.org"
-										value={formData.email}
-										onChange={handleInputChange}
-										className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-sm"
-									/>
-								</div>
-							</div>
+  // Guard against empty cart
+  if (items.length === 0) {
+    return (
+      <div className="max-w-2xl mx-auto px-4 py-24 text-center space-y-6">
+        <div className="w-20 h-20 rounded-full bg-[#f4eee6] flex items-center justify-center text-[#9b948f] mx-auto">
+          <ShoppingBag className="w-10 h-10" />
+        </div>
+        <h1 className="text-2xl sm:text-3xl font-black text-[#231f1e]">
+          Your Cart is Empty
+        </h1>
+        <p className="text-sm text-[#6b6460] max-w-md mx-auto">
+          You don&apos;t have any movement gear in your cart yet. Please select your preferred shirt, hoodie, lawn sign or stickers before checkout.
+        </p>
+        <div>
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#cf3c2a] hover:bg-[#ad2c1c] text-white font-bold rounded-xl transition-colors shadow-xs text-xs uppercase tracking-wider"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Browse Protest Goods</span>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
-							{/* 配送地址 */}
-							<div className="p-6 rounded-3xl border border-neutral-200/80 bg-[#F5F5F7] space-y-4">
-								<h2 className="text-base font-semibold text-neutral-900 flex items-center gap-2">
-									<span>2. Shipping Address</span>
-								</h2>
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      {/* Back Link */}
+      <div className="mb-6">
+        <Link
+          href="/products"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#6b6460] hover:text-[#cf3c2a] transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Continue Shopping</span>
+        </Link>
+      </div>
 
-								<div className="grid grid-cols-2 gap-4">
-									<div>
-										<label className="block text-xs font-medium text-neutral-600 mb-1">First Name</label>
-										<input
-											type="text"
-											name="firstName"
-											required
-											placeholder="Sarah"
-											value={formData.firstName}
-											onChange={handleInputChange}
-											className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-sm"
-										/>
-									</div>
-									<div>
-										<label className="block text-xs font-medium text-neutral-600 mb-1">Last Name</label>
-										<input
-											type="text"
-											name="lastName"
-											required
-											placeholder="Miller"
-											value={formData.lastName}
-											onChange={handleInputChange}
-											className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-sm"
-										/>
-									</div>
-								</div>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        {/* Left Column: Shipping Address & Payment Form */}
+        <div className="lg:col-span-7 space-y-8">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-black text-[#231f1e] tracking-tight">
+              Express Movement Checkout
+            </h1>
+            <p className="text-xs text-[#6b6460] mt-1">
+              All orders are dispatched in plastic-free packaging via United States Postal Service.
+            </p>
+          </div>
 
-								<div>
-									<label className="block text-xs font-medium text-neutral-600 mb-1">Street Address</label>
-									<input
-										type="text"
-										name="address1"
-										required
-										placeholder="7400 Hanover Green Dr"
-										value={formData.address1}
-										onChange={handleInputChange}
-										className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-sm"
-									/>
-								</div>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Contact Information */}
+            <div className="bg-white p-6 rounded-2xl border border-[#e5ded4] space-y-4">
+              <h2 className="font-bold text-sm text-[#231f1e] uppercase tracking-wider">
+                1. Contact Information
+              </h2>
+              <div>
+                <label className="block text-xs font-semibold text-[#4a423f] mb-1">
+                  Email Address (for USPS tracking link) *
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="supporter@example.com"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2.5 rounded-xl border border-[#e5ded4] bg-[#faf8f5] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#cf3c2a] text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-[#4a423f] mb-1">
+                  Phone Number (optional, for carrier alerts)
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="(804) 555-0199"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2.5 rounded-xl border border-[#e5ded4] bg-[#faf8f5] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#cf3c2a] text-sm"
+                />
+              </div>
+            </div>
 
-								<div>
-									<label className="block text-xs font-medium text-neutral-600 mb-1">Apartment, suite, unit (optional)</label>
-									<input
-										type="text"
-										name="address2"
-										placeholder="Apt 4B"
-										value={formData.address2}
-										onChange={handleInputChange}
-										className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-sm"
-									/>
-								</div>
+            {/* Shipping Destination */}
+            <div className="bg-white p-6 rounded-2xl border border-[#e5ded4] space-y-4">
+              <h2 className="font-bold text-sm text-[#231f1e] uppercase tracking-wider">
+                2. Shipping Address (Continental United States)
+              </h2>
 
-								<div className="grid grid-cols-3 gap-3">
-									<div>
-										<label className="block text-xs font-medium text-neutral-600 mb-1">City</label>
-										<input
-											type="text"
-											name="city"
-											required
-											placeholder="Mechanicsville"
-											value={formData.city}
-											onChange={handleInputChange}
-											className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-sm"
-										/>
-									</div>
-									<div>
-										<label className="block text-xs font-medium text-neutral-600 mb-1">State</label>
-										<input
-											type="text"
-											name="state"
-											required
-											placeholder="VA"
-											value={formData.state}
-											onChange={handleInputChange}
-											className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-sm"
-										/>
-									</div>
-									<div>
-										<label className="block text-xs font-medium text-neutral-600 mb-1">ZIP Code</label>
-										<input
-											type="text"
-											name="postalCode"
-											required
-											placeholder="23111"
-											value={formData.postalCode}
-											onChange={handleInputChange}
-											className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-sm"
-										/>
-									</div>
-								</div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-[#4a423f] mb-1">
+                    First Name *
+                  </label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    required
+                    placeholder="Thomas"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 rounded-xl border border-[#e5ded4] bg-[#faf8f5] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#cf3c2a] text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-[#4a423f] mb-1">
+                    Last Name *
+                  </label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    required
+                    placeholder="Jefferson"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 rounded-xl border border-[#e5ded4] bg-[#faf8f5] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#cf3c2a] text-sm"
+                  />
+                </div>
+              </div>
 
-								<div>
-									<label className="block text-xs font-medium text-neutral-600 mb-1">Country / Region</label>
-									<select
-										name="country"
-										value={formData.country}
-										onChange={handleInputChange}
-										className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 focus:outline-none focus:border-black text-sm"
-									>
-										<option value="United States">United States (USPS Ground 3-5 Days)</option>
-										<option value="Canada">Canada (Canada Post)</option>
-										<option value="United Kingdom">United Kingdom (Royal Mail)</option>
-									</select>
-								</div>
-							</div>
+              <div>
+                <label className="block text-xs font-semibold text-[#4a423f] mb-1">
+                  Street Address *
+                </label>
+                <input
+                  type="text"
+                  name="address1"
+                  required
+                  placeholder="104 Rural Route 301"
+                  value={formData.address1}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2.5 rounded-xl border border-[#e5ded4] bg-[#faf8f5] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#cf3c2a] text-sm"
+                />
+              </div>
 
-							{/* 支付方式 */}
-							<div className="p-6 rounded-3xl border border-neutral-200/80 bg-[#F5F5F7] space-y-4">
-								<h2 className="text-base font-semibold text-neutral-900 flex items-center justify-between">
-									<span>3. Payment Gateway</span>
-									<span className="text-xs font-normal text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">256-Bit SSL Secured</span>
-								</h2>
+              <div>
+                <label className="block text-xs font-semibold text-[#4a423f] mb-1">
+                  Apartment, Suite, Unit (optional)
+                </label>
+                <input
+                  type="text"
+                  name="address2"
+                  placeholder="Farmstead #2"
+                  value={formData.address2}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2.5 rounded-xl border border-[#e5ded4] bg-[#faf8f5] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#cf3c2a] text-sm"
+                />
+              </div>
 
-								<div className="p-4 rounded-2xl bg-white border border-neutral-200 space-y-3">
-									<div className="flex items-center justify-between text-xs font-medium text-neutral-700">
-										<div className="flex items-center gap-2">
-											<CreditCard className="w-4 h-4 text-neutral-800" />
-											<span>Credit / Debit Card Simulation</span>
-										</div>
-										<span className="text-neutral-400">Visa / Mastercard / Amex</span>
-									</div>
-									<div className="grid grid-cols-3 gap-2">
-										<input
-											type="text"
-											readOnly
-											value="4242 •••• •••• 4242"
-											className="col-span-2 px-3 py-2 rounded-lg bg-neutral-50 border border-neutral-200 text-xs font-mono text-neutral-800"
-										/>
-										<input
-											type="text"
-											readOnly
-											value="12/28 · 888"
-											className="px-3 py-2 rounded-lg bg-neutral-50 border border-neutral-200 text-xs font-mono text-neutral-800"
-										/>
-									</div>
-									<p className="text-[11px] text-neutral-500 leading-tight">
-										✓ Your order will immediately sync to PostgreSQL backend with USPS express tracking generated.
-									</p>
-								</div>
-							</div>
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-[#4a423f] mb-1">
+                    City *
+                  </label>
+                  <input
+                    type="text"
+                    name="city"
+                    required
+                    placeholder="Hanover"
+                    value={formData.city}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 rounded-xl border border-[#e5ded4] bg-[#faf8f5] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#cf3c2a] text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-[#4a423f] mb-1">
+                    State / Region *
+                  </label>
+                  <input
+                    type="text"
+                    name="region"
+                    required
+                    placeholder="VA"
+                    value={formData.region}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 rounded-xl border border-[#e5ded4] bg-[#faf8f5] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#cf3c2a] text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-[#4a423f] mb-1">
+                    ZIP Code *
+                  </label>
+                  <input
+                    type="text"
+                    name="zip"
+                    required
+                    placeholder="23069"
+                    value={formData.zip}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 rounded-xl border border-[#e5ded4] bg-[#faf8f5] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#cf3c2a] text-sm"
+                  />
+                </div>
+              </div>
+            </div>
 
-							{error && (
-								<div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
-									<AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
-									<span>{error}</span>
-								</div>
-							)}
+            {/* Payment Authorization */}
+            <div className="bg-white p-6 rounded-2xl border border-[#e5ded4] space-y-4">
+              <div className="flex items-center justify-between">
+                <h2 className="font-bold text-sm text-[#231f1e] uppercase tracking-wider">
+                  3. Payment & Security
+                </h2>
+                <span className="flex items-center gap-1 text-[11px] font-semibold text-[#2d5a37]">
+                  <Lock className="w-3.5 h-3.5" />
+                  256-Bit Encrypted
+                </span>
+              </div>
 
-							<button
-								type="submit"
-								disabled={submitting || items.length === 0}
-								className="w-full py-3.5 px-8 rounded-full bg-black hover:bg-neutral-800 text-white font-semibold text-sm tracking-wide disabled:opacity-50 transition-all cursor-pointer shadow-sm"
-							>
-								{submitting ? "Processing Order..." : items.length === 0 ? "Cart is Empty" : `Pay $${(totalCents / 100).toFixed(2)} — Complete Order`}
-							</button>
-						</form>
-					</div>
+              <div className="p-4 bg-[#faf8f5] rounded-xl border border-[#e5ded4] text-xs text-[#5a524e] space-y-2">
+                <p className="font-semibold text-[#231f1e]">
+                  🔒 Direct Grassroots Checkout (Simulated Stripe Mode)
+                </p>
+                <p>
+                  No credit card numbers are stored on our servers. Clicking the button below immediately sends your order to the American print house for printing & USPS dispatch.
+                </p>
+              </div>
 
-					{/* 右侧：订单摘要侧边栏 */}
-					<div className="lg:col-span-5 space-y-6">
-						<div className="p-6 rounded-3xl border border-neutral-200/80 bg-[#F5F5F7] sticky top-24 space-y-6">
-							<h3 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider pb-4 border-b border-neutral-200">
-								Order Summary ({items.length} {items.length === 1 ? "Item" : "Items"})
-							</h3>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full py-4 px-6 bg-[#cf3c2a] hover:bg-[#ad2c1c] disabled:opacity-50 text-white font-extrabold rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-sm uppercase tracking-wider cursor-pointer"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Processing Order & Alerting Workshop...</span>
+                  </>
+                ) : (
+                  <>
+                    <ShieldCheck className="w-5 h-5" />
+                    <span>Authorize Order • {formatPrice(total)}</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+        </div>
 
-							{/* 商品清单 */}
-							<div className="space-y-4 max-h-80 overflow-y-auto pr-1">
-								{items.length > 0 ? (
-									items.map((item, idx) => {
-										const optionsText = lineOptions(item);
-										const imageSrc = item.productVariant.images[0] || "/images/raccoon-tomato.svg";
-										return (
-											<div key={item.productVariant.id || idx} className="flex items-center gap-3">
-												<div className="relative w-14 h-14 rounded-xl bg-white border border-neutral-200 overflow-hidden shrink-0">
-													<Image
-														src={imageSrc}
-														alt={item.productVariant.product.name}
-														fill
-														className="object-contain p-1"
-													/>
-													<span className="absolute top-0 right-0 w-4 h-4 rounded-bl-md bg-black text-white text-[10px] font-bold flex items-center justify-center">
-														{item.quantity}
-													</span>
-												</div>
-												<div className="flex-1 min-w-0">
-													<p className="text-xs font-medium text-neutral-900 truncate">
-														{item.productVariant.product.name}
-													</p>
-													{optionsText && (
-														<p className="text-[11px] text-neutral-500 truncate">{optionsText}</p>
-													)}
-													<p className="text-[11px] font-mono text-neutral-600">
-														${(Number(item.productVariant.price) / 100).toFixed(2)} × {item.quantity}
-													</p>
-												</div>
-											</div>
-										);
-									})
-								) : (
-									<div className="py-8 text-center space-y-3">
-										<div className="w-12 h-12 rounded-full bg-neutral-200/70 flex items-center justify-center mx-auto text-neutral-500">
-											<ShoppingBag className="w-6 h-6" />
-										</div>
-										<p className="text-sm font-medium text-neutral-900">Your cart is empty</p>
-										<p className="text-xs text-neutral-500 max-w-xs mx-auto">
-											Please add items from our store before proceeding to checkout.
-										</p>
-										<Link
-											href="/products"
-											className="inline-block mt-2 px-5 py-2 rounded-full bg-black hover:bg-neutral-800 text-white text-xs font-semibold transition-colors"
-										>
-											Browse Movement Goods
-										</Link>
-									</div>
-								)}
-							</div>
+        {/* Right Column: Order Summary */}
+        <div className="lg:col-span-5">
+          <div className="bg-white p-6 rounded-3xl border border-[#e5ded4] shadow-xs space-y-6 sticky top-28">
+            <h2 className="font-extrabold text-base text-[#231f1e]">
+              Order Summary ({items.length} {items.length === 1 ? "item" : "items"})
+            </h2>
 
-							{/* 费用明细结算 */}
-							<div className="space-y-2 pt-4 border-t border-neutral-200 text-xs">
-								<div className="flex justify-between text-neutral-600">
-									<span>Subtotal</span>
-									<span className="font-mono text-neutral-900 font-medium">${(subtotalCents / 100).toFixed(2)}</span>
-								</div>
-								<div className="flex justify-between text-neutral-600">
-									<span className="flex items-center gap-1">
-										<Truck className="w-3.5 h-3.5 text-neutral-700" />
-										<span>USPS Ground Advantage (3-5 Days)</span>
-									</span>
-									<span className="font-mono text-emerald-700 font-semibold">
-										{items.length === 0 ? "$0.00" : isFreeShipping ? "FREE" : "$4.99"}
-									</span>
-								</div>
-								<div className="flex justify-between text-base font-semibold text-neutral-900 pt-3 border-t border-neutral-200">
-									<span>Total Due</span>
-									<span className="text-neutral-900 font-mono">${(totalCents / 100).toFixed(2)} USD</span>
-								</div>
-							</div>
+            {/* Item List */}
+            <div className="divide-y divide-[#f0ece5] max-h-96 overflow-y-auto pr-1">
+              {items.map((item) => (
+                <div key={item.id} className="py-3 flex gap-3">
+                  <div className="relative w-16 h-16 bg-[#faf8f5] rounded-xl overflow-hidden flex-shrink-0 border border-[#e5ded4]">
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      fill
+                      className="object-cover"
+                    />
+                    <span className="absolute -top-1.5 -right-1.5 bg-[#4a423f] text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                      {item.quantity}
+                    </span>
+                  </div>
 
-							{/* 信任与保障承诺 */}
-							<div className="p-3.5 rounded-2xl bg-white border border-neutral-200 space-y-2 text-[11px] text-neutral-600">
-								<div className="flex items-center gap-2 text-neutral-900 font-medium">
-									<ShieldCheck className="w-4 h-4 text-[#D93829]" />
-									<span>30-Day Defend the Soil Guarantee</span>
-								</div>
-								<p>If items arrive damaged or defective in transit, we provide an immediate 100% free reshipment or full refund.</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	);
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-xs text-[#231f1e] line-clamp-1">{item.name}</p>
+                    <p className="text-[11px] text-[#6b6460] mt-0.5">{item.variantName}</p>
+                    <p className="text-xs font-bold text-[#cf3c2a] mt-1">
+                      {formatPrice(item.price * item.quantity)}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Price Breakdown */}
+            <div className="border-t border-[#e5ded4] pt-4 space-y-2 text-xs">
+              <div className="flex justify-between text-[#6b6460]">
+                <span>Merchandise Subtotal</span>
+                <span className="font-semibold text-[#231f1e]">{formatPrice(subtotal)}</span>
+              </div>
+              <div className="flex justify-between text-[#6b6460]">
+                <span>USPS Ground Shipping</span>
+                <span className="font-semibold text-[#231f1e]">
+                  {shipping === 0 ? <span className="text-[#2d5a37] font-bold">FREE</span> : formatPrice(shipping)}
+                </span>
+              </div>
+              <div className="flex justify-between text-base font-black text-[#231f1e] pt-3 border-t border-[#e5ded4]">
+                <span>Total Amount Due</span>
+                <span className="text-[#cf3c2a]">{formatPrice(total)}</span>
+              </div>
+            </div>
+
+            {/* Reassurance notes */}
+            <div className="p-4 bg-[#f8f5ee] rounded-xl border border-[#e5ded4] space-y-2 text-[11px] text-[#6b6460]">
+              <div className="flex items-center gap-2 text-[#2d5a37] font-bold">
+                <Truck className="w-4 h-4" />
+                <span>USPS Ground Advantage Tracked</span>
+              </div>
+              <p>
+                Printed using eco-friendly water-based inks and dispatched in 100% recyclable paper packaging.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

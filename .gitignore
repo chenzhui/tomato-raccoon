@@ -36,6 +36,9 @@ playwright-report/
 .playwright-chrome-profile/
 .chrome-debug/
 
+# Backups
+tomato-raccoon-old/
+
 # Sensitive / verification uploads
 id_card_*.jpg
 house_certificate.jpg

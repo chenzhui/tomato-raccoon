@@ -1,139 +1,97 @@
-import type { Metadata } from "next";
-import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Droplets, Sprout } from "lucide-react";
-
-export const metadata: Metadata = {
-	title: "About Us — Tomato Raccoon Supply Co.",
-	description:
-		"An independent design studio inspired by Virginia's countryside humor and the movement to protect farmland and clean water.",
-	alternates: { canonical: "/about" },
-};
+import Link from "next/link";
+import { ArrowRight, Droplets, Sprout, ShieldAlert, Heart } from "lucide-react";
 
 export default function AboutPage() {
-	return (
-		<div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-			{/* 面包屑导航 */}
-			<div className="mb-8 flex items-center gap-2 text-xs text-[#7C5335]">
-				<Link href="/" className="hover:text-[#1E3F20] transition-colors">
-					Home
-				</Link>
-				<span>/</span>
-				<span className="font-bold text-[#1E3F20]">About</span>
-			</div>
+  return (
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
+      {/* Header */}
+      <div className="text-center space-y-3">
+        <span className="text-xs font-bold text-[#cf3c2a] uppercase tracking-wider">
+          Our Story & Grassroots Mission
+        </span>
+        <h1 className="text-3xl sm:text-5xl font-black text-[#231f1e] tracking-tight">
+          Grow Tomatoes, Not Data Centers.
+        </h1>
+        <p className="text-base text-[#6b6460] max-w-2xl mx-auto leading-relaxed">
+          How a quiet rural community along Virginia&apos;s Route 301 came together to defend irreplaceable prime topsoil, clean water aquifers, and family farming heritage.
+        </p>
+      </div>
 
-			{/* 标题宣言 */}
-			<div className="space-y-4 mb-16">
-				<div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#1E3F20]/10 text-[#1E3F20] text-xs font-bold uppercase tracking-wider">
-					🦝 Independent Design &amp; Merch Studio
-				</div>
-				<h1 className="text-4xl sm:text-6xl font-black tracking-tight text-[#1E3F20] leading-tight">
-					Grow Tomatoes. <br />
-					<span className="text-[#D93829]">Not Data Centers.</span>
-				</h1>
-				<p className="text-lg sm:text-xl text-[#524B42] leading-relaxed">
-					Inspired by a hand-painted roadside sign in Virginia, we turn grassroots countryside humor into everyday gear for anyone who prefers fresh air and farmland over server farms.
-				</p>
-			</div>
+      {/* Mascot & Mission Illustration */}
+      <div className="relative aspect-video max-w-2xl mx-auto bg-white rounded-3xl border border-[#e5ded4] p-8 shadow-xs flex items-center justify-center">
+        <Image
+          src="/images/raccoon-tomato.svg"
+          alt="Tomato Raccoon Mascot"
+          fill
+          className="object-contain p-6"
+        />
+      </div>
 
-			{/* 核心大图展示 */}
-			<div className="relative aspect-16/9 w-full rounded-3xl bg-[#F4EFE6] border border-[#D9CDB8] overflow-hidden mb-16 flex items-center justify-center p-8 shadow-xs">
-				<div className="relative w-full h-full max-w-md mx-auto flex items-center justify-center">
-					<Image
-						src="/images/logo-1-raccoon-slogan.svg"
-						alt="Tomato Raccoon Official Movement Badge"
-						fill
-						className="object-contain"
-					/>
-				</div>
-			</div>
+      {/* Manifesto Body */}
+      <div className="bg-white p-8 sm:p-12 rounded-3xl border border-[#e5ded4] shadow-xs space-y-8 text-sm sm:text-base text-[#4a423f] leading-relaxed">
+        <div className="space-y-4">
+          <h2 className="text-2xl font-black text-[#231f1e]">
+            1. Why Central Virginia?
+          </h2>
+          <p>
+            Virginia is often referred to as the data center capital of the world. In recent years, explosive growth driven by artificial intelligence workloads has triggered a land grab that has expanded outward from Northern Virginia into Hanover, Louisa, Caroline, and Shenandoah agricultural regions.
+          </p>
+          <p>
+            When multi-billion-dollar tech developers buy up hundreds of acres of family farm ground, the transformation is irreversible. Heavy bulldozers excavate centuries-old topsoil, compact the earth with thousands of tons of concrete footings, and construct monolithic windowless grey boxes surrounded by barbed wire and security fences.
+          </p>
+        </div>
 
-			{/* 深度故事段落 */}
-			<div className="space-y-14 text-[#1E1D1B] leading-relaxed text-base sm:text-lg">
-				{/* 篇章 1 */}
-				<section className="space-y-4 border-t border-[#D9CDB8] pt-10">
-					<span className="text-xs font-bold uppercase tracking-widest text-[#D93829]">Chapter 01</span>
-					<h2 className="text-2xl sm:text-3xl font-bold text-[#1E3F20]">
-						The Soil That Feeds Virginia
-					</h2>
-					<p className="text-[#524B42]">
-						For generations, Hanover County, Virginia has been famous for one thing above all: its summer heirloom tomatoes. Sweet, juicy, and sun-ripened in fertile Piedmont dirt, they are celebrated at annual festivals and enjoyed at kitchen tables across the Commonwealth.
-					</p>
-					<p className="text-[#524B42]">
-						Then came the data centers. Virginia quietly became the data center capital of the world, housing over 35% of all hyperscale cloud infrastructure on Earth. But when the tech giants ran out of room in Northern Virginia, their bulldozers turned south toward Hanover's agricultural heartland.
-					</p>
-				</section>
+        <div className="space-y-4">
+          <h2 className="text-2xl font-black text-[#231f1e] flex items-center gap-2">
+            <Droplets className="w-6 h-6 text-[#2d5a37]" />
+            <span>2. The Hidden Cost: Millions of Gallons of Pure Water</span>
+          </h2>
+          <p>
+            Modern hyperscale data center clusters require enormous cooling infrastructure. A typical facility evaporates between 1 to 5 million gallons of groundwater every single day. For rural homeowners relying on private well water, aquifer depletion is not an abstract future worry — it is an immediate existential threat to their drinking water and cattle irrigation.
+          </p>
+        </div>
 
-				{/* 篇章 2 */}
-				<section className="space-y-4 border-t border-[#D9CDB8] pt-10">
-					<span className="text-xs font-bold uppercase tracking-widest text-[#D93829]">Chapter 02</span>
-					<h2 className="text-2xl sm:text-3xl font-bold text-[#1E3F20]">
-						1,000,000 Gallons a Day
-					</h2>
-					<p className="text-[#524B42]">
-						A single modern data center campus can consume upwards of <strong>one million gallons of water every single day</strong> simply to cool server racks running AI models. That is precious groundwater drawn straight from local regional aquifers — the very same water that irrigates family crops and fills residential well water for local homes.
-					</p>
-					<p className="text-[#524B42]">
-						Along with massive high-voltage transmission lines cutting across timberlands and soaring residential electric rates to fund corporate substations, neighbors realized something vital was being traded away for corporate server farms.
-					</p>
-				</section>
+        <div className="space-y-4">
+          <h2 className="text-2xl font-black text-[#231f1e] flex items-center gap-2">
+            <Sprout className="w-6 h-6 text-[#2d5a37]" />
+            <span>3. Enter the Tomato Raccoon</span>
+          </h2>
+          <p>
+            Our mascot, the spirited Tomato Raccoon, was born from a hand-carved linocut protest block printed in a rural garage workshop. Raccoons are clever, resilient, and fiercely protective of their home territory and heirloom garden plots.
+          </p>
+          <p>
+            What started as a handful of hand-printed yard signs along Route 301 quickly spread to farmers markets, county supervisor hearings, and tractor convoys. Neighbors saw the signs, honked their truck horns, and joined the coalition.
+          </p>
+        </div>
 
-				{/* 篇章 3 */}
-				<section className="space-y-4 border-t border-[#D9CDB8] pt-10">
-					<span className="text-xs font-bold uppercase tracking-widest text-[#D93829]">Chapter 03</span>
-					<h2 className="text-2xl sm:text-3xl font-bold text-[#1E3F20]">
-						Enter The Raccoon
-					</h2>
-					<p className="text-[#524B42]">
-						Faced with corporate lobby presentations and zoning hearings, one local family put up a hand-painted wooden sign along the roadside. It depicted the countryside's most resilient nighttime neighbor — a little trash panda raccoon — holding on fiercely to a giant, ripe Hanover tomato.
-					</p>
-					<p className="text-[#524B42]">
-						Below it was a phrase that captured the humor, grit, and clarity of the countryside: <strong className="text-[#1E3F20]">"GROW TOMATOES, NOT DATA CENTERS."</strong>
-					</p>
-					<p className="text-[#524B42]">
-						Photos of the sign exploded on local forums, Reddit, and community garden boards. Neighbors asked for their own signs. Truck drivers honked in approval. A movement was born.
-					</p>
-				</section>
+        <div className="space-y-4">
+          <h2 className="text-2xl font-black text-[#231f1e] flex items-center gap-2">
+            <ShieldAlert className="w-6 h-6 text-[#cf3c2a]" />
+            <span>4. 100% Grassroots, Ethical Fulfillment</span>
+          </h2>
+          <p>
+            We practice what we preach. Every Comfort Colors shirt, heavyweight hoodie, outdoor yard sign, and bumper decal is printed on-demand with water-based, non-toxic inks by American print providers.
+          </p>
+          <p>
+            We use 100% plastic-free, recyclable paper packaging and dispatch via the United States Postal Service. Every dollar generated from our gear helps print lawn signs for local farmers and cover community meeting hall fees.
+          </p>
+        </div>
 
-				{/* 篇章 4：安全且高转化的品牌定位 */}
-				<section className="p-8 sm:p-10 rounded-3xl bg-[#F4EFE6] border border-[#D9CDB8] space-y-6">
-					<h3 className="text-2xl font-bold text-[#1E3F20]">
-						Wear the Message. Keep It Real.
-					</h3>
-					<p className="text-sm sm:text-base text-[#524B42]">
-						We’re an independent design studio inspired by the folks standing up for rural land and local food systems. Whether you're in Virginia or watching data centers pop up in your own backyard, our goal is simple: make tough, comfortable, sustainably-made gear that starts a conversation wherever you go.
-					</p>
-					<div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm pt-2">
-						<div className="space-y-2">
-							<div className="flex items-center gap-2 font-bold text-[#1E1D1B]">
-								<Sprout className="w-4 h-4 text-[#1E3F20]" />
-								<span>Heavy-Duty &amp; Eco-Minded</span>
-							</div>
-							<p className="text-[#524B42]">
-								Printed to order to eliminate warehouse waste. We use certified organic cotton canvas totes and Comfort Colors ring-spun cotton tees.
-							</p>
-						</div>
-						<div className="space-y-2">
-							<div className="flex items-center gap-2 font-bold text-[#1E1D1B]">
-								<Droplets className="w-4 h-4 text-[#2E86AB]" />
-								<span>Spark the Conversation</span>
-							</div>
-							<p className="text-[#524B42]">
-								Every sticker on a tailgate and every tee at the farmers market helps spread awareness about protecting rural water and soil.
-							</p>
-						</div>
-					</div>
-					<div className="pt-4 border-t border-[#D9CDB8]">
-						<Link
-							href="/products"
-							className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1E3F20] text-[#FAF7F0] font-bold text-sm hover:bg-[#2D5A27] transition-all"
-						>
-							<span>Shop the Collection</span>
-							<ArrowRight className="w-4 h-4" />
-						</Link>
-					</div>
-				</section>
-			</div>
-		</div>
-	);
+        <div className="pt-6 border-t border-[#f0ece5] flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <p className="font-bold text-[#231f1e]">Join the movement today.</p>
+            <p className="text-xs text-[#6b6460]">Display the sign, wear the shirt, make your voice heard.</p>
+          </div>
+          <Link
+            href="/products"
+            className="px-6 py-3 bg-[#cf3c2a] hover:bg-[#ad2c1c] text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-colors shadow-xs flex items-center gap-2"
+          >
+            <span>Browse Movement Goods</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
 }

@@ -1,29 +1,38 @@
-import { ShoppingCartIcon } from "lucide-react";
-import type { Metadata } from "next";
 import Link from "next/link";
-
-export const metadata: Metadata = {
-	title: "Page Not Found",
-	description:
-		"This page doesn't exist or has been moved. Continue shopping to find what you're looking for.",
-	robots: { index: false, follow: true },
-};
+import { ArrowLeft, Home, AlertCircle } from "lucide-react";
 
 export default function NotFound() {
-	return (
-		<div className="flex min-h-[90dvh] flex-1 flex-col items-center justify-center px-4 py-24 text-center">
-			<ShoppingCartIcon className="size-16 text-muted-foreground/50" strokeWidth={1.5} />
-			<h1 className="mt-6 text-7xl font-bold tracking-tight">404</h1>
-			<h2 className="mt-4 text-xl text-muted-foreground">Page not found</h2>
-			<p className="mt-2 text-sm text-muted-foreground">
-				This page doesn't exist or has been moved. But our store is still open!
-			</p>
-			<Link
-				href="/"
-				className="mt-8 inline-flex items-center rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background transition-colors hover:bg-foreground/90"
-			>
-				Continue Shopping
-			</Link>
-		</div>
-	);
+  return (
+    <div className="max-w-md mx-auto px-4 py-24 text-center space-y-6">
+      <div className="w-16 h-16 rounded-full bg-[#cf3c2a]/10 text-[#cf3c2a] flex items-center justify-center mx-auto">
+        <AlertCircle className="w-8 h-8" />
+      </div>
+      <div>
+        <span className="text-xs font-bold text-[#cf3c2a] uppercase tracking-wider">
+          404 Not Found
+        </span>
+        <h1 className="text-2xl sm:text-3xl font-black text-[#231f1e] mt-1">
+          Page Lost in the Fields
+        </h1>
+        <p className="text-xs text-[#6b6460] mt-2">
+          The page or product you were looking for does not exist or has been relocated.
+        </p>
+      </div>
+      <div className="flex justify-center gap-3 pt-2">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-[#cf3c2a] hover:bg-[#ad2c1c] text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-colors shadow-xs"
+        >
+          <Home className="w-4 h-4" />
+          <span>Go to Homepage</span>
+        </Link>
+        <Link
+          href="/products"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-[#f5f0ea] text-[#231f1e] font-bold rounded-xl text-xs uppercase tracking-wider transition-colors border border-[#e5ded4]"
+        >
+          <span>All Goods</span>
+        </Link>
+      </div>
+    </div>
+  );
 }
