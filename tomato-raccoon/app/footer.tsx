@@ -82,6 +82,11 @@ export async function Footer() {
 								</Link>
 							</li>
 							<li>
+								<Link href="/contact" className="hover:text-[#D93829] transition-colors">
+									Contact Us
+								</Link>
+							</li>
+							<li>
 								<Link href="/about" className="hover:text-[#D93829] transition-colors">
 									Our Story
 								</Link>

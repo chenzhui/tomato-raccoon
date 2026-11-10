@@ -161,7 +161,7 @@ async function localCommerceFetch(url: string, init?: RequestInit): Promise<Resp
 						locale: "en-US",
 						defaultLanguage: "en-US",
 						enabledLanguages: { "en-US": true },
-						enabledTools: { reviews: true, blog: false, contactForm: false, newsletterPopup: false, restockNotifications: false },
+						enabledTools: { reviews: true, blog: false, contactForm: true, newsletterPopup: false, restockNotifications: false },
 						logo: { imageUrl: "/images/mascot-badge.svg" },
 						favicon: { imageUrl: "/images/mascot-badge.svg" },
 					},
@@ -293,6 +293,14 @@ async function localCommerceFetch(url: string, init?: RequestInit): Promise<Resp
 	if (pathname.includes("/cart")) {
 		const cart = getOrCreateCart("default");
 		return new Response(JSON.stringify(cart), { status: 200, headers: { "Content-Type": "application/json" } });
+	}
+
+	// 用户留言与反馈端点
+	if (pathname.includes("/contact")) {
+		return new Response(JSON.stringify({ success: true, message: "Thank you for contacting Tomato Raccoon Co." }), {
+			status: 200,
+			headers: { "Content-Type": "application/json" },
+		});
 	}
 
 	// 默认回退处理

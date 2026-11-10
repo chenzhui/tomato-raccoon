@@ -50,4 +50,11 @@ test.describe('全站商品目录、品牌叙事与合规页面完整性 E2E 验
     await expect(orderInput).toBeVisible();
   });
 
+  test('验证官方联系我们页面 (/contact) 正常渲染与表单可交互', async ({ page }) => {
+    await page.goto('/contact');
+    await expect(page.locator('h1').first()).toContainText('Contact Us');
+    await expect(page.locator('input[type="email"]')).toBeVisible();
+    await expect(page.locator('textarea')).toBeVisible();
+  });
+
 });
