@@ -55,8 +55,8 @@ export async function POST(req: Request) {
 				`INSERT INTO orders (
 					id, order_number, customer_email, customer_name,
 					shipping_address, items, subtotal, total,
-					currency, payment_status, shipping_status, tracking_number
-				) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'USD', 'paid', 'processing', $9)`,
+					currency, payment_status, shipping_status, tracking_number, printify_order_id
+				) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'USD', 'paid', 'processing', $9, $10)`,
 				[
 					orderId,
 					orderNumber,
@@ -67,6 +67,7 @@ export async function POST(req: Request) {
 					subtotal,
 					total,
 					trackingNumber,
+					printifyOrderId,
 				],
 			);
 			console.log(`[Database] Created order ${orderNumber} in PostgreSQL!`);

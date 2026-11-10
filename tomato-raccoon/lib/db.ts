@@ -6,7 +6,12 @@ const connectionString =
 
 export const pool = new Pool({
 	connectionString,
-	ssl: false,
+	ssl:
+		connectionString.includes("supabase") ||
+		connectionString.includes("pooler") ||
+		process.env.DATABASE_SSL === "true"
+			? { rejectUnauthorized: false }
+			: false,
 	max: 10,
 	idleTimeoutMillis: 30000,
 	connectionTimeoutMillis: 5000,
@@ -49,6 +54,7 @@ export async function ensureDbTables() {
 				payment_status VARCHAR(32) DEFAULT 'paid',
 				shipping_status VARCHAR(32) DEFAULT 'processing',
 				tracking_number VARCHAR(128),
+				printify_order_id VARCHAR(64),
 				created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 			);
 
@@ -68,6 +74,17 @@ export async function ensureDbTables() {
 				id VARCHAR(64) PRIMARY KEY,
 				items JSONB NOT NULL,
 				updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+			);
+
+			CREATE TABLE IF NOT EXISTS return_tickets (
+				id VARCHAR(64) PRIMARY KEY,
+				order_number VARCHAR(64) NOT NULL,
+				customer_email VARCHAR(255) NOT NULL,
+				reason VARCHAR(64) NOT NULL,
+				details TEXT,
+				evidence_photo_url VARCHAR(512),
+				status VARCHAR(32) DEFAULT 'PENDING_REVIEW',
+				created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 			);
 		`);
 
