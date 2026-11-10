@@ -6,81 +6,81 @@ export type FAQCategory = {
 
 export const faqCategories: FAQCategory[] = [
 	{
-		id: "unboxing",
-		title: "Unboxing & Care Guide",
+		id: "care-guide",
+		title: "Lawn Signs, Apparel & Care Guide",
 		questions: [
 			{
-				question: "🔥 Why does my acrylic standee look cloudy, frosted, or scratched?",
+				question: "How do I install the \"Grow Tomatoes, Not Data Centers\" yard sign?",
 				answer:
-					"PLEASE PEEL THE PROTECTIVE FILM! Every acrylic standee is shipped with a tight micro-frosted plastic film on BOTH sides to prevent scratches during air transport. Gently peel the film from any corner with your fingernail to reveal the crystal-clear 4K diamond-cut acrylic!",
+					"Each yard sign comes with a heavy-duty galvanized steel H-frame ground stake. Simply insert the top prongs of the H-stake into the vertical flutes at the bottom of your 4mm corrugated sign, then press the bottom prongs firmly into your lawn soil with your foot. Our weather-treated signs easily withstand heavy wind and rain.",
 			},
 			{
-				question: "Can I clean my acrylic standees or desk mats with isopropyl alcohol?",
+				question: "How should I wash my Comfort Colors 1717 vintage tee and protest hoodie?",
 				answer:
-					"DO NOT use alcohol or harsh solvents on acrylic standees! High-concentration alcohol can react with acrylic edges and cause stress crazing (micro-cracks). Simply wipe with a soft microfiber cloth slightly dampened with clean water. Desk mats can be gently hand-washed with mild soap.",
+					"Turn the garment inside out before washing to protect the screen-printed artwork. Machine wash in cold water with similar colors using mild eco-friendly detergent. Tumble dry on low heat or hang dry for longest lasting vibrancy. Avoid bleach and direct iron on the print.",
 			},
 			{
-				question: "How do I assemble the standee base properly?",
+				question: "Are the bumper decals and kiss-cut stickers dishwasher safe and waterproof?",
 				answer:
-					"First peel the protective films from both the character cut-out and the circular base. Align the bottom tabs with the base slot and gently press downward evenly. Our tolerances are precision-calibrated (0.1mm) so the standee stays upright and stable on your desk without wobbling.",
+					"Yes! Our stickers are printed on thick 6-mil outdoor vinyl with UV-matte lamination. They are 100% waterproof, weather-resistant, and top-rack dishwasher safe on water bottles and tumblers.",
 			},
 		],
 	},
 	{
 		id: "shipping",
-		title: "Shipping & Tracking",
+		title: "Shipping & Order Tracking",
 		questions: [
 			{
-				question: "How long does delivery take to the US, Canada, and Europe?",
+				question: "How long does delivery take within the United States?",
 				answer:
-					"Orders are crafted on demand within 2-4 business days. Express air transit via YunExpress takes 7-12 business days and is handed over to USPS (USA), Canada Post (Canada), or Royal Mail/DHL (Europe) for final residential delivery.",
+					"All items are printed on demand and dispatched within 2-4 business days. Standard shipping via USPS Ground takes 3-5 business days across the continental US. You will receive an automated tracking email as soon as your label is printed.",
 			},
 			{
 				question: "Where can I track my package in real time?",
 				answer:
-					"You can track your package directly at our /track-order page using your Order Number (e.g. AI-678413). Once the flight lands, you can also paste your tracking number into tools.usps.com for live last-mile notifications.",
+					"You can track your package directly at our /track-order page using your Order Number (e.g. TR-123456) and email address, or look up your USPS tracking number at tools.usps.com.",
 			},
 			{
-				question: "Will I have to pay customs duties or import taxes?",
+				question: "Do you offer free shipping?",
 				answer:
-					"No. All small parcel consumer merchandise falls well below the US $800 de minimis duty-free threshold. EU orders are processed under standard pre-cleared customs regulations. There are zero surprise fees upon delivery.",
+					"Yes! All orders over $35.00 automatically qualify for 100% Free US Shipping with plastic-free, recyclable packaging.",
 			},
 		],
 	},
 	{
 		id: "returns",
-		title: "30-Day Guarantee & Returns",
+		title: "30-Day Defend the Soil Guarantee",
 		questions: [
 			{
-				question: "What happens if my standee arrives cracked or broken in transit?",
+				question: "What happens if my item arrives damaged or misprinted?",
 				answer:
-					"We offer a 100% Zero-Risk Guarantee. If any item arrives damaged or broken, you do NOT need to mail it back to China or pay international return shipping. Simply visit our /returns portal, upload a photo of the cracked piece, and we will immediately dispatch a brand-new replacement free of charge or issue a 100% refund.",
+					"We offer a 100% Defend the Soil Guarantee. If any item arrives damaged or defective in transit, you do NOT need to mail it back. Simply visit our /returns portal or email growtomatoes.service@outlook.com with a quick photo of the defective item, and we will immediately send a brand-new replacement free of charge or issue a 100% refund.",
 			},
 			{
 				question: "How long do I have to request a replacement or refund?",
 				answer:
-					"You have 30 days from the date tracking shows your package was delivered to submit a claim through our /returns portal or by emailing support@aichan-merch.com.",
+					"You have 30 days from the date tracking shows your package was delivered to submit a claim through our /returns portal or by emailing growtomatoes.service@outlook.com.",
 			},
 			{
 				question: "Can I cancel or change my shipping address after ordering?",
 				answer:
-					"Address changes and cancellations are accepted within 12 hours of placing your order before laser cutting begins. Please contact support@aichan-merch.com immediately with your order number.",
+					"Address changes and cancellations are accepted within 12 hours of placing your order before printing begins. Please contact growtomatoes.service@outlook.com immediately with your order number.",
 			},
 		],
 	},
 	{
-		id: "brand",
-		title: "Merch & Compliance",
+		id: "advocacy",
+		title: "About the Movement & Studio",
 		questions: [
 			{
-				question: "Why are the characters called Whale-Chan, Sonnet-Tan, and Omni-Chan?",
+				question: "What is \"Grow Tomatoes, Not Data Centers\" all about?",
 				answer:
-					"Our merchandise is 100% original, transformative fan parody art inspired by AI culture and developer memes. To strictly comply with international trademark laws and payment processor policies, our designs contain zero corporate logos, trademarked names, or proprietary assets.",
+					"It is an independent community-inspired movement born out of Hanover County, Virginia. We celebrate local agricultural heritage, open skies, and clean groundwater over massive industrial server campuses. All proceeds from merchandise help spread community advocacy.",
 			},
 			{
-				question: "What is included in the Ultimate Desk Waifu Bundle ($59.99)?",
+				question: "How can I contact customer support directly?",
 				answer:
-					"The bundle includes all 5 core 15cm dual-sided acrylic standees (Whale-Chan, Sonnet-Tan, Omni-Chan, Rebel-Tan, TwinStar-Chan) + a Limited Geek Holographic Sticker Pack + Free Worldwide Priority Express Shipping (Saving 30% compared to buying individually).",
+					"You can reach our team anytime via email at growtomatoes.service@outlook.com or through our /contact form. We respond to all inquiries within 24 business hours.",
 			},
 		],
 	},

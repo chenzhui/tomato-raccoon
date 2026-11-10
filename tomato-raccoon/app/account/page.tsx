@@ -199,10 +199,10 @@ export default function AccountPage() {
 						<p className="mt-0.5">Our fulfillment engineers reply within 12 hours.</p>
 					</div>
 					<a
-						href="mailto:support@aichan-merch.com"
+						href="mailto:growtomatoes.service@outlook.com"
 						className="px-5 py-2 rounded-full border border-neutral-200 text-neutral-700 hover:text-black hover:border-black transition-colors font-medium"
 					>
-						support@aichan-merch.com
+						growtomatoes.service@outlook.com
 					</a>
 				</div>
 			</div>

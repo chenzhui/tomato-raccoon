@@ -75,7 +75,7 @@ async function ContactPageContent() {
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm text-[#524B42]">
 					<div className="p-4 rounded-2xl bg-[#FAF7F0] border border-[#E5DDD0]">
 						<div className="font-bold text-[#1E3F20] mb-1">Direct Email Support</div>
-						<p className="text-xs text-[#7C5335]">support@tomatoraccoon.com</p>
+						<p className="text-xs text-[#7C5335]">growtomatoes.service@outlook.com</p>
 					</div>
 					<div className="p-4 rounded-2xl bg-[#FAF7F0] border border-[#E5DDD0]">
 						<div className="font-bold text-[#1E3F20] mb-1">Response Guarantee</div>

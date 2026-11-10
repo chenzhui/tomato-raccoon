@@ -128,7 +128,7 @@ flowchart TD
 
 * **[合规项 A] Shipping Policy (运输政策，`/shipping-policy`)**：明确标注由美国本土印刷厂生产、通过 USPS 配送、制作周期 2~3 个工作日、运输时效 3~5 个工作日。
 * **[合规项 B] Refund & Return Policy (退换货政策，`/refund-policy`)**：POD 属于个性化定制商品，明确标明：“除印刷质量瑕疵或破损免费重印/退款外，尺码选错等个人原因原则上不支持退货”。
-* **[合规项 C] Contact Us (联系我们，`/contact`)**：清晰公布官方客服邮箱（如 `support@tomatoraccoon.com`）与服务响应时效（24小时内答复）。
+* **[合规项 C] Contact Us (联系我们，`/contact`)**：清晰公布官方客服邮箱（`growtomatoes.service@outlook.com`）与服务响应时效（24小时内答复）。
 * **[合规项 D] Terms of Service & Privacy Policy (服务条款与隐私政策，`/terms-of-service` & `/privacy-policy`)**：完整的消费者权益、数据保护声明与合规免责条款。
 
 ---

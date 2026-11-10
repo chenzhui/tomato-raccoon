@@ -73,16 +73,16 @@ const mockLegalPages = [
 
 Last updated: November 2026
 
-At AI-Chan Geek Merch ("we", "our", or "us"), we are committed to protecting your privacy. This policy explains how we handle your personal information when you visit or make a purchase from our store.
+At Tomato Raccoon Supply Co. ("we", "our", or "us"), we are committed to protecting your privacy. This policy explains how we handle your personal information when you visit or make a purchase from our store.
 
 ### 1. Information We Collect
 When you make a purchase or attempt to make a purchase through our site, we collect certain information from you, including your name, billing address, shipping address, payment information (processed securely through Stripe/PayPal; we never store your full credit card number), email address, and phone number.
 
 ### 2. How We Use Your Information
-We use the order information that we collect generally to fulfill any orders placed through the Site (including processing your payment information, arranging for shipping via YunExpress/USPS, and providing you with invoices and/or order confirmations).
+We use the order information that we collect generally to fulfill any orders placed through the Site (including processing your payment information, arranging for shipping via USPS, and providing you with invoices and/or order confirmations).
 
 ### 3. Contact Us
-For more information about our privacy practices, contact us at support@aichan-merch.com.
+For more information about our privacy practices or questions, contact us directly at growtomatoes.service@outlook.com.
 		`,
 	},
 	{
@@ -132,7 +132,7 @@ We offer 100% Free US Shipping on all orders over $35. Orders under $35 ship at 
 
 Last updated: November 2026
 
-If your item arrives damaged or you are not completely satisfied with the quality of your grassroots goods, contact support@tomatoraccoon.com within 30 days. We will issue a replacement or 100% refund.
+If your item arrives damaged or you are not completely satisfied with the quality of your grassroots goods, contact growtomatoes.service@outlook.com within 30 days. We will issue a replacement or 100% refund.
 		`,
 	},
 ];

@@ -7,16 +7,16 @@ const legalPagesData: Record<string, { title: string; body: string }> = {
 		body: `
 Last updated: November 2026
 
-At AI-Chan Geek Merch, we are dedicated to protecting your personal data and privacy.
+At Tomato Raccoon Supply Co. ("we", "our", or "us"), we are dedicated to protecting your personal data and privacy.
 
 1. Information We Collect
 When you make a purchase or enter checkout, we collect your shipping address, email, and order details. All payment card transactions are processed securely through 256-bit encrypted gateways (Stripe / PayPal). We never store your full card number on our servers.
 
 2. Logistics and Delivery Sharing
-We transmit your recipient address and contact information to trusted international couriers (USPS, YunExpress, DHL) solely for the purpose of customs clearance and package delivery.
+We transmit your recipient address and contact information to trusted domestic and international couriers (USPS, DHL) solely for the purpose of shipping label generation and package delivery.
 
 3. Questions & Data Rights
-To access, modify, or delete your customer record, contact our data protection team at support@aichan-merch.com.
+To access, modify, or delete your customer record, contact our data protection and customer support team at growtomatoes.service@outlook.com.
 		`,
 	},
 	"terms-of-service": {
@@ -24,13 +24,13 @@ To access, modify, or delete your customer record, contact our data protection t
 		body: `
 Last updated: November 2026
 
-By visiting our store and purchasing merchandise, you agree to our Terms of Service.
+By visiting our store and purchasing movement merchandise, you agree to our Terms of Service.
 
-1. Fan Parody and Transformative Merchandise
-All character standees, dangos, and desk mats ("Whale-Chan", "Sonnet-Tan", "Omni-Chan", "Rebel-Tan", "TwinStar-Chan") are transformative artistic parodies. All trademarks, registered logos, and brand names belong to their respective corporate entities and are NOT affiliated with this fan store.
+1. Independent Grassroots Goods
+All apparel, lawn yard signs, and decals featuring the Tomato Raccoon and "Grow Tomatoes, Not Data Centers" are original independent designs celebrating Virginia agricultural heritage and clean groundwater conservation.
 
 2. Order Acceptance & Pricing
-Prices are stated in USD. We reserve the right to cancel or limit orders that appear placed by unauthorized wholesale resellers.
+Prices are stated in USD. We reserve the right to cancel or limit orders that appear placed by unauthorized wholesale resellers or fraudulent activities.
 		`,
 	},
 	"shipping-policy": {
@@ -38,31 +38,31 @@ Prices are stated in USD. We reserve the right to cancel or limit orders that ap
 		body: `
 Last updated: November 2026
 
-All collectible acrylic standees and desk mats are custom-crafted with diamond laser polished edges.
+All apparel, lawn signs, and vinyl stickers are printed on-demand with premium materials and inspected before shipping.
 
-1. Crafting and Dispatch Timeline
-- Processing & Crafting Time: 2-4 business days.
-- Express Air Delivery: 7-12 business days to the United States and European Union.
+1. Production & Dispatch Timeline
+- Processing & Production Time: 2-4 business days.
+- Standard Shipping: 3-5 business days across the United States via USPS Standard Ground.
 
 2. Tracking Your Order
-You will receive an automated tracking notification email with your USPS / YunExpress tracking number as soon as the flight departs.
+You will receive an automated tracking notification email with your USPS tracking number as soon as your package ships. You can also track your package anytime on our /track-order page.
 
 3. Free Shipping
-Orders containing the Full Desk Waifu Bundle or exceeding $40.00 qualify for 100% Free Priority Shipping.
+Orders exceeding $35.00 qualify for 100% Free US Shipping.
 		`,
 	},
 	"refund-policy": {
-		title: "Refund & Return Policy (30-Day Guarantee)",
+		title: "Refund & Return Policy (30-Day Defend the Soil Guarantee)",
 		body: `
 Last updated: November 2026
 
-We guarantee 100% satisfaction on all our developer desk merchandise.
+We guarantee 100% satisfaction on all our grassroots protest apparel and goods.
 
 1. 30-Day Money Back Guarantee
-Every acrylic standee comes with double-sided scratch-resistant protective films. If your merchandise arrives cracked, scratched under the film, or defective, contact support@aichan-merch.com within 30 days of delivery.
+If your merchandise arrives defective, misprinted, or damaged during shipping, contact growtomatoes.service@outlook.com within 30 days of delivery.
 
 2. Free Replacement or Full Refund
-Send a quick photo of the defective item. We will ship a brand new replacement free of charge or issue an immediate 100% refund to your original payment method.
+Send a quick photo of the defective item with your order number (e.g. TR-XXXXXX). We will ship a brand new replacement free of charge or issue an immediate 100% refund to your original payment method.
 		`,
 	},
 };
