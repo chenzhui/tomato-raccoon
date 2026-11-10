@@ -9,7 +9,10 @@
     "lint": "biome check --write --unsafe",
     "format": "biome format --write",
     "check": "biome check && tsc --noEmit",
-    "test:e2e": "node scripts/e2e_full_chain_test.js"
+    "test:e2e": "node scripts/e2e_full_chain_test.js",
+    "test:playwright": "playwright test --config=../playwright.config.ts",
+    "test:playwright:ui": "playwright test --config=../playwright.config.ts --ui",
+    "test:playwright:headed": "playwright test --config=../playwright.config.ts --headed"
   },
   "dependencies": {
     "@ai-sdk/react": "4.0.169",
@@ -40,6 +43,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.6",
+    "@playwright/test": "^1.65.0",
     "@tailwindcss/postcss": "4.3.5",
     "@types/bun": "1.4.4",
     "@types/node": "26.6.6",

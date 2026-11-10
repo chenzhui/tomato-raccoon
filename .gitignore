@@ -26,3 +26,17 @@ dist/
 # OS metadata
 .DS_Store
 Thumbs.db
+
+# Test & Automation artifacts
+test-results/
+**/test-results/
+playwright-report/
+**/playwright-report/
+.playwright-mcp/
+.playwright-chrome-profile/
+.chrome-debug/
+
+# Sensitive / verification uploads
+id_card_*.jpg
+house_certificate.jpg
+final_review_fullpage.png

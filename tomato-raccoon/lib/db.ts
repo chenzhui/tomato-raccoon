@@ -14,16 +14,17 @@ export const pool = new Pool({
 			: false,
 	max: 10,
 	idleTimeoutMillis: 30000,
-	connectionTimeoutMillis: 5000,
+	connectionTimeoutMillis: 15000,
 });
 
 let dbInitialized = false;
 
 export async function ensureDbTables() {
 	if (dbInitialized) return;
-	const client = await pool.connect();
 	try {
-		await client.query(`
+		const client = await pool.connect();
+		try {
+			await client.query(`
 			CREATE TABLE IF NOT EXISTS products (
 				id VARCHAR(64) PRIMARY KEY,
 				slug VARCHAR(128) UNIQUE NOT NULL,
@@ -88,10 +89,11 @@ export async function ensureDbTables() {
 			);
 		`);
 
-		dbInitialized = true;
+			dbInitialized = true;
+		} finally {
+			client.release();
+		}
 	} catch (err) {
-		console.error("ensureDbTables error (running with fallback if unavailable):", err);
-	} finally {
-		client.release();
+		console.warn("ensureDbTables warning (running with fallback if unavailable):", err);
 	}
 }

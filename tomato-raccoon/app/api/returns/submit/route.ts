@@ -31,16 +31,14 @@ export async function POST(req: Request) {
 
 			await pool.query(
 				`INSERT INTO return_tickets (
-					id, ticket_id, order_number, customer_email, reason, resolution, details, status
-				) VALUES ($1, $2, $3, $4, $5, $6, $7, 'pending_review')`,
+					id, order_number, customer_email, reason, details, status
+				) VALUES ($1, $2, $3, $4, $5, 'pending_review')`,
 				[
-					`ret-${Date.now()}`,
 					ticketId,
 					orderNumber,
 					email,
 					reason,
-					resolution,
-					details,
+					details || resolution,
 				],
 			);
 			console.log(`[Database] Logged after-sales ticket ${ticketId} in PostgreSQL!`);

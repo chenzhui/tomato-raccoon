@@ -20,12 +20,8 @@ type VariantLike = {
 export function useSelectedVariant<T extends VariantLike>(variants: T[]): T | undefined {
 	const searchParams = useUrlQuery();
 
-	if (variants.length === 1) {
+	if (variants.length <= 1 || searchParams.size === 0) {
 		return variants[0];
-	}
-
-	if (searchParams.size === 0) {
-		return undefined;
 	}
 
 	// URL 中存在的规格 label 必须精确匹配；未出现的规格视为通配。得分 = 匹配的 label 数量，
