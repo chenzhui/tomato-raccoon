@@ -93,17 +93,17 @@ export default function ReturnsPage() {
 						Replacements & Returns Center
 					</h1>
 					<p className="mt-2 text-sm sm:text-base text-neutral-500 leading-relaxed">
-						If your acrylic standee arrived broken, cracked, or defective during flight transit, you do NOT need to mail it back to China. Simply snap a photo below and we will dispatch a 100% free brand-new replacement or process a full refund.
+						If your apparel, yard sign, or sticker arrived misprinted, defective, or damaged in transit, you do NOT need to mail it back. Simply snap a photo below and we will dispatch a 100% free replacement or issue a full refund under our 30-Day Defend the Soil Guarantee.
 					</p>
 				</div>
 
-				{/* 撕膜提醒横幅提示 */}
+				{/* 售后与保养提醒横幅提示 */}
 				<div className="p-4 rounded-2xl border border-amber-200 bg-amber-50/70 flex items-start gap-3 text-xs text-amber-900">
 					<HelpCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
 					<div className="space-y-1">
-						<p className="font-semibold text-amber-900">Friendly Tip: Did you peel the protective films?</p>
+						<p className="font-semibold text-amber-900">Friendly Care Tip: Keep your gear lasting longer</p>
 						<p className="text-amber-800/90 leading-relaxed">
-							Both sides of all acrylic standees are coated with a tight frosted protective film to prevent scratches in flight. If the surface appears hazy or scratched, gently peel the film from a corner to reveal the crystal 4K diamond finish!
+							Our vintage-wash apparel is made of 100% ring-spun cotton—please machine wash inside-out in cold water. Lawn signs are printed with weather-resistant UV inks designed for multi-season outdoor use.
 						</p>
 					</div>
 				</div>
@@ -152,7 +152,7 @@ export default function ReturnsPage() {
 								<input
 									type="text"
 									required
-									placeholder="e.g. AI-678413"
+									placeholder="e.g. TR-678413"
 									value={formData.orderNumber}
 									onChange={(e) => setFormData({ ...formData, orderNumber: e.target.value })}
 									className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 text-sm focus:outline-none focus:border-black"
@@ -165,7 +165,7 @@ export default function ReturnsPage() {
 								<input
 									type="email"
 									required
-									placeholder="developer@example.com"
+									placeholder="supporter@example.com"
 									value={formData.email}
 									onChange={(e) => setFormData({ ...formData, email: e.target.value })}
 									className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 text-sm focus:outline-none focus:border-black"
@@ -183,10 +183,10 @@ export default function ReturnsPage() {
 								onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
 								className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 text-sm focus:outline-none focus:border-black"
 							>
-								<option value="damaged_in_transit">Standee arrived cracked / broken during shipping</option>
-								<option value="scratched_defect">Permanent scratch or defect under protective film</option>
-								<option value="missing_item">Missing items or wrong character sent</option>
-								<option value="lost_package">Tracking stuck / Package lost in transit (over 15 days)</option>
+								<option value="damaged_in_transit">Item arrived damaged or misprinted in transit</option>
+								<option value="size_exchange">Size exchange request (T-Shirt / Hoodie)</option>
+								<option value="missing_item">Missing items or wrong item received</option>
+								<option value="lost_package">Tracking stuck / Package lost in transit (over 10 business days)</option>
 								<option value="other">Other question / feedback</option>
 							</select>
 						</div>

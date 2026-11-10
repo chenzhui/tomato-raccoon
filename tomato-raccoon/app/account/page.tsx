@@ -89,7 +89,7 @@ export default function AccountPage() {
 						</div>
 						<h3 className="text-base font-semibold text-neutral-900 mb-1">Track Orders</h3>
 						<p className="text-xs text-neutral-500 leading-relaxed">
-							Locate real-time USPS & YunExpress flight transit by order number.
+							Locate real-time USPS delivery progress by order number.
 						</p>
 					</Link>
 
@@ -102,7 +102,7 @@ export default function AccountPage() {
 						</div>
 						<h3 className="text-base font-semibold text-neutral-900 mb-1">30-Day Guarantee</h3>
 						<p className="text-xs text-neutral-500 leading-relaxed">
-							Snap a photo of cracked or defective standees for 100% free reshipment.
+							Snap a photo of damaged or misprinted items for 100% free reshipment.
 						</p>
 					</Link>
 
@@ -113,9 +113,9 @@ export default function AccountPage() {
 						<div className="w-10 h-10 rounded-2xl bg-white border border-neutral-200 flex items-center justify-center text-neutral-800 mb-4 shadow-2xs group-hover:scale-105 transition-transform">
 							<HelpCircle className="w-5 h-5" />
 						</div>
-						<h3 className="text-base font-semibold text-neutral-900 mb-1">Unboxing Guide</h3>
+						<h3 className="text-base font-semibold text-neutral-900 mb-1">Care & FAQ Guide</h3>
 						<p className="text-xs text-neutral-500 leading-relaxed">
-							Acrylic peel-film tips, alcohol damage cautions & cleaning instructions.
+							Washing instructions for apparel, outdoor yard sign setup & vinyl decal tips.
 						</p>
 					</Link>
 				</div>
@@ -133,7 +133,7 @@ export default function AccountPage() {
 						<input
 							type="email"
 							required
-							placeholder="e.g. developer@example.com"
+							placeholder="e.g. supporter@example.com"
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 							className="flex-1 px-4 py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 text-sm focus:outline-none focus:border-black"
