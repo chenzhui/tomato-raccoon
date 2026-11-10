@@ -78,7 +78,6 @@ tomato-raccoon/app/
 │       ├── subscription-options.tsx# 周期订阅选项组件（预留能力）
 │       ├── restock-notify.tsx     # 到货通知订阅组件（预留能力）
 │       ├── restock-action.ts      # 到货通知订阅 Server Action
-│       ├── trust-badges.tsx       # 信任背书徽章：30 天无忧保障、100% 环保无塑包装、美国本土发货
 │       ├── not-found.tsx          # 对应单品不存在时的专属 404 页面
 │       ├── error.tsx              # 商品详情页错误边界
 │       ├── opengraph-image.tsx    # 社交媒体分享卡片自动生成器（生成带单品价格与图文的 Twitter/OG 图片）

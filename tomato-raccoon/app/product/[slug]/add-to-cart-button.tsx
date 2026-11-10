@@ -8,7 +8,6 @@ import { itemKey, lineKey } from "@/app/cart/cart-math";
 import { QuantitySelector } from "@/app/product/[slug]/quantity-selector";
 import { RestockNotify } from "@/app/product/[slug]/restock-notify";
 import { SubscriptionOptions, type SubscriptionPlan } from "@/app/product/[slug]/subscription-options";
-import { TrustBadges } from "@/app/product/[slug]/trust-badges";
 import { useSelectedVariant } from "@/app/product/[slug]/use-selected-variant";
 import { VariantSelector } from "@/app/product/[slug]/variant-selector";
 import { useVolumePricing, VolumePricingDisplay, type VolumeTier } from "@/app/product/[slug]/volume-pricing";
@@ -243,14 +242,7 @@ export function AddToCartButton({
 					<p className="text-xs text-muted-foreground">Lowest price in the last 30 days: {omnibusPrice}</p>
 				)}
 
-				{/* SKU 与库存可用性 */}
-				{selectedVariant?.sku && (
-					<div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
-						<span className="text-muted-foreground">
-							SKU: <span className="font-medium text-foreground">{selectedVariant.sku}</span>
-						</span>
-					</div>
-				)}
+				{/* SKU 与库存可用性（C端商品详情页不向普通顾客暴露仓库内部数字，保持极简精品风格） */}
 			</div>
 
 			{variants.length > 1 && <VariantSelector variants={variants} />}
@@ -296,8 +288,6 @@ export function AddToCartButton({
 			) : (
 				<p className="text-sm text-muted-foreground">This subscription isn't available right now.</p>
 			)}
-
-			<TrustBadges />
 		</div>
 	);
 }
