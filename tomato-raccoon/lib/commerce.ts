@@ -116,7 +116,7 @@ All brand references and codenames ("Whale-Chan", "Sonnet-Tan", "Omni-Chan", "Re
 
 Last updated: November 2026
 
-We offer 100% Free US Shipping on all orders over $35. Orders under $35 ship at a flat rate of $4.99 via USPS Ground. All goods are packed in plastic-free, 100% recyclable paper packaging. Standard delivery takes 3-7 business days across the continental United States.
+We offer 100% Free US Shipping on all orders over $50. Orders under $50 ship at a flat rate of $4.99 via USPS Ground. All goods are packed in plastic-free, 100% recyclable paper packaging. Standard delivery takes 3-7 business days across the continental United States.
 		`,
 	},
 	{

@@ -43,7 +43,7 @@ export const faqCategories: FAQCategory[] = [
 			{
 				question: "Do you offer free shipping?",
 				answer:
-					"Yes! All orders over $35.00 automatically qualify for 100% Free US Shipping with plastic-free, recyclable packaging.",
+					"Yes! All orders over $50.00 automatically qualify for 100% Free US Shipping with plastic-free, recyclable packaging.",
 			},
 		],
 	},

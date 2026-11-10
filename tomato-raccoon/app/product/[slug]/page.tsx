@@ -9,7 +9,6 @@ import { BundleBuilder } from "@/app/product/[slug]/bundle-builder";
 import { MediaGallery } from "@/app/product/[slug]/media-gallery";
 import { ProductFeatures } from "@/app/product/[slug]/product-features";
 import { ProductReviews } from "@/app/product/[slug]/product-reviews";
-import { RelatedProducts } from "@/app/product/[slug]/related-products";
 import { sortVariantsByOptions } from "@/app/product/[slug]/variant-order";
 import {
 	Breadcrumb,
@@ -286,8 +285,7 @@ async function ProductPageContent({ params }: { params: Promise<{ slug: string }
 				}
 			/>
 
-			{/* 推荐关联商品 */}
-			<RelatedProducts productId={product.id} />
+			{/* 推荐关联商品（已关闭以保持美式精品极简调性） */}
 		</div>
 	);
 }

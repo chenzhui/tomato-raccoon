@@ -48,7 +48,7 @@ All apparel, lawn signs, and vinyl stickers are printed on-demand with premium m
 You will receive an automated tracking notification email with your USPS tracking number as soon as your package ships. You can also track your package anytime on our /track-order page.
 
 3. Free Shipping
-Orders exceeding $35.00 qualify for 100% Free US Shipping.
+Orders exceeding $50.00 qualify for 100% Free US Shipping.
 		`,
 	},
 	"refund-policy": {

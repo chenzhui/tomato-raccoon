@@ -29,8 +29,8 @@ export function CartSidebar() {
 	// 结账页面及后续环节（订单、邮件）都能使用该语言，即使该购物车是在记录语言之前创建的。
 	const checkoutUrl = language ? `/checkout?lang=${encodeURIComponent(language)}` : "/checkout";
 
-	// 满 $35 美金免邮心理战计算 (Free Shipping at $35.00)
-	const FREE_SHIPPING_THRESHOLD = 3500n;
+	// 满 $50 美金免邮心理战计算 (Free Shipping at $50.00)
+	const FREE_SHIPPING_THRESHOLD = 5000n;
 	const remainingForFreeShipping = FREE_SHIPPING_THRESHOLD > subtotal ? FREE_SHIPPING_THRESHOLD - subtotal : 0n;
 	const progressPercent = Math.min(100, Math.round((Number(subtotal) / Number(FREE_SHIPPING_THRESHOLD)) * 100));
 
@@ -49,7 +49,7 @@ export function CartSidebar() {
 					</SheetDescription>
 				</SheetHeader>
 
-				{/* 满 $35 美金免运费心理战进度条 */}
+				{/* 满 $50 美金免运费心理战进度条 */}
 				{itemCount > 0 && (
 					<div className="bg-[#FAF7F0] px-4 py-3 border-b border-[#E5DDD0]">
 						<div className="flex items-center justify-between text-xs font-medium mb-1.5">
