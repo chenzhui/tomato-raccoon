@@ -2,14 +2,13 @@
 
 @layer base {
   :root {
-    --bg-page: #faf8f5;
-    --text-main: #231f1e;
-    --text-muted: #6b6460;
-    --brand-red: #cf3c2a;
-    --brand-red-dark: #ad2c1c;
-    --brand-green: #2e6243;
-    --border-color: #e5ded4;
-    --card-bg: #ffffff;
+    --bg-page: #FAF7F0;
+    --text-main: #1E1D1B;
+    --text-muted: #524B42;
+    --brand-red: #D93829;
+    --brand-green: #1E3F20;
+    --border-color: #E5DDD0;
+    --card-bg: #FDFBF7;
   }
 
   body {
@@ -29,9 +28,9 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d6cebf;
+  background: #D9CDB8;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #b5ac9d;
+  background: #7C5335;
 }

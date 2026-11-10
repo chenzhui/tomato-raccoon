@@ -111,10 +111,10 @@ export function ProductDetails({ product }: { product: Product }) {
         {product.variants.length > 1 && (
           <div className="space-y-3">
             <div className="flex justify-between items-center text-xs">
-              <label className="font-bold text-[#231f1e] uppercase tracking-wider">
+              <label className="font-bold text-[#1E1D1B] uppercase tracking-wider">
                 Select Option / Size:
               </label>
-              <span className="font-semibold text-[#cf3c2a]">{selectedVariant.name}</span>
+              <span className="font-semibold text-[#D93829]">{selectedVariant.name}</span>
             </div>
 
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
@@ -129,13 +129,13 @@ export function ProductDetails({ product }: { product: Product }) {
                     }}
                     className={`py-2.5 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
                       isSelected
-                        ? "bg-[#cf3c2a] text-white border-[#cf3c2a] shadow-xs"
-                        : "bg-white text-[#231f1e] border-[#e5ded4] hover:border-[#cf3c2a]"
+                        ? "bg-[#1E3F20] text-[#FAF7F0] border-[#1E3F20] shadow-xs"
+                        : "bg-white text-[#1E1D1B] border-[#D9CDB8] hover:border-[#1E3F20]"
                     }`}
                   >
                     <span>{v.size || v.name}</span>
                     {v.price !== product.price && (
-                      <span className={`block text-[10px] ${isSelected ? "text-white/80" : "text-[#6b6460]"}`}>
+                      <span className={`block text-[10px] ${isSelected ? "text-white/80" : "text-[#7C5335]"}`}>
                         {formatPrice(v.price)}
                       </span>
                     )}
@@ -150,20 +150,20 @@ export function ProductDetails({ product }: { product: Product }) {
         <div className="space-y-4 pt-2">
           <div className="flex items-center gap-4">
             {/* Quantity Selector */}
-            <div className="flex items-center border border-[#e5ded4] rounded-xl bg-white p-1">
+            <div className="flex items-center border border-[#D9CDB8] rounded-xl bg-white p-1">
               <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="p-2 text-[#6b6460] hover:text-[#231f1e] hover:bg-[#f4eee6] rounded-lg transition-colors"
+                className="p-2 text-[#524B42] hover:text-[#1E1D1B] hover:bg-[#F3ECE0] rounded-lg transition-colors"
                 aria-label="Decrease quantity"
               >
                 <Minus className="w-4 h-4" />
               </button>
-              <span className="px-4 text-sm font-bold text-[#231f1e] min-w-8 text-center">
+              <span className="px-4 text-sm font-bold text-[#1E1D1B] min-w-8 text-center">
                 {quantity}
               </span>
               <button
                 onClick={() => setQuantity(quantity + 1)}
-                className="p-2 text-[#6b6460] hover:text-[#231f1e] hover:bg-[#f4eee6] rounded-lg transition-colors"
+                className="p-2 text-[#524B42] hover:text-[#1E1D1B] hover:bg-[#F3ECE0] rounded-lg transition-colors"
                 aria-label="Increase quantity"
               >
                 <Plus className="w-4 h-4" />
@@ -173,7 +173,7 @@ export function ProductDetails({ product }: { product: Product }) {
             {/* Add Button */}
             <button
               onClick={handleAddToCart}
-              className="flex-1 py-3.5 px-6 bg-[#cf3c2a] hover:bg-[#ad2c1c] text-white font-bold rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-sm uppercase tracking-wider cursor-pointer"
+              className="flex-1 py-3.5 px-6 bg-[#1E3F20] hover:bg-[#2D5A27] text-white font-bold rounded-full transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-sm uppercase tracking-wider cursor-pointer active:scale-98"
             >
               <ShoppingBag className="w-4 h-4" />
               <span>Add to Movement Cart • {formatPrice(selectedVariant.price * quantity)}</span>

@@ -24,19 +24,19 @@ export function CartSidebar() {
       />
 
       <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
-        <div className="w-screen max-w-md bg-[#fdfbf7] shadow-2xl flex flex-col border-l border-[#e5ded4]">
+        <div className="w-screen max-w-md bg-[#FAF7F0] shadow-2xl flex flex-col border-l border-[#E5DDD0]">
           {/* Header */}
-          <div className="p-5 border-b border-[#e5ded4] flex items-center justify-between bg-white">
+          <div className="p-5 border-b border-[#E5DDD0] flex items-center justify-between bg-[#FDFBF7]">
             <div className="flex items-center gap-2">
-              <ShoppingBag className="w-5 h-5 text-[#cf3c2a]" />
-              <h2 className="text-lg font-bold text-[#231f1e]">Your Protest Cart</h2>
-              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#f4eee6] text-[#4a423f]">
+              <ShoppingBag className="w-5 h-5 text-[#D93829]" />
+              <h2 className="text-lg font-bold text-[#1E1D1B]">Your Protest Cart</h2>
+              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#E8F0E7] text-[#1E3F20]">
                 {totalItems} {totalItems === 1 ? "item" : "items"}
               </span>
             </div>
             <button
               onClick={closeCart}
-              className="p-1.5 rounded-full text-[#6b6460] hover:text-[#231f1e] hover:bg-[#f4eee6] transition-colors"
+              className="p-1.5 rounded-full text-neutral-500 hover:text-black hover:bg-[#EAE4D7] transition-colors"
               aria-label="Close cart"
             >
               <X className="w-5 h-5" />
@@ -44,20 +44,20 @@ export function CartSidebar() {
           </div>
 
           {/* Free Shipping Meter */}
-          <div className="p-4 bg-[#f8f5ee] border-b border-[#e5ded4]">
+          <div className="p-4 bg-[#F4EFE6] border-b border-[#E5DDD0]">
             {freeShippingRemaining > 0 ? (
-              <p className="text-xs font-medium text-[#4a423f] mb-2">
-                Add <span className="font-bold text-[#cf3c2a]">{formatPrice(freeShippingRemaining)}</span> more to unlock <span className="font-bold text-[#2d5a37]">FREE USPS Shipping</span>
+              <p className="text-xs font-medium text-[#524B42] mb-2">
+                Add <span className="font-bold text-[#D93829]">{formatPrice(freeShippingRemaining)}</span> more to unlock <span className="font-bold text-[#1E3F20]">FREE USPS Shipping</span>
               </p>
             ) : (
-              <p className="text-xs font-bold text-[#2d5a37] mb-2 flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4" />
+              <p className="text-xs font-bold text-[#1E3F20] mb-2 flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-[#1E3F20]" />
                 Unlocked! Your order qualifies for 100% FREE US Shipping
               </p>
             )}
-            <div className="w-full bg-[#e5ded4] h-2 rounded-full overflow-hidden">
+            <div className="w-full bg-[#D9CDB8] h-2 rounded-full overflow-hidden">
               <div
-                className="bg-[#2d5a37] h-full transition-all duration-300 rounded-full"
+                className="bg-[#1E3F20] h-full transition-all duration-300 rounded-full"
                 style={{ width: `${freeShippingProgress}%` }}
               />
             </div>
@@ -67,16 +67,16 @@ export function CartSidebar() {
           <div className="flex-1 overflow-y-auto p-5 space-y-4">
             {items.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center py-12">
-                <div className="w-16 h-16 rounded-full bg-[#f4eee6] flex items-center justify-center text-[#9b948f] mb-4">
+                <div className="w-16 h-16 rounded-full bg-[#F4EFE6] flex items-center justify-center text-[#7C5335] mb-4">
                   <ShoppingBag className="w-8 h-8" />
                 </div>
-                <h3 className="font-bold text-base text-[#231f1e]">Your cart is empty</h3>
-                <p className="text-xs text-[#6b6460] max-w-xs mt-1 mb-6">
+                <h3 className="font-bold text-base text-[#1E1D1B]">Your cart is empty</h3>
+                <p className="text-xs text-[#524B42] max-w-xs mt-1 mb-6">
                   Support Virginia soil and sustainable agriculture with official linocut protest gear.
                 </p>
                 <button
                   onClick={closeCart}
-                  className="px-6 py-2.5 bg-[#cf3c2a] hover:bg-[#ad2c1c] text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-colors shadow-xs"
+                  className="px-6 py-2.5 bg-[#1E3F20] hover:bg-[#2D5A27] text-white text-xs font-bold uppercase tracking-wider rounded-full transition-colors shadow-xs"
                 >
                   Browse Movement Goods
                 </button>
@@ -85,15 +85,15 @@ export function CartSidebar() {
               items.map((item) => (
                 <div
                   key={item.id}
-                  className="flex gap-4 p-3 bg-white rounded-xl border border-[#e5ded4] shadow-2xs"
+                  className="flex gap-4 p-3 bg-white rounded-2xl border border-[#E5DDD0] shadow-2xs"
                 >
                   {/* Thumbnail */}
-                  <div className="relative w-20 h-20 bg-[#f4eee6] rounded-lg overflow-hidden flex-shrink-0 border border-[#eee6db]">
+                  <div className="relative w-20 h-20 bg-[#FDFBF7] rounded-xl overflow-hidden flex-shrink-0 border border-[#E5DDD0]">
                     <Image
                       src={item.image}
                       alt={item.name}
                       fill
-                      className="object-cover"
+                      className="object-contain p-1"
                     />
                   </div>
 
@@ -104,41 +104,41 @@ export function CartSidebar() {
                         <Link
                           href={`/product/${item.productSlug}`}
                           onClick={closeCart}
-                          className="font-bold text-sm text-[#231f1e] hover:text-[#cf3c2a] line-clamp-1 transition-colors"
+                          className="font-bold text-sm text-[#1E1D1B] hover:text-[#D93829] line-clamp-1 transition-colors"
                         >
                           {item.name}
                         </Link>
                         <button
                           onClick={() => removeItem(item.id)}
-                          className="text-[#9b948f] hover:text-[#cf3c2a] transition-colors p-1"
+                          className="text-[#7C5335] hover:text-[#D93829] transition-colors p-1"
                           aria-label="Remove item"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
-                      <p className="text-xs text-[#6b6460] mt-0.5">{item.variantName}</p>
+                      <p className="text-xs text-[#524B42] mt-0.5">{item.variantName}</p>
                     </div>
 
                     <div className="flex items-center justify-between mt-3">
-                      <span className="font-bold text-sm text-[#231f1e]">
+                      <span className="font-bold text-sm text-[#1E1D1B]">
                         {formatPrice(item.price * item.quantity)}
                       </span>
 
                       {/* Quantity Controls */}
-                      <div className="flex items-center border border-[#e5ded4] rounded-md bg-[#faf8f5]">
+                      <div className="flex items-center border border-[#D9CDB8] rounded-md bg-[#FDFBF7]">
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                          className="p-1 hover:bg-[#e5ded4] text-[#4a423f] transition-colors"
+                          className="p-1 hover:bg-[#EAE4D7] text-[#524B42] transition-colors"
                           aria-label="Decrease quantity"
                         >
                           <Minus className="w-3.5 h-3.5" />
                         </button>
-                        <span className="px-2.5 text-xs font-bold text-[#231f1e]">
+                        <span className="px-2.5 text-xs font-bold text-[#1E1D1B]">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          className="p-1 hover:bg-[#e5ded4] text-[#4a423f] transition-colors"
+                          className="p-1 hover:bg-[#EAE4D7] text-[#524B42] transition-colors"
                           aria-label="Increase quantity"
                         >
                           <Plus className="w-3.5 h-3.5" />
@@ -153,35 +153,35 @@ export function CartSidebar() {
 
           {/* Footer & Checkout Call-to-action */}
           {items.length > 0 && (
-            <div className="p-5 border-t border-[#e5ded4] bg-white space-y-3">
+            <div className="p-5 border-t border-[#E5DDD0] bg-[#FDFBF7] space-y-3">
               <div className="space-y-1.5 text-sm">
-                <div className="flex justify-between text-[#6b6460]">
+                <div className="flex justify-between text-[#524B42]">
                   <span>Subtotal</span>
-                  <span className="font-semibold text-[#231f1e]">{formatPrice(subtotal)}</span>
+                  <span className="font-semibold text-[#1E1D1B]">{formatPrice(subtotal)}</span>
                 </div>
-                <div className="flex justify-between text-[#6b6460]">
+                <div className="flex justify-between text-[#524B42]">
                   <span>USPS Ground Shipping</span>
-                  <span className="font-semibold text-[#231f1e]">
-                    {shipping === 0 ? <span className="text-[#2d5a37] font-bold">FREE</span> : formatPrice(shipping)}
+                  <span className="font-semibold text-[#1E1D1B]">
+                    {shipping === 0 ? <span className="text-[#1E3F20] font-bold">FREE</span> : formatPrice(shipping)}
                   </span>
                 </div>
-                <div className="flex justify-between text-base font-extrabold text-[#231f1e] pt-2 border-t border-[#e5ded4]">
+                <div className="flex justify-between text-base font-extrabold text-[#1E1D1B] pt-2 border-t border-[#E5DDD0]">
                   <span>Estimated Total</span>
-                  <span className="text-[#cf3c2a]">{formatPrice(total)}</span>
+                  <span className="text-[#D93829]">{formatPrice(total)}</span>
                 </div>
               </div>
 
               <Link
                 href="/checkout"
                 onClick={closeCart}
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-[#cf3c2a] hover:bg-[#ad2c1c] text-white text-sm font-bold uppercase tracking-wider rounded-xl transition-colors shadow-sm"
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-[#1E3F20] hover:bg-[#2D5A27] text-white text-sm font-bold uppercase tracking-wider rounded-full transition-colors shadow-sm"
               >
                 <span>Proceed to Checkout</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
 
-              <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#6b6460] text-center pt-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#2d5a37]" />
+              <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#524B42] text-center pt-1">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#1E3F20]" />
                 <span>Zero-risk guarantee • 30-day grassroots hassle-free replacement</span>
               </div>
             </div>

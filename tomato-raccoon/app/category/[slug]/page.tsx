@@ -29,21 +29,21 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       {/* Breadcrumb / Back Link */}
       <Link
         href="/products"
-        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#6b6460] hover:text-[#cf3c2a] transition-colors"
+        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#524B42] hover:text-[#D93829] transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         <span>Back to All Goods</span>
       </Link>
 
       {/* Header */}
-      <div className="border-b border-[#e5ded4] pb-6">
-        <span className="text-xs font-bold text-[#cf3c2a] uppercase tracking-wider">
+      <div className="border-b border-[#E5DDD0] pb-6">
+        <span className="text-xs font-bold text-[#D93829] uppercase tracking-wider">
           Category
         </span>
-        <h1 className="text-3xl sm:text-4xl font-black text-[#231f1e] mt-1">
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#1E3F20] mt-1">
           {currentCategory.name}
         </h1>
-        <p className="text-sm text-[#6b6460] mt-1 max-w-2xl">
+        <p className="text-sm text-[#524B42] mt-1 max-w-2xl">
           {currentCategory.description}
         </p>
 
@@ -51,7 +51,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         <div className="flex flex-wrap gap-2 pt-6">
           <Link
             href="/products"
-            className="px-4 py-2 rounded-full text-xs font-bold bg-white text-[#4a423f] border border-[#e5ded4] hover:border-[#cf3c2a] hover:text-[#cf3c2a] transition-colors"
+            className="px-4 py-1.5 rounded-full text-xs font-bold bg-white text-[#524B42] border border-[#D9CDB8] hover:border-[#1E3F20] hover:text-[#1E3F20] transition-colors"
           >
             All Goods
           </Link>
@@ -59,10 +59,10 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
             <Link
               key={cat.slug}
               href={`/category/${cat.slug}`}
-              className={`px-4 py-2 rounded-full text-xs font-bold transition-colors ${
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-colors ${
                 cat.slug === slug
-                  ? "bg-[#cf3c2a] text-white shadow-xs"
-                  : "bg-white text-[#4a423f] border border-[#e5ded4] hover:border-[#cf3c2a] hover:text-[#cf3c2a]"
+                  ? "bg-[#1E3F20] text-[#FAF7F0] shadow-xs"
+                  : "bg-white text-[#524B42] border border-[#D9CDB8] hover:border-[#1E3F20] hover:text-[#1E3F20]"
               }`}
             >
               {cat.name}
@@ -73,11 +73,11 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
       {/* Products Grid */}
       {products.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-2xl border border-[#e5ded4]">
-          <p className="text-sm text-[#6b6460]">No products found in this category.</p>
+        <div className="text-center py-16 bg-[#FDFBF7] rounded-3xl border border-[#E5DDD0]">
+          <p className="text-sm text-[#524B42]">No products found in this category.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

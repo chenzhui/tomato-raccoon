@@ -1,143 +1,173 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ShoppingBag, Truck, Menu, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ShoppingCart, Search, Menu, X } from "lucide-react";
 import { useCart } from "@/lib/cart-store";
-import { useState } from "react";
 
 export function Navbar() {
   const { totalItems, openCart } = useCart();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/products?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchOpen(false);
+    }
+  };
+
+  const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "/products", label: "Products" },
+    { href: "/about", label: "About" },
+    { href: "/track-order", label: "Track Order" },
+    { href: "/returns", label: "Support" },
+  ];
 
   return (
-    <header className="sticky top-0 z-40 bg-[#fdfbf7]/95 backdrop-blur-md border-b border-[#e5ded4]">
-      {/* Top Banner */}
-      <div className="bg-[#2d5a37] text-white text-xs font-semibold py-2 px-4 text-center tracking-wider flex items-center justify-center gap-2">
-        <Truck className="w-3.5 h-3.5 inline-block" />
-        <span>FREE US SHIPPING ON ORDERS OVER $50 • 100% RECYCLED PAPER PACKAGING • USPS FULFILLMENT</span>
+    <>
+      {/* 顶部公告栏 (Top Announcement Bar) */}
+      <div className="bg-[#1E3F20] text-[#FAF7F0] text-center py-2 px-4 text-[11px] sm:text-xs font-bold tracking-wider">
+        🍅 FREE US SHIPPING ON ORDERS OVER $50 • 100% PLASTIC-FREE PACKAGING 🌱
       </div>
 
-      {/* Main Navigation Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        {/* Brand Logo & Name */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="relative w-11 h-11 flex-shrink-0">
-            <Image
-              src="/logo.svg"
-              alt="Tomato Raccoon Logo"
-              fill
-              className="object-contain group-hover:scale-105 transition-transform"
-              priority
-            />
+      {/* 暖调复古美式田园顶栏 */}
+      <header className="sticky top-0 z-50 border-b border-[#E5DDD0] bg-[#FAF7F0]/95 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative flex items-center justify-between h-14 sm:h-16">
+            {/* 左侧：品牌 Logo 与移动端汉堡按钮 */}
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setMobileOpen(!mobileOpen)}
+                aria-label="Open menu"
+                className="lg:hidden p-2 rounded-full text-neutral-700 hover:bg-[#EAE4D7] transition-colors"
+              >
+                {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </button>
+
+              <Link
+                href="/"
+                className="inline-flex items-center gap-2.5 text-sm font-bold tracking-tight text-[#1E3F20] hover:opacity-85 transition-opacity"
+              >
+                <span className="w-9 h-9 rounded-full bg-[#FAF7F0] border border-[#D9CDB8] flex items-center justify-center p-0.5 shadow-xs shrink-0 overflow-hidden">
+                  <Image
+                    src="/images/raccoon-tomato.svg"
+                    alt="Tomato Raccoon"
+                    width={36}
+                    height={36}
+                    className="w-full h-full object-contain"
+                    priority
+                  />
+                </span>
+                <span className="text-[#1E3F20] text-base sm:text-lg font-black tracking-tight">
+                  Tomato Raccoon <span className="text-[#D93829] font-semibold text-xs ml-0.5">Supply Co.</span>
+                </span>
+              </Link>
+            </div>
+
+            {/* 居中：苹果官网风格居中极简导航链接 */}
+            <nav className="hidden lg:absolute lg:left-1/2 lg:top-1/2 lg:flex lg:-translate-x-1/2 lg:-translate-y-1/2 items-center gap-7">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-xs font-normal text-neutral-600 hover:text-black transition-colors tracking-tight whitespace-nowrap"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+
+            {/* 右侧：搜索栏与购物车按钮 */}
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              {/* 搜索框 (桌面端常驻，小屏折叠) */}
+              <div className="relative">
+                {searchOpen ? (
+                  <form onSubmit={handleSearchSubmit} className="flex items-center">
+                    <input
+                      type="text"
+                      autoFocus
+                      placeholder="Search goods..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onBlur={() => !searchQuery && setSearchOpen(false)}
+                      className="w-36 sm:w-48 pl-3 pr-8 py-1.5 text-xs rounded-full border border-[#D9CDB8] bg-white text-[#1E1D1B] focus:outline-none focus:ring-1 focus:ring-[#1E3F20]"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setSearchOpen(false)}
+                      className="absolute right-2 text-neutral-400 hover:text-neutral-600"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </form>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setSearchOpen(true)}
+                    className="p-2 text-neutral-700 hover:bg-[#EAE4D7] rounded-full transition-colors"
+                    aria-label="Search"
+                  >
+                    <Search className="w-5 h-5" />
+                  </button>
+                )}
+              </div>
+
+              {/* 购物车按钮 */}
+              <button
+                type="button"
+                onClick={openCart}
+                className="p-2 hover:bg-[#EAE4D7] rounded-full transition-colors relative text-neutral-800"
+                aria-label="Shopping cart"
+              >
+                <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6" />
+                {totalItems > 0 && (
+                  <span
+                    aria-live="polite"
+                    className="absolute -top-1 -right-1 bg-[#1E1D1B] text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-xs animate-in zoom-in-50"
+                  >
+                    {totalItems}
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
-          <div>
-            <span className="font-extrabold text-lg sm:text-xl tracking-tight text-[#231f1e] block leading-none">
-              Tomato Raccoon
-            </span>
-            <span className="text-[11px] font-bold text-[#cf3c2a] uppercase tracking-widest block mt-1">
-              Supply Co. · Defend Soil
-            </span>
+        </div>
+
+        {/* 移动端汉堡抽屉菜单 */}
+        {mobileOpen && (
+          <div className="lg:hidden border-t border-[#E5DDD0] bg-[#FAF7F0] px-6 py-4 space-y-3">
+            <form onSubmit={handleSearchSubmit} className="relative">
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-4 py-2 text-xs rounded-xl border border-[#D9CDB8] bg-white text-[#1E1D1B] focus:outline-none"
+              />
+            </form>
+            <nav className="flex flex-col gap-1 pt-2">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-lg px-3 py-2 text-sm font-medium text-neutral-700 hover:bg-[#EAE4D7] hover:text-black transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
           </div>
-        </Link>
-
-        {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-[#4a423f]">
-          <Link href="/products" className="hover:text-[#cf3c2a] transition-colors">
-            All Goods
-          </Link>
-          <Link href="/category/apparel" className="hover:text-[#cf3c2a] transition-colors">
-            Vintage Apparel
-          </Link>
-          <Link href="/category/signs" className="hover:text-[#cf3c2a] transition-colors">
-            Yard Signs
-          </Link>
-          <Link href="/category/stickers" className="hover:text-[#cf3c2a] transition-colors">
-            Stickers
-          </Link>
-          <Link href="/track-order" className="hover:text-[#cf3c2a] transition-colors flex items-center gap-1.5 text-[#2d5a37]">
-            <Truck className="w-4 h-4" />
-            Track Order
-          </Link>
-          <Link href="/about" className="hover:text-[#cf3c2a] transition-colors">
-            Our Story
-          </Link>
-        </nav>
-
-        {/* Right Action: Cart Button & Mobile Menu Toggle */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={openCart}
-            aria-label="View Shopping Cart"
-            className="relative p-2.5 rounded-full bg-white border border-[#e5ded4] text-[#231f1e] hover:border-[#cf3c2a] hover:text-[#cf3c2a] transition-all shadow-xs cursor-pointer"
-          >
-            <ShoppingBag className="w-5 h-5" />
-            {totalItems > 0 && (
-              <span className="absolute -top-1.5 -right-1.5 bg-[#cf3c2a] text-white text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-xs animate-in zoom-in-50">
-                {totalItems}
-              </span>
-            )}
-          </button>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-[#4a423f] hover:text-[#231f1e]"
-            aria-label="Toggle Navigation Menu"
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu Dropdown */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-t border-[#e5ded4] bg-[#fdfbf7] px-4 pt-3 pb-6 space-y-3 font-semibold text-sm">
-          <Link
-            href="/products"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-[#231f1e] hover:text-[#cf3c2a]"
-          >
-            All Goods
-          </Link>
-          <Link
-            href="/category/apparel"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-[#231f1e] hover:text-[#cf3c2a]"
-          >
-            Vintage Apparel
-          </Link>
-          <Link
-            href="/category/signs"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-[#231f1e] hover:text-[#cf3c2a]"
-          >
-            Lawn Yard Signs
-          </Link>
-          <Link
-            href="/category/stickers"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-[#231f1e] hover:text-[#cf3c2a]"
-          >
-            Vinyl Stickers
-          </Link>
-          <Link
-            href="/track-order"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-[#2d5a37] flex items-center gap-2"
-          >
-            <Truck className="w-4 h-4" />
-            Track Order
-          </Link>
-          <Link
-            href="/about"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-[#231f1e] hover:text-[#cf3c2a]"
-          >
-            Our Story & Movement
-          </Link>
-        </div>
-      )}
-    </header>
+        )}
+      </header>
+    </>
   );
 }
