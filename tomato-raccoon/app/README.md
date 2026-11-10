@@ -1,95 +1,165 @@
-# `app/` 核心路由与页面架构说明文档
+# `app/` 核心路由与文件树说明文档
 
-本目录是 **Next.js (App Router)** 的核心路由体系。在 Next.js 中，**文件夹层级对应 Web URL 路径**，文件夹内的 `page.tsx` 或 `route.ts` 即为该路由对应的页面或接口。
-
-本项目是面向弗吉尼亚农场土壤保护与环保主题抗争周边的 **DTC 跨境精品独立站 (Tomato Raccoon Co.)**。
+本目录是 **Next.js (App Router)** 的核心页面与路由体系。目录层级严格对应 Web 访问路径。
 
 ---
 
-## 1. 根级别基础文件与全站路由
+## 1. 全局架构文件树 (`tree /f`)
 
-| 文件名 | 类型 | 访问 URL | 作用与业务逻辑 |
-| :--- | :--- | :--- | :--- |
-| **`layout.tsx`** | 根布局 (Root Layout) | 全站外层 | 全局 HTML/Body 骨架。挂载全局复古暖调背景、顶部 `$50 免邮` 公告栏、导航栏、页尾 4 列合规链接、CartProvider 购物车状态上下文与全局 Sonner 通知提示。 |
-| **`page.tsx`** | 网站首页 (Home) | `/` | 独立站主页。包含美式复古田园风 Hero 视觉横幅、品牌理念 Slogan、热门抗争周边（T恤、连帽衫、草坪标牌、车贴）网格展区与 30 天无忧保障徽章。 |
-| **`navbar.tsx`** | 顶部导航栏 | 全站共享 | 页面顶部导航栏。集成 Tomato Raccoon 官方 Logo、核心品类快捷跳转、全站实时检索浮层以及购物车唤起按钮。 |
-| **`footer.tsx`** | 底部页脚栏 | 全站共享 | 4 列标准美式独立站页尾。包含关于品牌故事、官方客服支持邮箱 (`growtomatoes.service@outlook.com`)、四大合规法务链接与社交媒体标签。 |
-| **`cart-button.tsx`** | 购物车角标按钮 | 导航栏右上角 | 实时监听购物车内商品件数角标，点击触发右侧滑出式购物车抽屉 (`cart-sidebar.tsx`)。 |
-| **`globals.css`** | 全局样式表 | 全站生效 | 基于 Tailwind CSS v4 与 CSS 变量的主题配色体系，定义森林绿 (`#1E3F20`)、番茄红 (`#C91D04`) 与复古暖米色 (`#FAF7F0`) 设计规范。 |
-| **`not-found.tsx`** | 404 错误页 | 缺省兜底 | 访问不存在的商品或路由时展示的友好田园风 404 页面，提供“返回首页”按钮。 |
-| **`error.tsx`** | 路由级错误边界 | 页面异常 | 捕获页面渲染期间的运行时异常，展示友好的重试交互。 |
-| **`global-error.tsx`** | 全局致命错误兜底 | 根级崩溃 | 根布局自身崩溃时的兜底页面，包含基础 `<html>` 与 `<body>` 标签。 |
-| **`sitemap.ts`** | 站点地图生成器 | `/sitemap.xml` | 动态生成标准 XML 站点地图，实时包含所有商品、品类与合规政策页面，供 Google/Bing 等搜索引擎爬取收录。 |
-| **`robots.ts`** | 爬虫协议规则 | `/robots.txt` | 规范搜索引擎蜘蛛与爬虫的抓取白名单，屏蔽结算等敏感私有路径。 |
-| **`llms.txt/route.ts`** | **AI 搜索引擎专用索引** | `/llms.txt` | **【新兴 Web 标准】供大模型（Perplexity、ChatGPT Search、Claude、Gemini）直接解析的 Markdown 格式店铺知识索引**（详见下文深度解析）。 |
-| **`manifest.webmanifest/route.ts`** | PWA 网页清单 | `/manifest.webmanifest` | 提供渐进式 Web 应用（PWA）的元数据、应用名称、主题颜色与高清图标配置。 |
-| **`favicon.ico/route.ts`** | 动态站点图标 | `/favicon.ico` | 提供浏览器标签页图标。 |
-| **`search-suggest.ts`** | 搜索词联想配置 | 内部逻辑 | 提供搜索栏的热门搜索词预设与实时联想建议。 |
+```text
+tomato-raccoon/app/
+│
+├── layout.tsx                     # 根布局：全局 HTML 骨架、全站 $50 免邮公告栏、Header/Footer 挂载、CartProvider 状态流
+├── page.tsx                       # 独立站首页：复古田园风 Hero 首屏、抗争品牌 Slogan、精选商品展示网格
+├── navbar.tsx                     # 顶部导航栏：品牌 Logo、核心品类快速跳转、实时搜索浮层与购物车触发按钮
+├── footer.tsx                     # 底部页脚栏：4 列美式独立站布局、官方 Outlook 客服邮箱、合规政策链接与社媒标签
+├── cart-button.tsx                # 导航栏购物车按钮：显示购物车内商品数量角标，点击滑出侧边抽屉
+├── globals.css                    # 全局样式表：Tailwind CSS v4 主题变量定义（森林绿 #1E3F20、番茄红 #C91D04、复古暖米色 #FAF7F0）
+├── not-found.tsx                  # 404 错误页：友好的田园手绘风缺省页，带“返回首页”按钮
+├── error.tsx                      # 页面级错误边界：捕获子组件运行时异常，提供友好重试机制
+├── global-error.tsx               # 全局致命错误兜底：根布局发生崩溃时的最外层应急保护页面
+├── sitemap.ts                     # 动态站点地图：自动生成 /sitemap.xml，包含所有公开商品与政策页面供搜索引擎爬取
+├── robots.ts                      # 爬虫协议配置：自动生成 /robots.txt，规范 Googlebot/Bingbot 抓取白名单并屏蔽结算路径
+├── search-suggest.ts              # 搜索词联想配置：提供搜索框内置的热门搜索词推荐与实时拼写联想
+├── robots.test.ts                 # 自动化单元测试：验证 robots.txt 抓取规则是否合规
+├── palette.test.ts                # 自动化单元测试：验证全站主题调色板色彩对比度是否符合 WCAG AA 标准
+│
+├── llms.txt/                      # 🤖 AI 搜索引擎专用发现索引（新兴 Web 标准）
+│   └── route.ts                   # 动态输出 /llms.txt（Markdown 纯文本），供 ChatGPT Search、Perplexity、Claude 直接引用
+│
+├── manifest.webmanifest/          # PWA 渐进式网页应用配置
+│   └── route.ts                   # 动态输出 /manifest.webmanifest（应用名、图标、主题色）
+│
+├── favicon.ico/                   # 动态站点图标
+│   └── route.ts                   # 浏览器标签页 Favicon 图标路由
+│
+├── about/                         # 品牌文化与抗争叙事
+│   └── page.tsx                   # 品牌故事页：讲述弗吉尼亚汉诺威农田抵抗超算数据中心、保护优质黑土地的故事
+│
+├── account/                       # 客户自助服务门户
+│   └── page.tsx                   # 个人中心页：顾客通过下单邮箱一键检索历史订单、USPS 物流时效与周边保养指南
+│
+├── cart/                          # 购物车模块
+│   ├── actions.ts                 # 服务端 Server Actions：购物车增删改查异步逻辑
+│   ├── cart-context.tsx           # React Context 状态上下文：全站共享的购物车实时状态机与会话监听
+│   ├── cart-sidebar.tsx           # 核心侧边抽屉：滑出式购物车、满 $50 全美免邮动态进度条、结账直达入口
+│   ├── cart-item.tsx              # 购物车单品行组件：单品缩略图、尺码/款式显示、增减步进器与移除按钮
+│   ├── cart-math.ts               # 金融级精度计算：处理美元美分 BigInt 计算、小计与运费差额
+│   ├── cart-math.test.ts          # 购物车金额计算单元测试
+│   ├── discount-code.ts           # 优惠券与折扣码核销校验逻辑
+│   ├── discount-code.test.ts      # 优惠券验证单元测试
+│   └── discount-code-field.tsx    # 优惠码输入交互组件
+│
+├── checkout/                      # 单页结账漏斗
+│   └── page.tsx                   # 核心结账页：联系人信息、全美收货地址校验、支付方式展示与订单直接提交落库
+│
+├── order/                         # 订单履约链路
+│   └── success/
+│       └── [id]/
+│           ├── page.tsx           # 下单成功感谢页 (Thank You Page)：展示订单号（TR-XXXXXX）、购买摘要与查单入口
+│           └── error.tsx          # 订单信息加载异常容错页
+│
+├── product/                       # 商品详情核心主链路 (PDP)
+│   └── [slug]/
+│       ├── page.tsx               # 商品详情主页：商品标题、价格、品类工艺卖点、真实买家评价区
+│       ├── add-to-cart-button.tsx # 变体选择与加购交互区：SKU 编号展示、尺码/款式联动加购按钮（无虚假营销干扰）
+│       ├── media-gallery.tsx      # 多图画廊组件：Printify 生成的高清模型图切换与放大预览
+│       ├── variant-selector.tsx   # 变体款式选择器：尺码（S/M/L/XL/2XL）与颜色选项切换器
+│       ├── variant-order.ts       # 变体智能排序规则：确保尺码与颜色按规范标准顺序排列
+│       ├── variant-order.test.ts  # 变体排序单元测试
+│       ├── use-selected-variant.ts# 选中变体状态 Hook：根据用户选中的 Option 实时计算当前的选中 SKU
+│       ├── product-features.tsx   # 工艺与材质说明：全宽自适应呈现纯棉染色、防晒 UV 油墨、防水等特性
+│       ├── product-reviews.tsx    # 顾客真实评价区：星级评分列表与评价汇总
+│       ├── review-form.tsx        # 买家评价提交表单
+│       ├── review-action.ts       # 评价提交 Server Action
+│       ├── quantity-selector.tsx  # 购买数量步进选择器（1 ~ 99）
+│       ├── volume-pricing.tsx     # 批发/多买阶梯优惠明细展示
+│       ├── bundle-builder.tsx     # 组合套装配置器（供套餐类商品使用）
+│       ├── subscription-options.tsx# 周期订阅选项组件（预留能力）
+│       ├── restock-notify.tsx     # 到货通知订阅组件（预留能力）
+│       ├── restock-action.ts      # 到货通知订阅 Server Action
+│       ├── trust-badges.tsx       # 信任背书徽章：30 天无忧保障、100% 环保无塑包装、美国本土发货
+│       ├── not-found.tsx          # 对应单品不存在时的专属 404 页面
+│       ├── error.tsx              # 商品详情页错误边界
+│       ├── opengraph-image.tsx    # 社交媒体分享卡片自动生成器（生成带单品价格与图文的 Twitter/OG 图片）
+│       ├── Geist-Regular.ttf      # 动态 OG 卡片专用嵌入字体文件
+│       └── review/
+│           └── page.tsx           # 单独的评价专页路由
+│
+├── products/                      # 全量商品目录浏览器 (PLP)
+│   ├── page.tsx                   # 全部商品列表主页：支持网格平铺展示全店周边
+│   ├── products-view.tsx          # 商品列表与筛选容器视图
+│   └── products-sort-select.tsx   # 排序下拉选择器：按价格升降序、热销推荐度、最新上架排序
+│
+├── category/                      # 品类聚合路由
+│   └── [...slugs]/
+│       ├── page.tsx               # 品类专属主页：如 /category/apparel (服饰)、/category/stickers (贴纸)
+│       ├── category-view.tsx      # 分类商品平铺网格视图
+│       └── error.tsx              # 分类数据异常容错页
+│
+├── search/                        # 全站搜索结果
+│   ├── page.tsx                   # 搜索主页：关键词检索匹配呈现
+│   ├── search-controls.tsx        # 搜索结果过滤栏
+│   ├── search-pagination.tsx      # 搜索分页器
+│   └── sort.ts                    # 搜索排序权重算法
+│
+├── track-order/                   # 逆向物流实时查询
+│   └── page.tsx                   # 查件主页：输入订单号（如 TR-678413）与邮箱，调取实时 USPS 配送状态与单号
+│
+├── returns/                       # 30 天无忧售后申请中心
+│   └── page.tsx                   # 售后工单门户：支持买家在线提交换码、运输破损补发申请，直写入库
+│
+├── contact/                       # 官方联系我们
+│   ├── page.tsx                   # 联系客服页：官方表单与 Outlook 支持邮箱展示
+│   ├── contact-form.tsx           # 客服留言表单交互组件
+│   ├── action.ts                  # 客服留言提交 Server Action
+│   └── action.test.ts             # 联系表单单元测试
+│
+├── faq/                           # 常见问题与解答
+│   ├── page.tsx                   # FAQ 主页：手风琴式折叠面板，涵盖免运费、服饰洗涤、标牌安装等指引
+│   └── faq-data.ts                # FAQ 结构化数据源文件
+│
+├── support/                       # 客户支持大厅
+│   └── page.tsx                   # 服务导航总览页：聚合退换保障、物流查询、常见问答与联系方式
+│
+├── privacy-policy/                # 隐私政策 (合规必查)
+│   └── page.tsx                   # 满足 GDPR / CCPA 规范的欧美买家隐私与 Cookie 声明
+│
+├── terms-of-service/              # 服务条款 (合规必查)
+│   └── page.tsx                   # 独立站交易契约、免责条款与知识产权声明
+│
+├── shipping-policy/               # 物流政策 (合规必查)
+│   └── page.tsx                   # 明确满 $50 全美免邮条款、USPS Ground 3-7 工作日交付时效说明
+│
+├── refund-policy/                 # 退款退货政策 (合规必查)
+│   └── page.tsx                   # 官方 30-Day Defend the Soil Guarantee 满意度保障政策
+│
+├── legal/                         # 综合法律条款动态路由
+│   └── [slug]/
+│       └── page.tsx               # Markdown 法律文本渲染底层回退路由
+│
+└── api/                           # 🌐 后端服务端接口路由 (Server Route Handlers)
+    ├── README.md                  # API 模块详细接口文档
+    ├── cart/
+    │   └── route.ts               # GET/POST/DELETE：购物车数据实时双向同步（读写会话状态）
+    ├── checkout/
+    │   └── create-order/
+    │       └── route.ts           # POST：生成 TR-XXXXXX 订单号，将订单安全落入 Supabase 数据库
+    ├── orders/
+    │   └── track/
+    │       └── route.ts           # POST：物流追踪接口，查询订单配送状态与 USPS 物流单号
+    ├── returns/
+    │   └── submit/
+    │       └── route.ts           # POST：售后工单提交接口，接收退换诉求并派发 RMA 处理单
+    └── auth/
+        └── [...all]/
+            └── route.ts           # ANY：用户身份与鉴权会话处理预留端点
+```
 
 ---
 
-## 2. 什么是 `llms.txt`？为什么现代独立站需要它？
+## 2. 核心专项说明：什么是 `/llms.txt`？
 
-[`app/llms.txt/route.ts`](file:///C:/All/Me/2027/work/Shopify/tomato-raccoon/app/llms.txt/route.ts) 动态生成并返回一个标准的文本文件 `/llms.txt`。
-
-- **核心概念**：
-  就像 20 年前创立的 `robots.txt` 是为 **传统搜索引擎蜘蛛（Googlebot、Bingbot）** 准备的一样，`llms.txt` 是近年来由 AI 开发者社区倡导并被 **新型 AI 搜索引擎（Perplexity、ChatGPT Search、Google Gemini、Claude、Cursor）** 广泛采纳的公开规范。
-- **工作机制**：
-  传统的网页充满了复杂的 HTML、CSS、JavaScript 脚本与 DOM 结构，AI 搜索大模型在实时检索网页时不仅解析慢、还极度消耗 Token。
-  当海外用户在 ChatGPT 或 Perplexity 中提问：
-  > *"Where can I buy a 'Grow Tomatoes Not Data Centers' yard sign or vintage t-shirt?"*
-  
-  AI 搜索引擎会优先请求网站根目录的 `/llms.txt`。该接口以**极度精简、Token 友好的标准 Markdown 格式**输出：
-  1. 店铺官方名称、品牌故事与宗旨；
-  2. 核心热销商品列表（包含精准价格、USPS 物流时效、直达链接与商品介绍）；
-  3. 四大退款与物流合规政策摘要；
-  4. 官方客服支持邮箱。
-  
-  这使得大模型能以 100% 准确的信息直接引用本店铺的商品并生成带货推荐链接，极大提升独立站在 **GEO (Generative Engine Optimization，生成式 AI 搜索引擎优化)** 中的曝光与引流权重。
-
----
-
-## 3. 页面路由子目录说明 (`app/*`)
-
-### 🛒 购物与结账主漏斗
-| 目录路径 | 访问 URL | 作用与业务逻辑 |
-| :--- | :--- | :--- |
-| **`product/[slug]/`** | `/product/[slug]` | **商品详情页 (PDP)**：核心单品转化页。包含大图画廊 (`media-gallery`)、尺码款式选择器 (`variant-selector`)、工艺卖点介绍 (`product-features`) 与真实顾客评价 (`product-reviews`)。已彻底去除虚假营销弹窗，保留纯正美式精品风格。 |
-| **`cart/`** | `/cart` | **购物车模块**：包含全屏购物车页面、抽屉组件 (`cart-sidebar.tsx`)、满 $50 免运费进度条计算 (`cart-math.ts`) 与折扣码核销 (`discount-code.ts`)。 |
-| **`checkout/`** | `/checkout` | **单页结账漏斗**：直连 Supabase 数据库与 Printify 供应链，支持地址输入、实时运费核算及下单。 |
-| **`order/success/[id]/`**| `/order/success/[id]` | **支付成功感谢页 (Thank You Page)**：展示订单明细、生成的独有订单号（如 `TR-123456`）及跳转物流查单入口。 |
-| **`products/`** | `/products` | **全品类商品探索页**：展示店铺全部周边，支持按价格升降序、热销度及上架时间进行综合排序。 |
-| **`category/[...slugs]/`**| `/category/[slug]` | **分类专属筛选页**：支持按品类浏览（如服装 `/category/apparel`、标牌 `/category/lawn-signs`、贴纸 `/category/stickers`）。 |
-| **`search/`** | `/search` | **关键词搜索结果页**：按顾客输入的关键词检索匹配商品，带分页与空态提示。 |
-
-### 🍅 品牌文化与逆向服务体系
-| 目录路径 | 访问 URL | 作用与业务逻辑 |
-| :--- | :--- | :--- |
-| **`about/`** | `/about` | **品牌抗争故事页**：图文并茂讲述弗吉尼亚汉诺威农田抵抗高能耗超算数据中心、保卫西红柿优质黑土地的抗争叙事。 |
-| **`track-order/`** | `/track-order` | **USPS 实时物流追踪**：顾客输入订单号（如 `TR-123456`）与下单邮箱，即可实时追踪物流打包进度与真实 USPS 物流单号。 |
-| **`returns/`** | `/returns` | **30 天无忧售后保障门户**：支持买家在线提交换码、运输破损补发申请，直写入库无需繁琐退换。 |
-| **`account/`** | `/account` | **客户自助服务中心**：买家通过邮箱一键免密检索历史购买订单、配送时效与周边清洗保养指南。 |
-| **`contact/`** | `/contact` | **官方联系我们**：官方客服表单与支持邮箱 (`growtomatoes.service@outlook.com`) 展示页。 |
-| **`faq/`** | `/faq` | **常见问题解答**：全站核心 FAQ 手风琴面板（包含全美 $50 免邮规则、纯棉服饰清洗指南、草坪标牌安装与车贴防晒保养）。 |
-| **`support/`** | `/support` | **支持中心导航页**：聚合售后退换、物流追踪、常见问题与联系客服的统一服务大厅。 |
-
-### ⚖️ 海外收单合规四大法律政策（支付网关必查）
-| 目录路径 | 访问 URL | 作用与业务逻辑 |
-| :--- | :--- | :--- |
-| **`privacy-policy/`** | `/privacy-policy` | **隐私政策**：符合 GDPR / CCPA 规范的欧美买家隐私与 Cookie 保护声明。 |
-| **`terms-of-service/`**| `/terms-of-service` | **服务条款**：包含交易契约、知识产权与免责条款。 |
-| **`shipping-policy/`** | `/shipping-policy` | **物流配送政策**：明确满 $50 全美免运费规则、USPS Ground 3-7 个工作日交付时效。 |
-| **`refund-policy/`** | `/refund-policy` | **退款退货政策**：官方“30-Day Defend the Soil Guarantee”满意度保障政策。 |
-| **`legal/[slug]/`** | `/legal/[slug]` | **动态合规回退路由**：统一渲染 Markdown 格式法律条款的底层通用页面。 |
-
----
-
-## 4. 后端 API 路由清单 (`app/api/*`)
-
-| API 端点路径 | 请求方法 | 对应文件 | 接口职责与功能 |
-| :--- | :--- | :--- | :--- |
-| `/api/cart` | `GET / POST / DELETE` | `cart/route.ts` | 跨端购物车数据同步：读写顾客的购物车商品、数量变更与会话清空。 |
-| `/api/checkout/create-order` | `POST` | `checkout/create-order/route.ts` | 结账落单接口：校验收件人地址与金额，生成 `TR-XXXXXX` 订单号并落入 Supabase 数据库。 |
-| `/api/orders/track` | `POST` | `orders/track/route.ts` | 订单物流查询接口：供查单页和账户页调用，返回当前配送状态、USPS 单号与时间轴。 |
-| `/api/returns/submit` | `POST` | `returns/submit/route.ts` | 售后工单提交接口：接收买家填写的换码或补发申请，自动派发 RMA 编号。 |
-| `/api/auth/[...all]` | `ANY` | `auth/[...all]/route.ts` | 预留身份校验路由：处理用户鉴权与会话验证。 |
+- **定位**：`/llms.txt` 是现代 AI 时代的专用 SEO 索引（Generative Engine Optimization, GEO），由 AI 开发者社区创立并被 **Perplexity、ChatGPT Search、Google Gemini、Claude** 等新型 AI 搜索引擎原生支持。
+- **作用**：传统 HTML 页面充满标签、样式与脚本，AI 解析耗时费力且容易出现幻觉。`/llms.txt` 将本店铺的**品牌抗争故事、在售核心商品（含价格与直达链接）、USPS 免邮政策与官方客服邮箱**转换为 Token 友好的纯 Markdown。
+- **效果**：当海外潜在买家在 ChatGPT 中询问在哪里购买“Grow Tomatoes Not Data Centers”周边时，AI 大模型能极速读取该索引，准确为独立站带货并附带精准购买链接。
