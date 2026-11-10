@@ -40,3 +40,6 @@ playwright-report/
 id_card_*.jpg
 house_certificate.jpg
 final_review_fullpage.png
+SECRETS_AND_CREDENTIALS.md
+*credential*
+*secret*
