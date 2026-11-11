@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:db": "node scripts/test_store_e2e.js",
+    "test:playwright": "playwright test --config=../playwright.config.ts",
+    "test:playwright:ui": "playwright test --config=../playwright.config.ts --ui",
+    "test:playwright:headed": "playwright test --config=../playwright.config.ts --headed"
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -20,6 +24,7 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.51.0",
     "@tailwindcss/postcss": "^4.0.9",
     "@types/node": "^22.13.9",
     "@types/pg": "^8.11.11",

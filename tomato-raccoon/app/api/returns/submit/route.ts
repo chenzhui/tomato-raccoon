@@ -6,11 +6,11 @@ export async function POST(req: Request) {
     await ensureDbTables();
 
     const body = await req.json();
-    const { orderNumber, email, reason, resolution, details, evidencePhotoUrl } = body;
+    const { orderNumber, email, reason = "print_flaw", resolution, details, evidencePhotoUrl } = body;
 
-    if (!orderNumber || !email || !reason) {
+    if (!orderNumber || !email) {
       return NextResponse.json(
-        { success: false, message: "Order number, email, and reason are required" },
+        { success: false, message: "Order number and email are required" },
         { status: 400 }
       );
     }

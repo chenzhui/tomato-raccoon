@@ -7,13 +7,14 @@ export async function POST(req: Request) {
     await ensureDbTables();
 
     const body = await req.json();
-    const { items, shippingAddress, subtotal, shipping, total } = body;
+    const { items, shippingAddress, customer, subtotal = 0, shipping = 0, total = 0 } = body;
+    const customerEmail = shippingAddress?.email || customer?.email || body.email;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       return NextResponse.json({ success: false, message: "Cart items are required" }, { status: 400 });
     }
 
-    if (!shippingAddress || !shippingAddress.email || !shippingAddress.address1) {
+    if (!shippingAddress || !customerEmail || !shippingAddress.address1) {
       return NextResponse.json({ success: false, message: "Valid shipping address is required" }, { status: 400 });
     }
 
@@ -41,16 +42,16 @@ export async function POST(req: Request) {
             shipping_method: 1, // USPS Standard
             send_shipping_notification: true,
             address_to: {
-              first_name: shippingAddress.firstName || "Grassroots",
-              last_name: shippingAddress.lastName || "Supporter",
-              email: shippingAddress.email,
+              first_name: shippingAddress.firstName || customer?.name?.split(" ")[0] || "Grassroots",
+              last_name: shippingAddress.lastName || customer?.name?.split(" ").slice(1).join(" ") || "Supporter",
+              email: customerEmail,
               phone: shippingAddress.phone || "8045550199",
               country: "US",
-              region: shippingAddress.region || "VA",
+              region: shippingAddress.region || shippingAddress.state || "VA",
               address1: shippingAddress.address1,
               address2: shippingAddress.address2 || "",
               city: shippingAddress.city || "Richmond",
-              zip: shippingAddress.zip || "23219",
+              zip: shippingAddress.zip || shippingAddress.postalCode || "23219",
             },
           });
           printifyOrderId = printifyRes?.id || null;
@@ -61,7 +62,7 @@ export async function POST(req: Request) {
     }
 
     // 存入 Supabase 数据库
-    const customerName = `${shippingAddress.firstName || ""} ${shippingAddress.lastName || ""}`.trim() || "Protest Supporter";
+    const customerName = `${shippingAddress.firstName || ""} ${shippingAddress.lastName || ""}`.trim() || customer?.name || "Protest Supporter";
 
     try {
       await pool.query(
@@ -73,7 +74,7 @@ export async function POST(req: Request) {
         [
           orderId,
           orderNumber,
-          shippingAddress.email,
+          customerEmail,
           customerName,
           JSON.stringify(shippingAddress),
           JSON.stringify(items),
